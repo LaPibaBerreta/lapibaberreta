@@ -1,8 +1,11 @@
+import Blog from "./pages/Blog";
+
 function App() {
   return (
-    <section className="p-4">
-      <h1 className="font-mono">Sitio web de La Piba Berreta 🐞</h1>
-    </section>
+    <div className="p-4 font-mono">
+      <h1>Sitio web de La Piba Berreta 🐞</h1>
+      <Blog />
+    </div>
   );
 }
 
