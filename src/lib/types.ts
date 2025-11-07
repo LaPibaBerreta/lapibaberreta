@@ -330,7 +330,7 @@ export type SiteConfig = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  titlo?: string;
+  title?: string;
   backgroundImage?: {
     asset?: {
       _ref: string;
@@ -1175,10 +1175,81 @@ export type BlogPostsQueryResult = Array<{
   } | null;
 }>;
 
+// Source: ../lapibaberreta/src/lib/initialDataQuery.ts
+// Variable: initialDataQuery
+// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    url,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
+export type InitialDataQueryResult = {
+  title: string | null;
+  backgroundImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  sections: Array<{
+    title: {
+      es?: string;
+      en?: string;
+    } | null;
+    isHighlighted: boolean | null;
+    url: string | null;
+    reference: {
+      _id: string;
+      _type: "board";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
+      _type: "cadaverExquisito";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
+      _type: "info";
+      title: null;
+      slug: string | null;
+    } | {
+      _id: string;
+      _type: "oraculo";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
+      _type: "project";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
+      _type: "section";
+      title: string | null;
+      slug: string | null;
+    } | null;
+  }> | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
+    "*[_type == \"siteConfig\"][0]{\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
   }
 }
