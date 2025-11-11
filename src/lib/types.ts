@@ -13,18 +13,6 @@
  */
 
 // Source: schema.json
-export type ProjectCategory = {
-  _id: string;
-  _type: "projectCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: {
-    es?: string;
-    en?: string;
-  };
-};
-
 export type Video = {
   _id: string;
   _type: "video";
@@ -35,6 +23,7 @@ export type Video = {
     es?: string;
     en?: string;
   };
+  slug?: Slug;
   date?: string;
   image?: {
     asset?: {
@@ -409,7 +398,7 @@ export type Board = {
     en?: string;
   };
   slug?: Slug;
-  texto?: {
+  text?: {
     es?: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -471,6 +460,7 @@ export type Board = {
       _key: string;
     }>;
   };
+  embed?: string;
 };
 
 export type Info = {
@@ -646,6 +636,12 @@ export type Project = {
   };
   slug?: Slug;
   date?: string;
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "projectCategory";
+  };
   section?: {
     _ref: string;
     _type: "reference";
@@ -938,6 +934,18 @@ export type Oraculo = {
   }>;
 };
 
+export type ProjectCategory = {
+  _id: string;
+  _type: "projectCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: {
+    es?: string;
+    en?: string;
+  };
+};
+
 export type Section = {
   _id: string;
   _type: "section";
@@ -1097,7 +1105,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = ProjectCategory | Video | VideoCategory | Show | BlogPost | SiteConfig | Board | Info | CadaverExquisito | Project | Oraculo | Section | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Video | VideoCategory | Show | BlogPost | SiteConfig | Board | Info | CadaverExquisito | Project | Oraculo | ProjectCategory | Section | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../lapibaberreta/src/lib/blogPostsQuery.ts
 // Variable: blogPostsQuery
@@ -1175,6 +1183,162 @@ export type BlogPostsQueryResult = Array<{
   } | null;
 }>;
 
+// Source: ../lapibaberreta/src/lib/boardQuery.ts
+// Variable: boardQuery
+// Query: *[_type == "board"][0]{  title,  text,  embed}
+export type BoardQueryResult = {
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  text: {
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+  } | null;
+  embed: string | null;
+} | null;
+
+// Source: ../lapibaberreta/src/lib/infoQuery.ts
+// Variable: infoQuery
+// Query: *[_type == "info"][0]{  name,  bio,  email,  links}
+export type InfoQueryResult = {
+  name: string | null;
+  bio: {
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+  } | null;
+  email: string | null;
+  links: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }> | null;
+} | null;
+
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
 // Variable: initialDataQuery
 // Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    url,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
@@ -1245,11 +1409,578 @@ export type InitialDataQueryResult = {
   }> | null;
 } | null;
 
+// Source: ../lapibaberreta/src/lib/oraculoQuery.ts
+// Variable: oraculoQuery
+// Query: *[_type == "oraculo"][0]{  title,  image,  text,  cards}
+export type OraculoQueryResult = {
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  text: {
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+  } | null;
+  cards: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    number?: number;
+    text?: {
+      es?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "normal";
+        listItem?: never;
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
+      en?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "normal";
+        listItem?: never;
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
+    };
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "card";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: ../lapibaberreta/src/lib/projectQuery.ts
+// Variable: projectQuery
+// Query: *[_type == "project" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument,}
+export type ProjectQueryResult = {
+  _id: string;
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  date: string | null;
+  category: {
+    name: {
+      es?: string;
+      en?: string;
+    } | null;
+  } | null;
+  section: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  mainImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  text: {
+    es: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+    en: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+  } | null;
+  embed: string | null;
+  imageGallery: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
+  videos: Array<{
+    _id: string;
+    title: {
+      es?: string;
+      en?: string;
+    } | null;
+    embed: string | null;
+  }> | null;
+  links: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }> | null;
+  additionalDocument: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "oraculo";
+  } | null;
+} | null;
+
+// Source: ../lapibaberreta/src/lib/publicationsQuery.ts
+// Variable: publicationsQuery
+// Query: *[_type == "project"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
+export type PublicationsQueryResult = Array<{
+  _id: string;
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  date: string | null;
+  category: {
+    name: {
+      es?: string;
+      en?: string;
+    } | null;
+  } | null;
+  section: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  mainImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  text: {
+    es: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+    en: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+  } | null;
+  embed: string | null;
+  imageGallery: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
+  videos: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "video";
+  }> | null;
+  links: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }> | null;
+  additionalDocument: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "oraculo";
+  } | null;
+}>;
+
+// Source: ../lapibaberreta/src/lib/sectionSlugQuery.ts
+// Variable: sectionSlugQuery
+// Query: *[_type == "section"]{  _id,  slug,}
+export type SectionSlugQueryResult = Array<{
+  _id: string;
+  slug: Slug | null;
+}>;
+
+// Source: ../lapibaberreta/src/lib/videosQuery.ts
+// Variable: videosQuery
+// Query: *[_type == "video"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
+export type VideosQueryResult = Array<{
+  _id: string;
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  date: string | null;
+  category: {
+    name: {
+      es?: string;
+      en?: string;
+    } | null;
+  } | null;
+  section: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  text: {
+    es: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+    en: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+  } | null;
+  embed: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
-    "*[_type == \"siteConfig\"][0]{\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
+    "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
+    "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links\n}": InfoQueryResult;
+    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
+    "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
+    "*[_type == \"project\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument,\n}": ProjectQueryResult;
+    "*[_type == \"project\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
+    "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
+    "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
   }
 }

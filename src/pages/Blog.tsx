@@ -1,16 +1,22 @@
 import { useBlogPosts } from "../hooks/useBlogPosts";
 import { PortableText } from "@portabletext/react";
 import { BlogPortableText } from "../components/BlogPortableText";
+import Loading from "../components/Loading";
+import type { InitialDataQueryResult } from "@/lib/types";
 
-export default function Blog() {
+type Section = NonNullable<
+  NonNullable<InitialDataQueryResult>["sections"]
+>[number];
+
+export default function Blog({ section }: { section: Section }) {
   const { data, isLoading, error } = useBlogPosts();
 
-  if (isLoading) return <div>...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
   return (
     <section className="my-6">
-      <h1 className="font-bold">Blog</h1>
+      {section?.title && <h1 className="font-bold"> {section.title.es}</h1>}
       {data &&
         data.map((post) => (
           <div key={post._id} className="my-6 max-w-prose">

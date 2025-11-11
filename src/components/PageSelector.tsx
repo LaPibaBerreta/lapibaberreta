@@ -8,6 +8,7 @@ import InfoPage from "../pages/InfoPage";
 import Board from "../pages/Board";
 import DefaultSection from "../pages/DefaultSection";
 import type { InitialDataQueryResult } from "@/lib/types";
+import { useParams } from "react-router";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -28,13 +29,19 @@ const TYPE_MAP = {
 } as const;
 
 export default function PageSelector({ section }: { section: Section }) {
+  const { slug } = useParams<{ slug: string }>();
   const ref = section?.reference;
+
   if (!ref) return null;
+
+  if (slug) {
+    return <ProjectPage section={section} />;
+  }
 
   if (ref._type === "section") {
     const SectionComponent =
       SECTION_ID_MAP[ref._id as keyof typeof SECTION_ID_MAP];
-    if (SectionComponent) return <SectionComponent />;
+    if (SectionComponent) return <SectionComponent section={section} />;
     return <DefaultSection section={section} />;
   }
 

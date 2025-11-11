@@ -2,6 +2,7 @@ import { client } from "./sanityClient";
 import { defineQuery } from "groq";
 
 const initialDataQuery = defineQuery(`*[_type == "siteConfig"][0]{
+
   title,
   backgroundImage,
   sections[]{
