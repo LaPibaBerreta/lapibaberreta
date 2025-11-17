@@ -2,6 +2,7 @@ import Loading from "../components/Loading";
 import { useVideos } from "../hooks/useVideos";
 import type { InitialDataQueryResult } from "@/lib/types";
 import VideoPlayer from "../components/VideoPlayer";
+import { PortableText } from "@portabletext/react";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -22,8 +23,10 @@ export default function Videos({ section }: { section: Section }) {
             video.embed ? (
               <div key={video._id} className="border p-4">
                 <h2>{video.title?.es}</h2>
+                <p>{video.date ?? video.date}</p>
                 <div className="text-xs">{video.category?.name?.es}</div>
                 <VideoPlayer embedData={video.embed} />
+                {video.text?.es && <PortableText value={video.text?.es} />}
               </div>
             ) : null,
           )}
