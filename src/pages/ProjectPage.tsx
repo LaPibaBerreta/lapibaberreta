@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import BandcampPlayer from "../components/BandcampPlayer";
+import VideoPlayer from "../components/VideoPlayer";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -43,6 +44,7 @@ export default function ProjectPage({ section }: { section: Section }) {
         data.videos.map((video) => (
           <div key={video._id} className="bg-violet-400">
             {video?.title?.es}
+            {video?.embed && <VideoPlayer embedData={video.embed} />}
           </div>
         ))}
     </>
