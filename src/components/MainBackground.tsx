@@ -5,12 +5,16 @@ type MainBackgroundProps = {
   image?: SiteConfig["backgroundImage"];
 };
 
+// TODO: arreglar fondo
 export default function MainBackground({ image }: MainBackgroundProps) {
   if (!image?.asset) return null;
 
   return (
     <div className="fixed inset-0 -z-10 h-screen w-full brightness-20 invert dark:invert-0">
-      <img src={urlFor(image).url()} className="w-full" />
+      <img
+        src={urlFor(image).format("webp").width(1200).url() + "&fit=max"}
+        className="w-full"
+      />
     </div>
   );
 }
