@@ -4,6 +4,7 @@ import { useProject } from "../hooks/useProject";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
+import BandcampPlayer from "../components/BandcampPlayer";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -31,6 +32,12 @@ export default function ProjectPage({ section }: { section: Section }) {
           }
         />
       )}
+      {data?.embed && (
+        <div className="my-2 w-full sm:w-1/2">
+          <BandcampPlayer embedData={data.embed} />
+        </div>
+      )}
+
       {data?.text?.es && <PortableText value={data.text.es} />}
       {data?.videos?.length &&
         data.videos.map((video) => (
