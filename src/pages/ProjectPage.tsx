@@ -6,6 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import BandcampPlayer from "../components/BandcampPlayer";
 import VideoPlayer from "../components/VideoPlayer";
+import ImageGallery from "../components/ImageGallery";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -52,6 +53,8 @@ export default function ProjectPage({ section }: { section: Section }) {
             {link.title?.es}
           </a>
         ))}
+      {data?.imageGallery?.length && <ImageGallery data={data.imageGallery} />}
+
       {data?.videos?.length &&
         data.videos.map((video) => (
           <div key={video._id} className="bg-violet-400">
