@@ -40,6 +40,18 @@ export default function ProjectPage({ section }: { section: Section }) {
       )}
 
       {data?.text?.es && <PortableText value={data.text.es} />}
+      {data?.links?.length &&
+        data.links.map((link) => (
+          <a
+            key={link._key}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {link.title?.es}
+          </a>
+        ))}
       {data?.videos?.length &&
         data.videos.map((video) => (
           <div key={video._id} className="bg-violet-400">
