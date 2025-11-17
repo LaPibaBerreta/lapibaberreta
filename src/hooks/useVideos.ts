@@ -3,7 +3,7 @@ import { getVideos } from "../lib/videosQuery";
 
 export function useVideos() {
   return useQuery({
-    queryKey: ["vodes"],
+    queryKey: ["videos"],
     queryFn: getVideos,
   });
 }
