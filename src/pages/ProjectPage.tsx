@@ -27,6 +27,9 @@ export default function ProjectPage({ section }: { section: Section }) {
   return (
     <>
       <h1 className="text-xl">{data?.title?.es}</h1>
+      <p>{data?.date}</p>
+      <p>{data?.category?.name?.es}</p>
+
       {data?.mainImage && (
         <img
           src={
