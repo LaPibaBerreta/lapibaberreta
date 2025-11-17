@@ -34,7 +34,11 @@ const projectQuery = defineQuery(
     embed
   },
   links,
-  additionalDocument,
+  additionalDocument->{
+    _id,
+    title,
+    slug
+  },
 }`,
 );
 

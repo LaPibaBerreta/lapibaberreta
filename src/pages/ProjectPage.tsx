@@ -7,6 +7,7 @@ import { urlFor } from "../lib/sanityImageUrl";
 import BandcampPlayer from "../components/BandcampPlayer";
 import VideoPlayer from "../components/VideoPlayer";
 import ImageGallery from "../components/ImageGallery";
+import { NavLink } from "react-router";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -23,7 +24,6 @@ export default function ProjectPage({ section }: { section: Section }) {
   console.log("Slug from useParams:", slug);
   console.log("Section:", section);
 
-  console.log("useProhect", data);
   return (
     <>
       <h1 className="text-xl">{data?.title?.es}</h1>
@@ -65,6 +65,14 @@ export default function ProjectPage({ section }: { section: Section }) {
             {video?.embed && <VideoPlayer embedData={video.embed} />}
           </div>
         ))}
+
+      {data?.additionalDocument && (
+        <div className="text-4xl underline">
+          <NavLink to={"/" + data.additionalDocument?.slug?.current}>
+            {data.additionalDocument.title?.es}
+          </NavLink>
+        </div>
+      )}
     </>
   );
 }
