@@ -3,6 +3,7 @@ import { NavLink } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
+import { urlFor } from "../lib/sanityImageUrl";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -31,7 +32,18 @@ export default function Publications({ section }: { section: Section }) {
                 to={`/${publicationsSection?.reference?.slug}/${project.slug?.current}`}
               >
                 <h2>{project.title?.es}</h2>
+                {project.date && <p>{project.date}</p>}
                 <div className="text-xs">{project.category?.name?.es}</div>
+                {project.mainImage && (
+                  <img
+                    src={
+                      urlFor(project.mainImage)
+                        .format("webp")
+                        .width(400)
+                        .url() + "&fit=max"
+                    }
+                  />
+                )}
               </NavLink>
             </div>
           ))}
