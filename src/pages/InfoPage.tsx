@@ -17,6 +17,19 @@ export default function InfoPage({ section }: { section: Section }) {
     <>
       {section.title && <h1 className="text-xl">{section.title.es}</h1>}
       {data?.bio?.es && <PortableText value={data.bio.es} />}
+      {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
+      {data?.links?.length &&
+        data.links.map((link) => (
+          <a
+            key={link._key}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {link.title?.es}
+          </a>
+        ))}
     </>
   );
 }
