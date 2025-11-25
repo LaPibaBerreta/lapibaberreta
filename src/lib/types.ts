@@ -48,6 +48,12 @@ export type Video = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "videoCategory";
   };
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
+  };
   section?: {
     _ref: string;
     _type: "reference";
@@ -161,6 +167,12 @@ export type Show = {
     _type: "link";
     _key: string;
   }>;
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
+  };
   section?: {
     _ref: string;
     _type: "reference";
@@ -237,7 +249,17 @@ export type SiteConfig = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "publication";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "project";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "workshop";
     } | {
       _ref: string;
       _type: "reference";
@@ -329,9 +351,63 @@ export type CadaverExquisito = {
   };
 };
 
-export type Project = {
+export type Workshop = {
   _id: string;
-  _type: "project";
+  _type: "workshop";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: {
+    es?: string;
+    en?: string;
+  };
+  date?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  text?: {
+    es?: BlockContent;
+    en?: BlockContent;
+  };
+  links?: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }>;
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
+  };
+  section?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "section";
+  };
+};
+
+export type Publication = {
+  _id: string;
+  _type: "publication";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -345,7 +421,13 @@ export type Project = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "projectCategory";
+    [internalGroqTypeReferenceTo]?: "publicationCategory";
+  };
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
   };
   section?: {
     _ref: string;
@@ -464,9 +546,57 @@ export type Oraculo = {
   }>;
 };
 
-export type ProjectCategory = {
+export type Project = {
   _id: string;
-  _type: "projectCategory";
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: {
+    es?: string;
+    en?: string;
+  };
+  slug?: Slug;
+  section?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "section";
+  };
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  text?: {
+    es?: BlockContent;
+    en?: BlockContent;
+  };
+  links?: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }>;
+};
+
+export type PublicationCategory = {
+  _id: string;
+  _type: "publicationCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -582,7 +712,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | Show | BlogPost | SiteConfig | Board | Info | CadaverExquisito | Project | Oraculo | ProjectCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | Show | BlogPost | SiteConfig | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../lapibaberreta/src/lib/blogPostsQuery.ts
 // Variable: blogPostsQuery
@@ -763,9 +893,25 @@ export type InitialDataQueryResult = {
       slug: string | null;
     } | {
       _id: string;
+      _type: "publication";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
       _type: "section";
       title: string | null;
       slug: string | null;
+    } | {
+      _id: string;
+      _type: "workshop";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: null;
     } | null;
   }> | null;
 } | null;
@@ -820,10 +966,10 @@ export type OraculoQueryResult = {
   }> | null;
 } | null;
 
-// Source: ../lapibaberreta/src/lib/projectQuery.ts
-// Variable: projectQuery
-// Query: *[_type == "project" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
-export type ProjectQueryResult = {
+// Source: ../lapibaberreta/src/lib/publicationQuery.ts
+// Variable: publicationQuery
+// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
+export type PublicationQueryResult = {
   _id: string;
   title: {
     es?: string;
@@ -966,7 +1112,7 @@ export type ProjectQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/publicationsQuery.ts
 // Variable: publicationsQuery
-// Query: *[_type == "project"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
+// Query: *[_type == "publication"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
 export type PublicationsQueryResult = Array<{
   _id: string;
   title: {
@@ -1325,8 +1471,8 @@ declare module "@sanity/client" {
     "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links\n}": InfoQueryResult;
     "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
-    "*[_type == \"project\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": ProjectQueryResult;
-    "*[_type == \"project\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
+    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
+    "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
     "*[_type == \"show\"] | order(date desc){\n  _id,\n  title,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ShowsQueryResult;
     "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;

@@ -2,7 +2,8 @@ import { client } from "./sanityClient";
 import { defineQuery } from "groq";
 
 // TODO: borrar lo que no se vaya a usar
-const publicationsQuery = defineQuery(`*[_type == "project"] | order(date desc){
+const publicationsQuery =
+  defineQuery(`*[_type == "publication"] | order(date desc){
   _id,
   title,
   slug,

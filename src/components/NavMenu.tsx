@@ -25,7 +25,8 @@ export default function NavMenu() {
           data.sections.map((section) => (
             <li key={section.reference?._id || section.url}>
               {section.reference ? (
-                section.reference._type === "project" && publicationsSlug ? (
+                section.reference._type === "publication" &&
+                publicationsSlug ? (
                   <NavLink
                     to={
                       "/" +

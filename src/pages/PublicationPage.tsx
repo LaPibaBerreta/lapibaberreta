@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import type { InitialDataQueryResult } from "@/lib/types";
-import { useProject } from "../hooks/useProject";
+import { usePublication } from "../hooks/usePublication";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
@@ -13,9 +13,9 @@ type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
 >[number];
 
-export default function ProjectPage({ section }: { section: Section }) {
+export default function PublicationPage({ section }: { section: Section }) {
   const { slug } = useParams<{ slug: string }>();
-  const { data, isLoading, error } = useProject(slug!);
+  const { data, isLoading, error } = usePublication(slug!);
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;

@@ -26,18 +26,18 @@ export default function Publications({ section }: { section: Section }) {
       {section.title && <h1 className="text-xl">{section.title.es}</h1>}
       <div className="flex gap-2">
         {data &&
-          data.map((project) => (
-            <div key={project._id} className="border p-4">
+          data.map((publication) => (
+            <div key={publication._id} className="border p-4">
               <NavLink
-                to={`/${publicationsSection?.reference?.slug}/${project.slug?.current}`}
+                to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
               >
-                <h2>{project.title?.es}</h2>
-                {project.date && <p>{project.date}</p>}
-                <div className="text-xs">{project.category?.name?.es}</div>
-                {project.mainImage && (
+                <h2>{publication.title?.es}</h2>
+                {publication.date && <p>{publication.date}</p>}
+                <div className="text-xs">{publication.category?.name?.es}</div>
+                {publication.mainImage && (
                   <img
                     src={
-                      urlFor(project.mainImage)
+                      urlFor(publication.mainImage)
                         .format("webp")
                         .width(400)
                         .url() + "&fit=max"

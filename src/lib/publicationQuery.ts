@@ -1,8 +1,8 @@
 import { client } from "./sanityClient";
 import { defineQuery } from "groq";
 
-const projectQuery = defineQuery(
-  `*[_type == "project" && slug.current == $slug][0]{
+const publicationQuery = defineQuery(
+  `*[_type == "publication" && slug.current == $slug][0]{
   _id,
   title,
   slug,
@@ -42,6 +42,6 @@ const projectQuery = defineQuery(
 }`,
 );
 
-export async function getProject(slug: string) {
-  return client.fetch(projectQuery, { slug });
+export async function getPublication(slug: string) {
+  return client.fetch(publicationQuery, { slug });
 }

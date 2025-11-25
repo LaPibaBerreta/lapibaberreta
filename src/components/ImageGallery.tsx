@@ -1,12 +1,12 @@
-import type { ProjectQueryResult } from "@/lib/types";
+import type { PublicationQueryResult } from "@/lib/types";
 import { urlFor } from "../lib/sanityImageUrl";
 
-type ProjectImages = NonNullable<
-  NonNullable<ProjectQueryResult>["imageGallery"]
+type PublicationImages = NonNullable<
+  NonNullable<PublicationQueryResult>["imageGallery"]
 >;
 
 interface ImageGalleryProps {
-  data: ProjectImages;
+  data: PublicationImages;
 }
 
 export default function ImageGallery({ data }: ImageGalleryProps) {
