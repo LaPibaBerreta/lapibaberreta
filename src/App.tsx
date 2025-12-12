@@ -5,6 +5,7 @@ import MainBackground from "./components/MainBackground";
 import Home from "./pages/Home";
 import PageSelector from "./components/PageSelector";
 import Loading from "./components/Loading";
+import GraphSection from "./graph/GraphSection";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -13,15 +14,16 @@ function App() {
   const internalLinks = data?.sections?.filter((section) => section.reference);
 
   return (
-    <div className="flex w-full flex-col items-start p-4 font-mono">
+    <div className="flex w-full flex-col items-start font-mono">
       {data?.backgroundImage && (
         <MainBackground image={data?.backgroundImage} />
       )}
+
       <NavMenu />
       <hr className="my-2 w-full" />
+      <GraphSection />
       <Routes>
         <Route path="/" element={<Home />} />
-
         {internalLinks?.map((section) => (
           <Route
             key={section.reference?._id}
@@ -29,7 +31,6 @@ function App() {
             element={<PageSelector section={section} />}
           />
         ))}
-
         {internalLinks
           ?.filter(
             (section) =>
