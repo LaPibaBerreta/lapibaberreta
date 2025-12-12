@@ -15,7 +15,7 @@ export default function NavMenu() {
 
   return (
     <nav>
-      <ul className="flex flex-col">
+      <ul className="flex items-center gap-2">
         <li key="hogar" className="text-2xl">
           <NavLink key="home" to="/" className="">
             {data?.title}
