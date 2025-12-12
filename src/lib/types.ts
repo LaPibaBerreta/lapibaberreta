@@ -345,7 +345,7 @@ export type CadaverExquisito = {
     en?: string;
   };
   slug?: Slug;
-  texto?: {
+  text?: {
     es?: BlockContent;
     en?: BlockContent;
   };
@@ -361,6 +361,7 @@ export type Workshop = {
     es?: string;
     en?: string;
   };
+  slug?: Slug;
   date?: string;
   image?: {
     asset?: {
@@ -911,7 +912,7 @@ export type InitialDataQueryResult = {
         es?: string;
         en?: string;
       } | null;
-      slug: null;
+      slug: string | null;
     } | null;
   }> | null;
 } | null;
