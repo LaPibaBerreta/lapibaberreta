@@ -833,7 +833,7 @@ export type InfoQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
 // Variable: initialDataQuery
-// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    url,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
+// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    url,    icon,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
 export type InitialDataQueryResult = {
   title: string | null;
   backgroundImage: {
@@ -855,6 +855,18 @@ export type InitialDataQueryResult = {
     } | null;
     isHighlighted: boolean | null;
     url: string | null;
+    icon: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
     reference: {
       _id: string;
       _type: "board";
@@ -1463,6 +1475,108 @@ export type VideosQueryResult = Array<{
   embed: string | null;
 }>;
 
+// Source: ../lapibaberreta/src/lib/workshopsQuery.ts
+// Variable: workshopsQuery
+// Query: *[_type == "workshop"] | order(date desc){  _id,  title,  slug,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
+export type WorkshopsQueryResult = Array<{
+  _id: string;
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  date: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  text: {
+    es: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+    en: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+      url: string | null;
+    }> | null;
+  } | null;
+  links: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }> | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -1470,12 +1584,13 @@ declare module "@sanity/client" {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
     "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links\n}": InfoQueryResult;
-    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
+    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    icon,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
     "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
     "*[_type == \"show\"] | order(date desc){\n  _id,\n  title,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ShowsQueryResult;
     "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
+    "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
   }
 }
