@@ -6,6 +6,7 @@ import PublicationPage from "../pages/PublicationPage";
 import Oracle from "../pages/Oracle";
 import InfoPage from "../pages/InfoPage";
 import Board from "../pages/Board";
+import Workshops from "../pages/Workshops";
 import DefaultSection from "../pages/DefaultSection";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useParams } from "react-router";
@@ -19,9 +20,9 @@ const SECTION_ID_MAP = {
   "98ef0420-0b1d-43fe-954a-edc97e2e2a17": Videos,
   "d0bb97dc-d6b7-40e6-90d8-e32b54eade96": Publications,
   "bafc4cbf-29e4-4946-94e3-36366231795c": Shows,
-  // TODO: terminar dearmar paginas para estas
+  "b0990f34-744e-4773-b22f-221444c332da": Workshops,
+  // TODO: terminar dearmar paginas para esta
   // '6ad57e45-889f-4074-ac14-f50142c084bc': Projects,
-  // 'b0990f34-744e-4773-b22f-221444c332da': Workshops
 } as const;
 
 const TYPE_MAP = {
