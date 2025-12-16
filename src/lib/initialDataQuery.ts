@@ -9,6 +9,7 @@ const initialDataQuery = defineQuery(`*[_type == "siteConfig"][0]{
     title,
     isHighlighted,
     url,
+    icon,
     reference->{
       _id,
       _type,
