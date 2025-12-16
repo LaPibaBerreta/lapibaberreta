@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import type { GraphNode, GraphLink, SimLink, SimNode } from "./types/Graph";
 import { useNavigate, useLocation } from "react-router";
 import { useSectionSlug } from "../hooks/useSectionSlug";
+import { SECTION_IDS } from "../data/constants";
 
 interface Props {
   nodes: GraphNode[];
@@ -14,7 +15,7 @@ interface Props {
 export const Graph: React.FC<Props> = ({
   nodes,
   links,
-  width = 1200,
+  width = 1000,
   height = 800,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -23,12 +24,32 @@ export const Graph: React.FC<Props> = ({
   const { data: sectionSlug } = useSectionSlug();
 
   const publicationsSlug = sectionSlug?.find(
-    (section) => section._id === "d0bb97dc-d6b7-40e6-90d8-e32b54eade96",
+    (section) => section._id === SECTION_IDS.PUBLICATIONS,
   );
 
   const path = location.pathname;
   const segments = path.split("/").filter(Boolean);
   const activeId = segments[segments.length - 1] ?? undefined;
+
+  const iconSize = 80;
+
+  const nodeStyles = {
+    active: { color: "#bce784", size: 20 },
+    hover: { color: "#bce784", size: 14 },
+    externalLink: { color: "#37BDE9", size: 10 },
+    hogar: { color: "#00000022", size: 20 },
+    section: { color: "#c5ebc3", size: 14 },
+    publication: { color: "#FA7921", size: 12 },
+    video: { color: "#b7a4b6", size: 10 },
+    workshop: { color: "#adbfff", size: 12 },
+  };
+
+  const distance = 120;
+
+  const line = {
+    color: "#999",
+    opacity: 0.6,
+  };
 
   // ------------------------------------
   // MAIN GRAPH INITIALIZATION (ONCE)
@@ -40,11 +61,22 @@ export const Graph: React.FC<Props> = ({
     svg.selectAll("*").remove();
     const g = svg.append("g");
 
+    // Zoom
     svg.call(
       d3.zoom<SVGSVGElement, unknown>().on("zoom", (e) => {
         g.attr("transform", e.transform);
       }),
     );
+
+    // Optional circular clipping mask for images
+    const defs = svg.append("defs");
+    defs
+      .append("clipPath")
+      .attr("id", "circle-clip")
+      .append("circle")
+      .attr("r", iconSize / 2)
+      .attr("cx", 0)
+      .attr("cy", 0);
 
     const simNodes: SimNode[] = nodes.map((n) => ({ ...n }));
     const simLinks: SimLink[] = links.map((l) => ({ ...l }));
@@ -56,36 +88,39 @@ export const Graph: React.FC<Props> = ({
         d3
           .forceLink<SimNode, SimLink>(simLinks)
           .id((d) => d.id ?? "")
-          .distance(120),
+          .distance(distance),
       )
       .force("charge", d3.forceManyBody().strength(-450))
       .force("center", d3.forceCenter(width / 2, height / 2));
 
+    // -------- LINKS --------
     const link = g
       .selectAll<SVGLineElement, SimLink>("line")
       .data(simLinks)
       .enter()
       .append("line")
-      .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6);
+      .attr("stroke", line.color)
+      .attr("stroke-opacity", line.opacity);
 
+    // -------- NODES (IMAGES inside <g>) --------
     const node = g
-      .selectAll<SVGCircleElement, SimNode>("circle")
+      .selectAll<SVGGElement, SimNode>("g.node")
       .data(simNodes)
       .enter()
-      .append("circle")
-      .attr("r", 10)
-      .attr("fill", "#4f46e5")
+      .append("g")
+      .attr("class", "node")
       .on("click", (_, d) => {
         if (!d.externalLink && d.nodeType === "section") {
           navigate(`${d.route}`);
         } else if (!d.externalLink && d.nodeType === "publication") {
           navigate(`/${publicationsSlug?.slug?.current}/${d.route}`);
+        } else if (d.externalLink) {
+          window.open(d.id ?? "", "_blank", "noopener,noreferrer");
         }
       })
       .call(
         d3
-          .drag<SVGCircleElement, SimNode>()
+          .drag<SVGGElement, SimNode>()
           .on("start", (event, d) => {
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x ?? 0;
@@ -102,6 +137,38 @@ export const Graph: React.FC<Props> = ({
           }),
       );
 
+    node
+      .append("circle")
+      .attr("r", (d) => {
+        if (d.route === activeId) return nodeStyles.active.size;
+        if (d.id === "hogar") return nodeStyles.hogar.size;
+        if (d.externalLink) return nodeStyles.externalLink.size;
+        if (d.nodeType === "section") return nodeStyles.section.size;
+        if (d.nodeType === "publication") return nodeStyles.publication.size;
+        if (d.nodeType === "video") return nodeStyles.video.size;
+        if (d.nodeType === "workshop") return nodeStyles.workshop.size;
+        else return nodeStyles.section.size;
+      })
+      .attr("fill", (d) => {
+        if (d.nodeType === "section") return nodeStyles.section.color;
+        if (d.nodeType === "publication") return nodeStyles.publication.color;
+        if (d.nodeType === "video") return nodeStyles.video.color;
+        if (d.nodeType === "workshop") return nodeStyles.workshop.color;
+        return nodeStyles.hogar.color;
+      });
+
+    // --- IMAGE FOR EACH NODE ---
+    node
+      .filter((d) => !!d.imageUrl)
+      .append("image")
+      .attr("href", (d) => d.imageUrl!)
+      .attr("width", iconSize)
+      .attr("height", iconSize)
+      .attr("x", -iconSize / 2)
+      .attr("y", -iconSize / 2)
+      .attr("clip-path", "url(#circle-clip)");
+
+    // -------- LABELS --------
     const labels = g
       .selectAll<SVGTextElement, SimNode>("text")
       .data(simNodes)
@@ -109,9 +176,10 @@ export const Graph: React.FC<Props> = ({
       .append("text")
       .text((d) => d.label)
       .attr("font-size", 12)
-      .attr("dy", -15)
+      .attr("dy", 35)
       .attr("text-anchor", "middle");
 
+    // -------- SIM TICK --------
     simulation.on("tick", () => {
       link
         .attr("x1", (d) =>
@@ -127,51 +195,76 @@ export const Graph: React.FC<Props> = ({
           typeof d.target === "string" ? 0 : (d.target.y ?? 0),
         );
 
-      node.attr("cx", (d) => d.x ?? 0).attr("cy", (d) => d.y ?? 0);
-      labels.attr("x", (d) => d.x ?? 0).attr("y", (d) => (d.y ?? 0) - 15);
+      node.attr("transform", (d) => `translate(${d.x ?? 0},${d.y ?? 0})`);
+      labels.attr("transform", (d) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // run once
 
-  // ---------------------------------------------------
-  // ACTIVE + HOVER STATE (runs on activeId change)
-  // ---------------------------------------------------
+  // ------------------------------------
+  // ACTIVE + HOVER STATE UPDATE
+  // ------------------------------------
   useEffect(() => {
     if (!svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
+    const nodesSel = svg.selectAll<SVGGElement, GraphNode>("g.node");
 
-    const circles = svg.selectAll<SVGCircleElement, GraphNode>("circle");
-
-    function style(
-      //eslint-disable-next-line @typescript-eslint/no-explicit-any
-      selection: d3.Selection<SVGCircleElement, GraphNode, any, any>,
+    function applyStyle(
+      // eslint-disable-next-line
+      selection: d3.Selection<SVGGElement, GraphNode, any, any>,
     ) {
+      // ICON OPACITY
+      // selection.select("image").attr("opacity", (d) => {
+      //   if (d.route === activeId) return 1;
+      //   if (d.externalLink) return 0.6;
+      //   return 0.5;
+      // });
+      selection.select("image").attr("r", (d) => {
+        if (d.route === activeId) return 20;
+        if (d.externalLink) return 20;
+        return 10;
+      });
       selection
+        .select("circle")
+        .attr("stroke", "#0007")
         .attr("fill", (d) => {
-          if (d.route === activeId) return "#0f0";
-          if (d.id === "hogar") return "#00000022";
-          if (d.externalLink) return "#f0f";
-          return "#4f46e5";
+          if (d.route === activeId) return nodeStyles.active.color;
+          if (d.id === "hogar") return nodeStyles.hogar.color;
+          if (d.externalLink) return nodeStyles.externalLink.color;
+
+          if (d.nodeType === "section") return nodeStyles.section.color;
+          if (d.nodeType === "publication") return nodeStyles.publication.color;
+          if (d.nodeType === "video") return nodeStyles.video.color;
+          if (d.nodeType === "workshop") return nodeStyles.workshop.color;
+          else return nodeStyles.hogar.color;
         })
         .attr("r", (d) => {
-          if (d.route === activeId) return 13;
-          if (d.id === "hogar") return 30;
-          if (d.externalLink) return 6;
-          return 10;
+          if (d.route === activeId) return nodeStyles.active.size;
+          if (d.id === "hogar") return nodeStyles.hogar.size;
+          if (d.externalLink) return nodeStyles.externalLink.size;
+          if (d.nodeType === "section") return nodeStyles.section.size;
+          if (d.nodeType === "publication") return nodeStyles.publication.size;
+          if (d.nodeType === "video") return nodeStyles.video.size;
+          if (d.nodeType === "workshop") return nodeStyles.workshop.size;
+          else return nodeStyles.section.size;
         });
     }
 
-    style(circles);
+    applyStyle(nodesSel);
 
-    circles
+    nodesSel
       .on("mouseover", function (_, d) {
         if (d.route === activeId || d.id === "hogar") return;
-        d3.select(this).attr("r", 13).attr("fill", "#6366f1");
+        d3.select(this).select("image").attr("opacity", 1);
+        d3.select(this).select("circle").attr("r", 20);
+        // .attr("fill", nodeStyles.hover.color);
       })
       .on("mouseout", function () {
-        style(d3.select(this));
+        applyStyle(d3.select(this));
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
 
   return (

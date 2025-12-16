@@ -2,6 +2,7 @@ import type {
   InitialDataQueryResult,
   PublicationsQueryResult,
   VideosQueryResult,
+  WorkshopsQueryResult,
 } from "../../lib/types";
 
 type NonNullableInitialData = NonNullable<InitialDataQueryResult>;
@@ -10,15 +11,19 @@ export interface GraphInputData {
   sections: NonNullableInitialData["sections"];
   publications: PublicationsQueryResult;
   videos: VideosQueryResult;
+  workshops: WorkshopsQueryResult;
 }
 
 export type GraphNode = {
-  id: string | null;
+  id: string;
   label: string;
   route: string | null;
   externalLink?: boolean;
   nodeType: string;
   reference?: string;
+  additionalDocument?: string;
+  videos?: string[];
+  image?: string;
 };
 
 export type GraphLink = {
@@ -39,6 +44,7 @@ export interface SimNode extends GraphNode {
   vy?: number;
   fx?: number | null;
   fy?: number | null;
+  imageUrl?: string;
 }
 
 export type SimLink = {

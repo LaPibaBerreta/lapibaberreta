@@ -4,6 +4,8 @@ import type {
   GraphNode,
   GraphLink,
 } from "./types/Graph";
+import { urlFor } from "../lib/sanityImageUrl";
+import { SECTION_IDS } from "../data/constants";
 
 export function buildGraph(data: GraphInputData): GraphData {
   if (!data || !data.sections) {
@@ -15,12 +17,19 @@ export function buildGraph(data: GraphInputData): GraphData {
 
   const nodes: GraphNode[] = data.sections.reduce(
     (acc: GraphNode[], section) => {
+      const id = section.reference?._id ?? section.url ?? undefined;
+
+      if (!id) return acc;
+
       const newNode = {
-        id: section.reference?._id || section.url,
+        id,
         label: section.title?.es || "Untitled",
         route: section.reference?.slug || section.url,
         nodeType: "section",
-        externalLink: section.url ? true : false,
+        externalLink: Boolean(section.url),
+        imageUrl: section.icon
+          ? urlFor(section.icon).format("webp").width(200).url() + "&fit=max"
+          : null,
       };
 
       if (
@@ -56,6 +65,9 @@ export function buildGraph(data: GraphInputData): GraphData {
         route: publication.slug?.current,
         reference: publication.section?._ref,
         nodeType: "publication",
+        additionalDocument: publication.additionalDocument?._ref,
+
+        videos: publication.videos?.map((v) => v._ref) ?? [],
       });
       uniqueIds.add(publication._id);
     }
@@ -75,22 +87,60 @@ export function buildGraph(data: GraphInputData): GraphData {
     }
   });
 
+  data.workshops.forEach((workshop) => {
+    if (
+      workshop._id &&
+      workshop.slug?.current &&
+      !uniqueIds.has(workshop._id)
+    ) {
+      nodes.push({
+        id: workshop._id,
+        //TODO: add multi-language support
+        label: workshop.title?.es || "Untitled",
+        route: workshop.slug?.current,
+        nodeType: "workshop",
+      });
+    }
+  });
+
   // LINKS --------------------------------------------------------
   const links: GraphLink[] = [];
 
   nodes.forEach((node) => {
-    if (node.id && node.reference) {
-      links.push({ source: node.id, target: node.reference });
-    } else if (node.id && node.nodeType === "video") {
-      links.push({
-        source: node.id,
-        target: "98ef0420-0b1d-43fe-954a-edc97e2e2a17",
+    const { id, reference, additionalDocument, videos } = node;
+
+    if (!id) return;
+
+    if (reference) {
+      links.push({ source: id, target: reference });
+    }
+
+    if (additionalDocument) {
+      links.push({ source: id, target: additionalDocument });
+    }
+
+    if (videos?.length) {
+      videos.forEach((videoId) => {
+        if (videoId) {
+          links.push({ source: id, target: videoId });
+        }
       });
-    } else if (node.id) {
-      links.push({ source: node.id, target: "hogar" });
+    }
+
+    if (!reference && node.nodeType === "section") {
+      links.push({ source: id, target: "hogar" });
+    } else if (node.nodeType === "video") {
+      links.push({
+        source: id,
+        target: SECTION_IDS.VIDEOS,
+      });
+    } else if (!reference && node.nodeType === "workshop") {
+      links.push({
+        source: id,
+        target: SECTION_IDS.WORKSHOPS,
+      });
     }
   });
-
 
   return { nodes, links };
 }
