@@ -34,7 +34,9 @@ function App() {
         ))}
         {internalLinks
           ?.filter(
-            (section) => section.reference?._id === SECTION_IDS.PUBLICATIONS,
+            (section) =>
+              section.reference?._id === SECTION_IDS.PUBLICATIONS ||
+              section.reference?._id === SECTION_IDS.WORKSHOPS,
           )
           .map((section) => (
             <Route

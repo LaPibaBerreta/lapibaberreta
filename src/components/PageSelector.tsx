@@ -7,6 +7,7 @@ import Oracle from "../pages/Oracle";
 import InfoPage from "../pages/InfoPage";
 import Board from "../pages/Board";
 import Workshops from "../pages/Workshops";
+import WorkshopPage from "../pages/WorkshopPage";
 import DefaultSection from "../pages/DefaultSection";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useParams } from "react-router";
@@ -39,8 +40,10 @@ export default function PageSelector({ section }: { section: Section }) {
 
   if (!ref) return null;
 
-  if (slug) {
+  if (slug && section.reference?._id === SECTION_IDS.PUBLICATIONS) {
     return <PublicationPage section={section} />;
+  } else if (slug && section.reference?._id === SECTION_IDS.WORKSHOPS) {
+    return <WorkshopPage section={section} />;
   }
 
   if (ref._type === "section") {
