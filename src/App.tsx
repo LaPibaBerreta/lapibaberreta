@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import PageSelector from "./components/PageSelector";
 import Loading from "./components/Loading";
 import GraphSection from "./graph/GraphSection";
+import { SECTION_IDS } from "./data/constants";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -33,8 +34,7 @@ function App() {
         ))}
         {internalLinks
           ?.filter(
-            (section) =>
-              section.reference?._id === "d0bb97dc-d6b7-40e6-90d8-e32b54eade96", // Publications
+            (section) => section.reference?._id === SECTION_IDS.PUBLICATIONS,
           )
           .map((section) => (
             <Route

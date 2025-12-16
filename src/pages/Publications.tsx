@@ -4,6 +4,7 @@ import { useInitialData } from "../hooks/useInitialData";
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { urlFor } from "../lib/sanityImageUrl";
+import { SECTION_IDS } from "../data/constants";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -14,8 +15,7 @@ export default function Publications({ section }: { section: Section }) {
   const { data: initialData } = useInitialData();
 
   const publicationsSection = initialData?.sections?.find(
-    (section) =>
-      section.reference?._id === "d0bb97dc-d6b7-40e6-90d8-e32b54eade96",
+    (section) => section.reference?._id === SECTION_IDS.PUBLICATIONS,
   );
 
   if (isLoading) return <Loading />;

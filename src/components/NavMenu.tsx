@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import Loading from "../components/Loading";
+import { SECTION_IDS } from "../data/constants";
 
 export default function NavMenu() {
   const { data } = useInitialData();
@@ -10,7 +11,7 @@ export default function NavMenu() {
   if (sectionSlugLoading) return <Loading />;
 
   const publicationsSlug = sectionSlug?.find(
-    (section) => section._id === "d0bb97dc-d6b7-40e6-90d8-e32b54eade96",
+    (section) => section._id === SECTION_IDS.PUBLICATIONS,
   );
 
   return (
