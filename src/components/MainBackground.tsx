@@ -13,7 +13,7 @@ export default function MainBackground({ image }: MainBackgroundProps) {
     <div className="fixed inset-0 -z-10 h-screen w-full brightness-20 invert dark:invert-0">
       <img
         src={urlFor(image).format("webp").width(1200).url() + "&fit=max"}
-        className="w-full"
+        className="h-full w-full"
       />
     </div>
   );
