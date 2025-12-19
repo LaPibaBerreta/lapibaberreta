@@ -1,24 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import type { GraphNode, GraphLink, SimLink, SimNode } from "./types/Graph";
 import { useNavigate, useLocation } from "react-router";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import { SECTION_IDS } from "../data/constants";
+import { imageSize, nodeStyles, ICONS, distance, line } from "./graphStyle";
 
 interface Props {
   nodes: GraphNode[];
   links: GraphLink[];
-  width?: number;
-  height?: number;
 }
 
-export const Graph: React.FC<Props> = ({
-  nodes,
-  links,
-  width = 1000,
-  height = 800,
-}) => {
+export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   const navigate = useNavigate();
   const location = useLocation();
   const { data: sectionSlug } = useSectionSlug();
@@ -31,25 +28,35 @@ export const Graph: React.FC<Props> = ({
   const segments = path.split("/").filter(Boolean);
   const activeId = segments[segments.length - 1] ?? undefined;
 
-  const iconSize = 80;
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-  const nodeStyles = {
-    active: { color: "#bce784", size: 20 },
-    hover: { color: "#bce784", size: 14 },
-    externalLink: { color: "#37BDE9", size: 10 },
-    hogar: { color: "#00000022", size: 20 },
-    section: { color: "#c5ebc3", size: 14 },
-    publication: { color: "#FA7921", size: 12 },
-    video: { color: "#b7a4b6", size: 10 },
-    workshop: { color: "#adbfff", size: 12 },
-  };
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setSize({ width, height });
+    });
 
-  const distance = 120;
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
-  const line = {
-    color: "#999",
-    opacity: 0.6,
-  };
+  // RESIZE
+  useEffect(() => {
+    if (!svgRef.current) return;
+    if (!simulationRef.current) return;
+    if (!size.width || !size.height) return;
+
+    const svg = d3.select(svgRef.current);
+
+    // Resize SVG viewport
+    svg.attr("width", size.width).attr("height", size.height);
+
+    // Update force center
+    simulationRef.current
+      .force("center", d3.forceCenter(size.width / 2, size.height / 2))
+      .alpha(0.5)
+      .restart();
+  }, [size]);
 
   // ------------------------------------
   // MAIN GRAPH INITIALIZATION (ONCE)
@@ -74,7 +81,7 @@ export const Graph: React.FC<Props> = ({
       .append("clipPath")
       .attr("id", "circle-clip")
       .append("circle")
-      .attr("r", iconSize / 2)
+      .attr("r", imageSize / 2)
       .attr("cx", 0)
       .attr("cy", 0);
 
@@ -91,7 +98,9 @@ export const Graph: React.FC<Props> = ({
           .distance(distance),
       )
       .force("charge", d3.forceManyBody().strength(-450))
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("center", d3.forceCenter(size.width / 2, size.height / 2));
+
+    simulationRef.current = simulation;
 
     // -------- LINKS --------
     const link = g
@@ -112,7 +121,11 @@ export const Graph: React.FC<Props> = ({
       .on("click", (_, d) => {
         if (!d.externalLink && d.nodeType === "section") {
           navigate(`${d.route}`);
-        } else if (!d.externalLink && d.nodeType === "publication") {
+        } else if (
+          !d.externalLink &&
+          d.nodeType === "publication" &&
+          publicationsSlug?.slug?.current
+        ) {
           navigate(`/${publicationsSlug?.slug?.current}/${d.route}`);
         } else if (d.externalLink) {
           window.open(d.id ?? "", "_blank", "noopener,noreferrer");
@@ -137,35 +150,62 @@ export const Graph: React.FC<Props> = ({
           }),
       );
 
-    node
-      .append("circle")
-      .attr("r", (d) => {
-        if (d.route === activeId) return nodeStyles.active.size;
-        if (d.id === "hogar") return nodeStyles.hogar.size;
-        if (d.externalLink) return nodeStyles.externalLink.size;
-        if (d.nodeType === "section") return nodeStyles.section.size;
-        if (d.nodeType === "publication") return nodeStyles.publication.size;
-        if (d.nodeType === "video") return nodeStyles.video.size;
-        if (d.nodeType === "workshop") return nodeStyles.workshop.size;
-        else return nodeStyles.section.size;
+    const nodeInner = node.append("g").attr("class", "node-inner");
+
+    // node
+    //   .append("circle")
+    //   .attr("r", (d) => {
+    //     if (d.route === activeId) return nodeStyles.active.size;
+    //     if (d.id === "hogar") return nodeStyles.hogar.size;
+    //     if (d.externalLink) return nodeStyles.externalLink.size;
+    //     if (d.nodeType === "section") return nodeStyles.section.size;
+    //     if (d.nodeType === "publication") return nodeStyles.publication.size;
+    //     if (d.nodeType === "video") return nodeStyles.video.size;
+    //     if (d.nodeType === "workshop") return nodeStyles.workshop.size;
+    //     else return nodeStyles.section.size;
+    //   })
+    //   .attr("fill", (d) => {
+    //     if (d.nodeType === "section") return nodeStyles.section.color;
+    //     if (d.nodeType === "publication") return nodeStyles.publication.color;
+    //     if (d.nodeType === "video") return nodeStyles.video.color;
+    //     if (d.nodeType === "workshop") return nodeStyles.workshop.color;
+    //     return nodeStyles.hogar.color;
+    //   });
+
+    nodeInner
+      .append("path")
+      .attr("d", (d) => {
+        if (d.nodeType === "hogar") return ICONS.home;
+        if (d.nodeType === "section" && d.referenceType === "oraculo")
+          return ICONS.oracle;
+        if (d.nodeType === "section") return ICONS.section;
+        if (d.nodeType === "publication") return ICONS.publication;
+        if (d.nodeType === "video") return ICONS.video;
+        if (d.nodeType === "workshop") return ICONS.workshop;
+        return ICONS.home;
       })
       .attr("fill", (d) => {
+        if (d.nodeType === "section" && d.referenceType === "oraculo")
+          return nodeStyles.oracle.color;
         if (d.nodeType === "section") return nodeStyles.section.color;
         if (d.nodeType === "publication") return nodeStyles.publication.color;
         if (d.nodeType === "video") return nodeStyles.video.color;
         if (d.nodeType === "workshop") return nodeStyles.workshop.color;
         return nodeStyles.hogar.color;
-      });
+      })
+      .attr("stroke", "#000")
+      .attr("stroke-width", "0.2")
+      .attr("transform", "scale(1.5) translate(-8, -8)");
 
     // --- IMAGE FOR EACH NODE ---
-    node
+    nodeInner
       .filter((d) => !!d.imageUrl)
       .append("image")
       .attr("href", (d) => d.imageUrl!)
-      .attr("width", iconSize)
-      .attr("height", iconSize)
-      .attr("x", -iconSize / 2)
-      .attr("y", -iconSize / 2)
+      .attr("width", imageSize)
+      .attr("height", imageSize)
+      .attr("x", -imageSize / 2)
+      .attr("y", -imageSize / 2)
       .attr("clip-path", "url(#circle-clip)");
 
     // -------- LABELS --------
@@ -177,7 +217,9 @@ export const Graph: React.FC<Props> = ({
       .text((d) => d.label)
       .attr("font-size", 12)
       .attr("dy", 35)
-      .attr("text-anchor", "middle");
+      .attr("text-anchor", "middle")
+      .attr("pointer-events", "none")
+      .attr("opacity", "1");
 
     // -------- SIM TICK --------
     simulation.on("tick", () => {
@@ -227,13 +269,16 @@ export const Graph: React.FC<Props> = ({
         return 10;
       });
       selection
-        .select("circle")
+        // .select("circle")
+        .select("path")
         .attr("stroke", "#0007")
         .attr("fill", (d) => {
           if (d.route === activeId) return nodeStyles.active.color;
           if (d.id === "hogar") return nodeStyles.hogar.color;
           if (d.externalLink) return nodeStyles.externalLink.color;
 
+          if (d.nodeType === "section" && d.referenceType === "oraculo")
+            return nodeStyles.oracle.color;
           if (d.nodeType === "section") return nodeStyles.section.color;
           if (d.nodeType === "publication") return nodeStyles.publication.color;
           if (d.nodeType === "video") return nodeStyles.video.color;
@@ -258,21 +303,33 @@ export const Graph: React.FC<Props> = ({
       .on("mouseover", function (_, d) {
         if (d.route === activeId || d.id === "hogar") return;
         d3.select(this).select("image").attr("opacity", 1);
-        d3.select(this).select("circle").attr("r", 20);
+        d3.select(this)
+          .select(".node-inner")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1.2)");
+        // d3.select(this).select("circle").attr("r", 20);
         // .attr("fill", nodeStyles.hover.color);
       })
       .on("mouseout", function () {
         applyStyle(d3.select(this));
+
+        d3.select(this)
+          .select(".node-inner")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1)");
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
 
   return (
-    <svg
-      ref={svgRef}
-      width={width}
-      height={height}
-      className="rounded-full shadow-2xl backdrop-blur-lg"
-    />
+    <div ref={containerRef} className="h-full w-full">
+      <svg
+        ref={svgRef}
+        width={size.width}
+        height={size.height}
+        className="h-full w-full border-b select-none"
+      />
+    </div>
   );
 };

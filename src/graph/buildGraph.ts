@@ -26,6 +26,7 @@ export function buildGraph(data: GraphInputData): GraphData {
         label: section.title?.es || "Untitled",
         route: section.reference?.slug || section.url,
         nodeType: "section",
+        referenceType: section.reference?._type,
         externalLink: Boolean(section.url),
         imageUrl: section.icon
           ? urlFor(section.icon).format("webp").width(200).url() + "&fit=max"
@@ -47,7 +48,8 @@ export function buildGraph(data: GraphInputData): GraphData {
 
   nodes.push({
     id: "hogar",
-    label: "ヾ(≧▽≦*)o:",
+    // label: "ヾ(≧▽≦*)o:",
+    label: "",
     route: "/",
     externalLink: false,
     nodeType: "home",

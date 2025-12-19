@@ -24,6 +24,7 @@ export type GraphNode = {
   additionalDocument?: string;
   videos?: string[];
   image?: string;
+  referenceType?: string;
 };
 
 export type GraphLink = {
