@@ -24,10 +24,10 @@ export default function Publications({ section }: { section: Section }) {
   return (
     <section className="flex flex-col gap-2">
       {section.title && <h1 className="text-xl">{section.title.es}</h1>}
-      <div className="flex gap-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {data &&
           data.map((publication) => (
-            <div key={publication._id} className="border p-4">
+            <div key={publication._id} className="rounded-2xl border p-4">
               <NavLink
                 to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
               >

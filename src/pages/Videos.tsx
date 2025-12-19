@@ -17,7 +17,7 @@ export default function Videos({ section }: { section: Section }) {
   return (
     <>
       {section.title && <h1 className="text-xl">{section.title.es}</h1>}
-      <div className="flex gap-2">
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
         {data &&
           data.map((video) =>
             video.embed ? (
