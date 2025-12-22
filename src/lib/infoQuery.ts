@@ -5,7 +5,9 @@ const infoQuery = defineQuery(`*[_type == "info"][0]{
   name,
   bio,
   email,
-  links
+  links,
+  pressLinks,
+  bookingInfo
 }`);
 
 export async function getInfo() {

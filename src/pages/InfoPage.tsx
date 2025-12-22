@@ -30,6 +30,18 @@ export default function InfoPage({ section }: { section: Section }) {
             {link.title?.es}
           </a>
         ))}
+      {data?.pressLinks?.length &&
+        data.pressLinks.map((link) => (
+          <a
+            key={link._key}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {link.title?.es}
+          </a>
+        ))}
     </>
   );
 }

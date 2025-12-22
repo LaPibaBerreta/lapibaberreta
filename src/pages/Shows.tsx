@@ -1,6 +1,7 @@
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useShows } from "../hooks/useShows";
+import { useInfo } from "../hooks/useInfo";
 import { urlFor } from "../lib/sanityImageUrl";
 import { PortableText } from "@portabletext/react";
 
@@ -10,13 +11,22 @@ type Section = NonNullable<
 
 export default function Shows({ section }: { section: Section }) {
   const { data, isLoading, error } = useShows();
+  const {
+    data: infoData,
+    isLoading: isInfoLoading,
+    error: infoError,
+  } = useInfo();
 
-  if (isLoading) return <Loading />;
-  if (error) return <div>{error.message}</div>;
+  if (isLoading || isInfoLoading) return <Loading />;
+  if (error || infoError)
+    return <div>{error?.message || infoError?.message}</div>;
 
   return (
     <section>
       {section.title && <h1 className="text-xl">{section.title.es}</h1>}
+      {infoData?.bookingInfo?.es && (
+        <PortableText value={infoData.bookingInfo.es} />
+      )}
       {data &&
         data.map((show) => (
           <div key={show._id}>
