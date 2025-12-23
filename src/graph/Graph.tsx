@@ -24,6 +24,10 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     (section) => section._id === SECTION_IDS.PUBLICATIONS,
   );
 
+  const workshopsSlug = sectionSlug?.find(
+    (section) => section._id === SECTION_IDS.WORKSHOPS,
+  );
+
   const path = location.pathname;
   const segments = path.split("/").filter(Boolean);
   const activeId = segments[segments.length - 1] ?? undefined;
@@ -127,6 +131,12 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
           publicationsSlug?.slug?.current
         ) {
           navigate(`/${publicationsSlug?.slug?.current}/${d.route}`);
+        } else if (
+          !d.externalLink &&
+          d.nodeType === "workshop" &&
+          workshopsSlug?.slug?.current
+        ) {
+          navigate(`/${workshopsSlug?.slug?.current}/${d.route}`);
         } else if (d.externalLink) {
           window.open(d.id ?? "", "_blank", "noopener,noreferrer");
         }
