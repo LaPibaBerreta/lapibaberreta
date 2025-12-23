@@ -1,5 +1,6 @@
 import Blog from "../pages/Blog";
 import Videos from "../pages/Videos";
+import VideoPage from "../pages/VideoPage";
 import Publications from "../pages/Publications";
 import Shows from "../pages/Shows";
 import PublicationPage from "../pages/PublicationPage";
@@ -44,6 +45,8 @@ export default function PageSelector({ section }: { section: Section }) {
     return <PublicationPage section={section} />;
   } else if (slug && section.reference?._id === SECTION_IDS.WORKSHOPS) {
     return <WorkshopPage section={section} />;
+  } else if (slug && section.reference?._id === SECTION_IDS.VIDEOS) {
+    return <VideoPage section={section} />;
   }
 
   if (ref._type === "section") {

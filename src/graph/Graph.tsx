@@ -28,6 +28,10 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     (section) => section._id === SECTION_IDS.WORKSHOPS,
   );
 
+  const videosSlug = sectionSlug?.find(
+    (section) => section._id === SECTION_IDS.VIDEOS,
+  );
+
   const path = location.pathname;
   const segments = path.split("/").filter(Boolean);
   const activeId = segments[segments.length - 1] ?? undefined;
@@ -137,6 +141,12 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
           workshopsSlug?.slug?.current
         ) {
           navigate(`/${workshopsSlug?.slug?.current}/${d.route}`);
+        } else if (
+          !d.externalLink &&
+          d.nodeType === "video" &&
+          videosSlug?.slug?.current
+        ) {
+          navigate(`/${videosSlug?.slug?.current}/${d.route}`);
         } else if (d.externalLink) {
           window.open(d.id ?? "", "_blank", "noopener,noreferrer");
         }

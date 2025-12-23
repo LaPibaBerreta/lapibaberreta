@@ -54,7 +54,8 @@ function App() {
             ?.filter(
               (section) =>
                 section.reference?._id === SECTION_IDS.PUBLICATIONS ||
-                section.reference?._id === SECTION_IDS.WORKSHOPS,
+                section.reference?._id === SECTION_IDS.WORKSHOPS ||
+                section.reference?._id === SECTION_IDS.VIDEOS,
             )
             .map((section) => (
               <Route
