@@ -6,6 +6,7 @@ const workshopsQuery = defineQuery(`*[_type == "workshop"] | order(date desc){
   title,
   slug,
   date,
+  project->{_id},
   image,
   text{
     es[]{

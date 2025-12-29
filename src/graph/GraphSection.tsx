@@ -64,9 +64,22 @@ export default function GraphSection() {
 
   const graphInputData: GraphInputData = {
     sections: sections?.sections ?? [],
-    publications: publications ?? [],
-    videos: videos ?? [],
-    workshops: workshops ?? [],
+    publications:
+      publications?.filter((publication) => {
+        return selectedProject
+          ? publication.project?._id === selectedProject
+          : true;
+      }) ?? [],
+    videos:
+      videos?.filter((video) => {
+        return selectedProject ? video.project?._id === selectedProject : true;
+      }) ?? [],
+    workshops:
+      workshops?.filter((workshop) => {
+        return selectedProject
+          ? workshop.project?._id === selectedProject
+          : true;
+      }) ?? [],
   };
   const { nodes, links } = buildGraph(graphInputData);
 
@@ -98,7 +111,7 @@ export default function GraphSection() {
             </div>
           ))}
       </div>
-      <Graph nodes={nodes} links={links} />
+      <Graph key={selectedProject ?? "all"} nodes={nodes} links={links} />
     </section>
   );
 }

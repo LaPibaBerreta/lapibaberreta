@@ -1266,7 +1266,7 @@ export type PublicationQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/publicationsQuery.ts
 // Variable: publicationsQuery
-// Query: *[_type == "publication"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
+// Query: *[_type == "publication"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  project->{_id},  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
 export type PublicationsQueryResult = Array<{
   _id: string;
   title: {
@@ -1286,6 +1286,9 @@ export type PublicationsQueryResult = Array<{
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  project: {
+    _id: string;
   } | null;
   mainImage: {
     asset?: {
@@ -1606,7 +1609,7 @@ export type VideoQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/videosQuery.ts
 // Variable: videosQuery
-// Query: *[_type == "video"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
+// Query: *[_type == "video"] | order(date desc){  _id,  title,  slug,  date,  category->{name},  section,  project->{_id},  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
 export type VideosQueryResult = Array<{
   _id: string;
   title: {
@@ -1626,6 +1629,9 @@ export type VideosQueryResult = Array<{
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  project: {
+    _id: string;
   } | null;
   image: {
     asset?: {
@@ -1816,7 +1822,7 @@ export type WorkshopQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/workshopsQuery.ts
 // Variable: workshopsQuery
-// Query: *[_type == "workshop"] | order(date desc){  _id,  title,  slug,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
+// Query: *[_type == "workshop"] | order(date desc){  _id,  title,  slug,  date,  project->{_id},  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
 export type WorkshopsQueryResult = Array<{
   _id: string;
   title: {
@@ -1825,6 +1831,9 @@ export type WorkshopsQueryResult = Array<{
   } | null;
   slug: Slug | null;
   date: string | null;
+  project: {
+    _id: string;
+  } | null;
   image: {
     asset?: {
       _ref: string;
@@ -1927,12 +1936,12 @@ declare module "@sanity/client" {
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
     "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
-    "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
+    "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{_id},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
     "*[_type == \"show\"] | order(date desc){\n  _id,\n  title,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ShowsQueryResult;
     "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideoQueryResult;
-    "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
+    "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
     "*[_type == \"workshop\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopQueryResult;
-    "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
+    "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
   }
 }
