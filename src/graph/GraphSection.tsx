@@ -8,9 +8,10 @@ import { Graph } from "./Graph";
 import type { GraphInputData } from "./types/Graph";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import { useState } from "react";
+import { SECTION_IDS } from "../data/constants";
 
 export default function GraphSection() {
-  const { data: sections, isLoading, error } = useInitialData();
+  const { data: initialData, isLoading, error } = useInitialData();
   const {
     data: publications,
     isLoading: pubLoading,
@@ -62,24 +63,44 @@ export default function GraphSection() {
       </div>
     );
 
+  const filteredPublications =
+    publications?.filter((publication) => {
+      return selectedProject
+        ? publication.project?._id === selectedProject
+        : true;
+    }) ?? [];
+
+  const filteredVideos =
+    videos?.filter((video) => {
+      return selectedProject ? video.project?._id === selectedProject : true;
+    }) ?? [];
+
+  const filteredWorkshops =
+    workshops?.filter((workshop) => {
+      return selectedProject ? workshop.project?._id === selectedProject : true;
+    }) ?? [];
+
+  const filteredSections =
+    initialData?.sections?.filter((section) => {
+      switch (section.reference?._id) {
+        case SECTION_IDS.PUBLICATIONS:
+          return filteredPublications.length > 0;
+
+        case SECTION_IDS.VIDEOS:
+          return filteredVideos.length > 0;
+
+        case SECTION_IDS.WORKSHOPS:
+          return filteredWorkshops.length > 0;
+        default:
+          return true;
+      }
+    }) ?? [];
+
   const graphInputData: GraphInputData = {
-    sections: sections?.sections ?? [],
-    publications:
-      publications?.filter((publication) => {
-        return selectedProject
-          ? publication.project?._id === selectedProject
-          : true;
-      }) ?? [],
-    videos:
-      videos?.filter((video) => {
-        return selectedProject ? video.project?._id === selectedProject : true;
-      }) ?? [],
-    workshops:
-      workshops?.filter((workshop) => {
-        return selectedProject
-          ? workshop.project?._id === selectedProject
-          : true;
-      }) ?? [],
+    publications: filteredPublications,
+    videos: filteredVideos,
+    workshops: filteredWorkshops,
+    sections: filteredSections,
   };
   const { nodes, links } = buildGraph(graphInputData);
 
@@ -93,7 +114,7 @@ export default function GraphSection() {
               setSelectedProject(null);
             }}
           />
-          <span>Todo</span>
+          <span className="bg-white">Todo</span>
         </div>
         {projectsData &&
           projectsData.map((project) => (
@@ -107,7 +128,7 @@ export default function GraphSection() {
                   setSelectedProject(project._id);
                 }}
               />
-              <span>{project.title?.es}</span>
+              <span className="bg-white">{project.title?.es}</span>
             </div>
           ))}
       </div>
