@@ -192,6 +192,15 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     //     return nodeStyles.hogar.color;
     //   });
 
+    node
+      .append("circle")
+      .attr("class", "hit-area")
+      .attr("r", 30)
+      .attr("fill", "transparent")
+      .attr("pointer-events", "all");
+
+    nodeInner.selectAll("*").attr("pointer-events", "none");
+
     nodeInner
       .append("path")
       .attr("d", (d) => {
