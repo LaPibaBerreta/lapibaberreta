@@ -95,17 +95,32 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     );
 
     // Optional circular clipping mask for images
-    const defs = svg.append("defs");
-    defs
-      .append("clipPath")
-      .attr("id", "circle-clip")
-      .append("circle")
-      .attr("r", imageSize / 2)
-      .attr("cx", 0)
-      .attr("cy", 0);
+    // const defs = svg.append("defs");
+    // defs
+    //   .append("clipPath")
+    //   .attr("id", "circle-clip")
+    //   .append("circle")
+    //   .attr("r", imageSize / 2)
+    //   .attr("cx", 0)
+    //   .attr("cy", 0);
 
     const simNodes: SimNode[] = nodes.map((n) => ({ ...n }));
     const simLinks: SimLink[] = links.map((l) => ({ ...l }));
+
+    const connectedMap = new Map<string, Set<string>>();
+
+    simLinks.forEach((l) => {
+      const sourceId =
+        typeof l.source === "string" ? l.source : (l.source as SimNode).id!;
+      const targetId =
+        typeof l.target === "string" ? l.target : (l.target as SimNode).id!;
+
+      if (!connectedMap.has(sourceId)) connectedMap.set(sourceId, new Set());
+      if (!connectedMap.has(targetId)) connectedMap.set(targetId, new Set());
+
+      connectedMap.get(sourceId)?.add(targetId);
+      connectedMap.get(targetId)?.add(sourceId);
+    });
 
     const simulation = d3
       .forceSimulation<SimNode>(simNodes)
@@ -120,6 +135,9 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
       .force("center", d3.forceCenter(width / 2, height / 2));
 
     simulationRef.current = simulation;
+
+    //eslint-disable-next-line
+    (simulation as any).__connectedMap = connectedMap;
 
     // -------- LINKS --------
     const link = g
@@ -244,9 +262,10 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
       .data(simNodes)
       .enter()
       .append("text")
+      .style("font", "14px serif")
       .text((d) => d.label)
       .attr("font-size", 12)
-      .attr("dy", 35)
+      .attr("dy", 55)
       .attr("text-anchor", "middle")
       .attr("pointer-events", "none");
 
@@ -291,6 +310,14 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     const svg = d3.select(svgRef.current);
     const nodesSel = svg.selectAll<SVGGElement, GraphNode>("g.node");
 
+    const dimOpacity = 0.1;
+    const fullOpacity = 1;
+
+    //eslint-disable-next-line
+    const simulation = simulationRef.current as any;
+    const connectedMap: Map<string, Set<string>> | undefined =
+      simulation?.__connectedMap;
+
     function applyStyle(
       // eslint-disable-next-line
       selection: d3.Selection<SVGGElement, GraphNode, any, any>,
@@ -313,8 +340,46 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
     nodesSel
       .on("mouseover", function (_, d) {
-        if (d.route === activeId || d.id === "hogar") return;
+        if (!connectedMap) return;
 
+        const connected = connectedMap.get(d.id!) ?? new Set();
+
+        // ---- NODES ----
+        nodeSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", (n) =>
+            n.id === d.id || connected.has(n.id!) ? fullOpacity : dimOpacity,
+          );
+
+        // ---- LABELS ----
+        labelSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", (n) =>
+            n.id === d.id || connected.has(n.id!) ? fullOpacity : dimOpacity,
+          );
+
+        // ---- LINKS ----
+        linkSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", (l) => {
+            const sourceId =
+              typeof l.source === "string"
+                ? l.source
+                : (l.source as SimNode).id!;
+            const targetId =
+              typeof l.target === "string"
+                ? l.target
+                : (l.target as SimNode).id!;
+
+            return sourceId === d.id || targetId === d.id
+              ? fullOpacity
+              : dimOpacity;
+          });
+
+        // ---- SCALE ACTIVE NODE ----
         d3.select(this)
           .select(".node-inner")
           .transition()
@@ -322,7 +387,24 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
           .attr("transform", "scale(1.2)");
       })
       .on("mouseout", function () {
-        applyStyle(d3.select(this));
+        // ---- RESET NODES ----
+        nodeSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", fullOpacity);
+
+        // ---- RESET LABELS ----
+        labelSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", fullOpacity);
+        // ---- RESET LINKS ----
+        linkSelRef.current
+          ?.transition()
+          .duration(150)
+          .style("opacity", line.opacity);
+
+        // ---- RESET SCALE ----
         d3.select(this)
           .select(".node-inner")
           .transition()
