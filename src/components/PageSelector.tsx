@@ -10,6 +10,7 @@ import Board from "../pages/Board";
 import Workshops from "../pages/Workshops";
 import WorkshopPage from "../pages/WorkshopPage";
 import DefaultSection from "../pages/DefaultSection";
+import Photos from "../pages/Photos";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useParams } from "react-router";
 import { SECTION_IDS } from "../data/constants";
@@ -33,6 +34,7 @@ const TYPE_MAP = {
   oraculo: Oracle,
   info: InfoPage,
   board: Board,
+  photos: Photos,
 } as const;
 
 export default function PageSelector({ section }: { section: Section }) {

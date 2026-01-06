@@ -280,10 +280,41 @@ export type SiteConfig = {
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "board";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "photos";
     };
     url?: string;
     isHighlighted?: boolean;
     _type: "navSection";
+    _key: string;
+  }>;
+};
+
+export type Photos = {
+  _id: string;
+  _type: "photos";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: {
+    es?: string;
+    en?: string;
+  };
+  slug?: Slug;
+  imageGallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
     _key: string;
   }>;
 };
@@ -730,7 +761,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | Show | BlogPost | SiteConfig | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | Show | BlogPost | SiteConfig | Photos | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../lapibaberreta/src/lib/blogPostsQuery.ts
 // Variable: blogPostsQuery
@@ -932,6 +963,14 @@ export type InitialDataQueryResult = {
       slug: string | null;
     } | {
       _id: string;
+      _type: "photos";
+      title: {
+        es?: string;
+        en?: string;
+      } | null;
+      slug: string | null;
+    } | {
+      _id: string;
       _type: "project";
       title: {
         es?: string;
@@ -1009,6 +1048,30 @@ export type OraculoQueryResult = {
       _type: "image";
     };
     _type: "card";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: ../lapibaberreta/src/lib/photosQuery.ts
+// Variable: photosQuery
+// Query: *[_type == "photos"][0]{  title,  slug,  imageGallery}
+export type PhotosQueryResult = {
+  title: {
+    es?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  imageGallery: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
     _key: string;
   }> | null;
 } | null;
@@ -1934,6 +1997,7 @@ declare module "@sanity/client" {
     "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links,\n  pressLinks,\n  bookingInfo\n}": InfoQueryResult;
     "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    icon,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
+    "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
     "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
     "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{_id},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
