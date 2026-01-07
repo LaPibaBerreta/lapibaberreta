@@ -35,8 +35,9 @@ const ICONS: Record<string, string> = {
 const distance = 120;
 
 const line = {
-  color: "#999",
-  opacity: 0.6,
+  color: "#000",
+  opacity: 1,
+  width: 0.3,
 };
 
 export { imageSize, nodeStyles, ICONS, distance, line };

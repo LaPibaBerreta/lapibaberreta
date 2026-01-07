@@ -146,7 +146,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
       .enter()
       .append("line")
       .attr("stroke", line.color)
-      .attr("stroke-opacity", line.opacity);
+      .attr("stroke-opacity", line.opacity)
+      .attr("stroke-width", line.width);
 
     linkSelRef.current = link;
 
