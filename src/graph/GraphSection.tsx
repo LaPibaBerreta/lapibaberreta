@@ -1,15 +1,14 @@
 import { useInitialData } from "../hooks/useInitialData";
 import { usePublications } from "../hooks/usePublications";
-import { useProjects } from "../hooks/useProjects";
 import { useVideos } from "../hooks/useVideos";
 import { useWorkshops } from "../hooks/useWorkshops";
 import { buildGraph } from "./buildGraph";
 import { Graph } from "./Graph";
 import type { GraphInputData } from "./types/Graph";
 import { useSectionSlug } from "../hooks/useSectionSlug";
-import { useState } from "react";
 import { SECTION_IDS } from "../data/constants";
 import type { VideosQueryResult } from "../lib/types";
+import useFilterByProject from "../hooks/useFilterByProject";
 
 export default function GraphSection() {
   const { data: initialData, isLoading, error } = useInitialData();
@@ -29,12 +28,7 @@ export default function GraphSection() {
     isLoading: isSectionSlugLoading,
     error: sectionSlugError,
   } = useSectionSlug();
-  const {
-    data: projectsData,
-    isLoading: projectsLoading,
-    error: projectsError,
-  } = useProjects();
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const { selectedProject } = useFilterByProject();
 
   if (
     isLoading ||
@@ -42,25 +36,16 @@ export default function GraphSection() {
     vidLoading ||
     wsLoading ||
     isSectionSlugLoading ||
-    !sectionSlug ||
-    projectsLoading
+    !sectionSlug
   )
     return <div>...</div>;
-  if (
-    error ||
-    pubError ||
-    vidError ||
-    wsError ||
-    sectionSlugError ||
-    projectsError
-  )
+  if (error || pubError || vidError || wsError || sectionSlugError)
     return (
       <div>
         {error?.message ||
           pubError?.message ||
           wsError?.message ||
-          sectionSlugError?.message ||
-          projectsError?.message}
+          sectionSlugError?.message}
       </div>
     );
 
@@ -103,36 +88,11 @@ export default function GraphSection() {
     workshops: filteredWorkshops,
     sections: filteredSections,
   };
+
   const { nodes, links } = buildGraph(graphInputData);
 
   return (
     <section className="flex h-screen w-full items-center justify-center">
-      <div className="pointer-events-none fixed top-1/2 left-5 z-100 font-mono text-xs font-thin">
-        <div className="pointer-events-auto flex items-center gap-1">
-          <button
-            className={`size-3 border hover:bg-black ${!selectedProject ? "bg-black" : "bg-white"}`}
-            onClick={() => {
-              setSelectedProject(null);
-            }}
-          />
-          <span className="bg-white">Todo</span>
-        </div>
-        {projectsData &&
-          projectsData.map((project) => (
-            <div
-              key={project._id}
-              className="pointer-events-auto flex items-center gap-1"
-            >
-              <button
-                className={`size-3 border hover:bg-black ${selectedProject === project._id ? "bg-black" : "bg-white"}`}
-                onClick={() => {
-                  setSelectedProject(project._id);
-                }}
-              />
-              <span className="bg-white">{project.title?.es}</span>
-            </div>
-          ))}
-      </div>
       <Graph key={selectedProject ?? "all"} nodes={nodes} links={links} />
     </section>
   );

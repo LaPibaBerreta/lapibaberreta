@@ -9,6 +9,7 @@ import GraphSection from "./graph/GraphSection";
 import { SECTION_IDS } from "./data/constants";
 import Section from "./components/Section";
 import logoBerreta from "./assets/logo-2.png";
+import ProjectSelectMenu from "./components/ProjectSelectMenu";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -22,7 +23,9 @@ function App() {
         <MainBackground image={data?.backgroundImage} />
       )}
 
-      <header className="fixed top-5 right-5 z-20 flex flex-col">
+      <ProjectSelectMenu />
+
+      <header className="fixed right-5 bottom-5 z-20 flex flex-col">
         <NavMenu />
       </header>
       <div className="text-accent pointer-events-none fixed top-0 -z-10 flex h-screen w-full flex-row items-end justify-center">
