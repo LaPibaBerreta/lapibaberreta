@@ -9,6 +9,7 @@ import type { GraphInputData } from "./types/Graph";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import { useState } from "react";
 import { SECTION_IDS } from "../data/constants";
+import type { VideosQueryResult } from "../lib/types";
 
 export default function GraphSection() {
   const { data: initialData, isLoading, error } = useInitialData();
@@ -71,7 +72,7 @@ export default function GraphSection() {
     }) ?? [];
 
   const filteredVideos =
-    videos?.filter((video) => {
+    videos?.filter((video: VideosQueryResult[number]) => {
       return selectedProject ? video.project?._id === selectedProject : true;
     }) ?? [];
 

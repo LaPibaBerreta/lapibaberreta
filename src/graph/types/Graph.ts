@@ -14,6 +14,14 @@ export interface GraphInputData {
   workshops: WorkshopsQueryResult;
 }
 
+export type GraphCategory = {
+  _id: string;
+  name?: {
+    es?: string;
+    en?: string;
+  } | null;
+};
+
 export type GraphNode = {
   id: string;
   label: string;
@@ -25,6 +33,7 @@ export type GraphNode = {
   videos?: string[];
   image?: string;
   referenceType?: string;
+  category?: GraphCategory;
 };
 
 export type GraphLink = {

@@ -12,6 +12,14 @@ export function buildGraph(data: GraphInputData): GraphData {
     return { nodes: [], links: [] };
   }
 
+  const videoCategories = Array.from(
+    new Map(
+      data.videos
+        .filter((v) => v.category?._id)
+        .map((v) => [v.category!._id, v.category!]),
+    ).values(),
+  );
+
   // NODES --------------------------------------------------------
   const uniqueIds = new Set<string>();
 
@@ -82,6 +90,7 @@ export function buildGraph(data: GraphInputData): GraphData {
         label: video.title?.es || "Untitled",
         route: video.slug?.current,
         nodeType: "video",
+        category: video.category || undefined,
         // TODO:add references from video to projects in sanity
         // reference: publication.section?._ref,
       });
@@ -101,6 +110,17 @@ export function buildGraph(data: GraphInputData): GraphData {
         label: workshop.title?.es || "Untitled",
         route: workshop.slug?.current,
         nodeType: "workshop",
+      });
+    }
+  });
+
+  videoCategories.forEach((category) => {
+    if (category._id && !uniqueIds.has(category._id)) {
+      nodes.push({
+        id: category._id,
+        label: category.name?.es || "Untitled",
+        route: category._id,
+        nodeType: "videoCategory",
       });
     }
   });
@@ -129,13 +149,22 @@ export function buildGraph(data: GraphInputData): GraphData {
       });
     }
 
-    if (!reference && node.nodeType === "section") {
-      links.push({ source: id, target: "hogar" });
-    } else if (node.nodeType === "video") {
+    if (videoCategories.some((c) => c._id === id)) {
       links.push({
         source: id,
         target: SECTION_IDS.VIDEOS,
       });
+    }
+
+    if (!reference && node.nodeType === "section") {
+      links.push({ source: id, target: "hogar" });
+    } else if (node.nodeType === "video") {
+      if (node.category && node.category._id) {
+        links.push({
+          source: id,
+          target: node.category?._id,
+        });
+      }
     } else if (!reference && node.nodeType === "workshop") {
       links.push({
         source: id,

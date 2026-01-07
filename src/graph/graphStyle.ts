@@ -10,6 +10,7 @@ const nodeStyles = {
   video: { color: "#391463", size: 10 },
   workshop: { color: "#adbfff", size: 12 },
   oracle: { color: "#e086d3", size: 0 },
+  videoCategory: { color: "#000" },
 };
 
 const ICONS: Record<string, string> = {
