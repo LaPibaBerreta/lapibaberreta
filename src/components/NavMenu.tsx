@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import Loading from "../components/Loading";
@@ -8,7 +8,8 @@ import { SECTION_IDS } from "../data/constants";
 export default function NavMenu() {
   const { data } = useInitialData();
   const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const location = useLocation();
   if (sectionSlugLoading) return <Loading />;
 
   const publicationsSlug = sectionSlug?.find(
@@ -18,31 +19,36 @@ export default function NavMenu() {
   const sections = data?.sections ?? [];
 
   return (
-    <nav className="relative">
+    <nav className="relative mb-5 font-mono">
       <button
         onClick={() => {
           setIsOpen(!isOpen);
         }}
-        className={`${isOpen ? "bg-black" : ""} absolute top-0 right-0 flex size-12 items-center justify-center border border-black text-6xl`}
+        className={`${isOpen ? "bg-black" : ""} absolute right-0 -bottom-5 flex size-12 items-center justify-center border border-black`}
       >
         <div
           className={`${isOpen ? "bg-white" : "bg-black"} size-10 rounded-full`}
         />
       </button>
       {isOpen && (
-        <ul className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
-          {/* <li key="hogar" className="text-2xl"> */}
-          {/*   <NavLink key="home" to="/" className=""> */}
-          {/*     {data?.title} */}
-          {/*   </NavLink> */}
-          {/* </li> */}
+        <ul className="mr-30 flex w-full flex-col items-center justify-center gap-3 text-lg sm:flex-row">
+          {location.pathname !== "/" && (
+            <NavLink
+              key="home"
+              to="/"
+              className={`flex min-w-12 cursor-pointer items-center justify-center gap-1 rounded-4xl border bg-white/40 transition-colors hover:bg-black hover:text-white`}
+            >
+              X
+            </NavLink>
+          )}
+
           {sections.map((section, index) => {
             const mid = sections.length / 2;
             return (
               <li
                 key={section.reference?._id || section.url}
                 style={{
-                  transform: `translateY(${index < mid ? ((index - mid) / 2) * -1 : index + 1 - mid}rem)`,
+                  transform: `translateY(${index < mid ? ((index - mid) / 2) * -8 : index + 1 - mid}px)`,
                 }}
               >
                 {section.reference ? (
@@ -59,20 +65,16 @@ export default function NavMenu() {
                         `transition-colors ${isActive ? "underline" : ""}`
                       }
                     >
-                      <span className="bg-black text-white">
-                        {section.title?.es}
-                      </span>
+                      {section.title?.es}
                     </NavLink>
                   ) : (
                     <NavLink
                       to={"/" + section.reference.slug}
                       className={({ isActive }) =>
-                        `transition-colors ${isActive ? "font-bold" : ""}`
+                        `cursor-pointer rounded-xl border px-2 transition-colors hover:bg-black hover:text-white ${isActive ? "bg-black text-white" : "bg-white"}`
                       }
                     >
-                      <span className="bg-black text-white">
-                        {section.title?.es}
-                      </span>
+                      {section.title?.es}
                     </NavLink>
                   )
                 ) : (
