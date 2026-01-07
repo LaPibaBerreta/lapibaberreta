@@ -20,6 +20,14 @@ export function buildGraph(data: GraphInputData): GraphData {
     ).values(),
   );
 
+  const publicationCategories = Array.from(
+    new Map(
+      data.publications
+        .filter((v) => v.category?._id)
+        .map((v) => [v.category!._id, v.category!]),
+    ).values(),
+  );
+
   // NODES --------------------------------------------------------
   const uniqueIds = new Set<string>();
 
@@ -73,10 +81,9 @@ export function buildGraph(data: GraphInputData): GraphData {
         id: publication._id,
         label: publication.title?.es || "Untitled",
         route: publication.slug?.current,
-        reference: publication.section?._ref,
+        reference: publication.category?._id,
         nodeType: "publication",
         additionalDocument: publication.additionalDocument?._ref,
-
         videos: publication.videos?.map((v) => v._ref) ?? [],
       });
       uniqueIds.add(publication._id);
@@ -125,6 +132,17 @@ export function buildGraph(data: GraphInputData): GraphData {
     }
   });
 
+  publicationCategories.forEach((category) => {
+    if (category._id && !uniqueIds.has(category._id)) {
+      nodes.push({
+        id: category._id,
+        label: category.name?.es || "Untitled",
+        route: category._id,
+        nodeType: "publicationCategory",
+      });
+    }
+  });
+
   // LINKS --------------------------------------------------------
   const links: GraphLink[] = [];
 
@@ -153,6 +171,13 @@ export function buildGraph(data: GraphInputData): GraphData {
       links.push({
         source: id,
         target: SECTION_IDS.VIDEOS,
+      });
+    }
+
+    if (publicationCategories.some((c) => c._id === id)) {
+      links.push({
+        source: id,
+        target: SECTION_IDS.PUBLICATIONS,
       });
     }
 

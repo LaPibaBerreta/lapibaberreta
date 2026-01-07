@@ -8,7 +8,7 @@ const publicationsQuery =
   title,
   slug,
   date,
-  category->{name},
+  category->{_id, name},
   section,
   project->{_id},
   mainImage,

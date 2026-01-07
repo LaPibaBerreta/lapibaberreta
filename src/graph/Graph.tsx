@@ -231,6 +231,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
         if (d.nodeType === "workshop") return ICONS.workshop;
         // TODO: add icon for video category
         if (d.nodeType === "videoCategory") return ICONS.workshop;
+        if (d.nodeType === "publicationCategory")
+          return ICONS.publicationCategory;
         return ICONS.home;
       })
       .attr("fill", (d) => {
@@ -242,6 +244,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
         if (d.nodeType === "workshop") return nodeStyles.workshop.color;
         if (d.nodeType === "videoCategory")
           return nodeStyles.videoCategory.color;
+        if (d.nodeType === "publicationCategory")
+          return nodeStyles.publicationCategory.color;
         if (d.externalLink) return nodeStyles.externalLink.color;
         return nodeStyles.hogar.color;
       })
@@ -338,6 +342,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
         if (d.nodeType === "workshop") return nodeStyles.workshop.color;
         if (d.nodeType === "videoCategory")
           return nodeStyles.videoCategory.color;
+        if (d.nodeType === "publicationCategory")
+          return nodeStyles.publicationCategory.color;
         return nodeStyles.hogar.color;
       });
     }
