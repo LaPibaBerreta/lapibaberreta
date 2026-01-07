@@ -229,8 +229,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
         if (d.nodeType === "publication") return ICONS.publication;
         if (d.nodeType === "video") return ICONS.video;
         if (d.nodeType === "workshop") return ICONS.workshop;
-        // TODO: add icon for video category
-        if (d.nodeType === "videoCategory") return ICONS.workshop;
+        if (d.nodeType === "videoCategory") return ICONS.videoCategory;
         if (d.nodeType === "publicationCategory")
           return ICONS.publicationCategory;
         return ICONS.home;
