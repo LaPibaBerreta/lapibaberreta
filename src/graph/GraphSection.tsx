@@ -9,6 +9,7 @@ import { useSectionSlug } from "../hooks/useSectionSlug";
 import { SECTION_IDS } from "../data/constants";
 import type { VideosQueryResult } from "../lib/types";
 import useFilterByProject from "../hooks/useFilterByProject";
+import useLanguage from "../hooks/useLanguage";
 
 export default function GraphSection() {
   const { data: initialData, isLoading, error } = useInitialData();
@@ -29,6 +30,7 @@ export default function GraphSection() {
     error: sectionSlugError,
   } = useSectionSlug();
   const { selectedProject } = useFilterByProject();
+  const { language } = useLanguage();
 
   if (
     isLoading ||
@@ -89,11 +91,15 @@ export default function GraphSection() {
     sections: filteredSections,
   };
 
-  const { nodes, links } = buildGraph(graphInputData);
+  const { nodes, links } = buildGraph(graphInputData, language);
 
   return (
     <section className="flex h-screen w-full items-center justify-center">
-      <Graph key={selectedProject ?? "all"} nodes={nodes} links={links} />
+      <Graph
+        key={`${selectedProject ?? "all"}-${language}`}
+        nodes={nodes}
+        links={links}
+      />
     </section>
   );
 }

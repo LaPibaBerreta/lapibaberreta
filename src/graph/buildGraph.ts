@@ -7,7 +7,10 @@ import type {
 import { urlFor } from "../lib/sanityImageUrl";
 import { SECTION_IDS } from "../data/constants";
 
-export function buildGraph(data: GraphInputData): GraphData {
+export function buildGraph(
+  data: GraphInputData,
+  language: "es" | "en",
+): GraphData {
   if (!data || !data.sections) {
     return { nodes: [], links: [] };
   }
@@ -39,7 +42,7 @@ export function buildGraph(data: GraphInputData): GraphData {
 
       const newNode = {
         id,
-        label: section.title?.es || "Untitled",
+        label: section.title?.[language] || section.title?.es || "???",
         route: section.reference?.slug || section.url,
         nodeType: "section",
         referenceType: section.reference?._type,
@@ -79,7 +82,7 @@ export function buildGraph(data: GraphInputData): GraphData {
     ) {
       nodes.push({
         id: publication._id,
-        label: publication.title?.es || "Untitled",
+        label: publication.title?.[language] || publication.title?.es || "???",
         route: publication.slug?.current,
         reference: publication.category?._id,
         nodeType: "publication",
@@ -94,7 +97,7 @@ export function buildGraph(data: GraphInputData): GraphData {
     if (video._id && video.slug?.current && !uniqueIds.has(video._id)) {
       nodes.push({
         id: video._id,
-        label: video.title?.es || "Untitled",
+        label: video.title?.[language] || video.title?.es || "???",
         route: video.slug?.current,
         nodeType: "video",
         category: video.category || undefined,
@@ -114,7 +117,7 @@ export function buildGraph(data: GraphInputData): GraphData {
       nodes.push({
         id: workshop._id,
         //TODO: add multi-language support
-        label: workshop.title?.es || "Untitled",
+        label: workshop.title?.[language] || workshop.title?.es || "???",
         route: workshop.slug?.current,
         nodeType: "workshop",
       });
@@ -125,7 +128,7 @@ export function buildGraph(data: GraphInputData): GraphData {
     if (category._id && !uniqueIds.has(category._id)) {
       nodes.push({
         id: category._id,
-        label: category.name?.es || "Untitled",
+        label: category.name?.[language] || category.name?.es || "???",
         route: category._id,
         nodeType: "videoCategory",
       });
@@ -136,7 +139,7 @@ export function buildGraph(data: GraphInputData): GraphData {
     if (category._id && !uniqueIds.has(category._id)) {
       nodes.push({
         id: category._id,
-        label: category.name?.es || "Untitled",
+        label: category.name?.[language] || category.name?.es || "???",
         route: category._id,
         nodeType: "publicationCategory",
       });
