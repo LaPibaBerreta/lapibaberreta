@@ -4,6 +4,7 @@ import { useShows } from "../hooks/useShows";
 import { useInfo } from "../hooks/useInfo";
 import { urlFor } from "../lib/sanityImageUrl";
 import { PortableText } from "@portabletext/react";
+import useLanguage from "../hooks/useLanguage";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -16,6 +17,7 @@ export default function Shows({ section }: { section: Section }) {
     isLoading: isInfoLoading,
     error: infoError,
   } = useInfo();
+  const { language } = useLanguage();
 
   if (isLoading || isInfoLoading) return <Loading />;
   if (error || infoError)
@@ -23,14 +25,20 @@ export default function Shows({ section }: { section: Section }) {
 
   return (
     <section>
-      {section.title && <h1 className="text-xl">{section.title.es}</h1>}
+      {section.title?.es && (
+        <h1 className="text-xl">
+          {section.title[language] || section.title.es}
+        </h1>
+      )}
       {infoData?.bookingInfo?.es && (
-        <PortableText value={infoData.bookingInfo.es} />
+        <PortableText
+          value={infoData.bookingInfo[language] || infoData.bookingInfo.es}
+        />
       )}
       {data &&
         data.map((show) => (
           <div key={show._id}>
-            {show.title?.es && <h2>{show.title.es}</h2>}
+            {show.title?.es && <h2>{show.title[language] || show.title.es}</h2>}
             {show.date && <p>{show.date}</p>}
 
             {show.image && (
@@ -41,7 +49,9 @@ export default function Shows({ section }: { section: Section }) {
                 }
               />
             )}
-            {show.text?.es && <PortableText value={show.text?.es} />}
+            {show.text?.es && (
+              <PortableText value={show.text[language] || show.text.es} />
+            )}
 
             {show.links?.length &&
               show.links.map((link) => (
@@ -52,7 +62,7 @@ export default function Shows({ section }: { section: Section }) {
                   rel="noopener noreferrer"
                   className="underline"
                 >
-                  {link.title?.es}
+                  {link.title?.es && (link.title[language] || link.title.es)}
                 </a>
               ))}
 

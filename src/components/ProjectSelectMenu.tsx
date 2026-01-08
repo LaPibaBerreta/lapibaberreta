@@ -1,5 +1,6 @@
 import { useProjects } from "../hooks/useProjects";
 import useFilterByProject from "../hooks/useFilterByProject";
+import useLanguage from "../hooks/useLanguage";
 
 export default function ProjectSelectMenu() {
   const {
@@ -8,6 +9,7 @@ export default function ProjectSelectMenu() {
     error: projectsError,
   } = useProjects();
   const { selectedProject, setSelectedProject } = useFilterByProject();
+  const { language } = useLanguage();
 
   if (projectsLoading) return <div>...</div>;
   if (projectsError) return <div>{projectsError?.message}</div>;
@@ -26,7 +28,8 @@ export default function ProjectSelectMenu() {
                 setSelectedProject(project._id);
               }}
             >
-              {project.title?.es}
+              {project.title?.es &&
+                (project.title[language] || project.title?.es)}
             </button>
           </div>
         ))}

@@ -4,12 +4,15 @@ import { useInitialData } from "../hooks/useInitialData";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import Loading from "../components/Loading";
 import { SECTION_IDS } from "../data/constants";
+import useLanguage from "../hooks/useLanguage";
 
 export default function NavMenu() {
   const { data } = useInitialData();
   const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
+  const { language } = useLanguage();
+
   if (sectionSlugLoading) return <Loading />;
 
   const publicationsSlug = sectionSlug?.find(
@@ -65,7 +68,8 @@ export default function NavMenu() {
                         `transition-colors ${isActive ? "underline" : ""}`
                       }
                     >
-                      {section.title?.es}
+                      {section.title?.es &&
+                        (section.title[language] || section.title?.es)}
                     </NavLink>
                   ) : (
                     <NavLink
@@ -74,7 +78,8 @@ export default function NavMenu() {
                         `cursor-pointer rounded-xl border px-2 transition-colors hover:bg-black hover:text-white ${isActive ? "bg-black text-white" : "bg-white"}`
                       }
                     >
-                      {section.title?.es}
+                      {section.title?.es &&
+                        (section.title[language] || section.title?.es)}
                     </NavLink>
                   )
                 ) : (

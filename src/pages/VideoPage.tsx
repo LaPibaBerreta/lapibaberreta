@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import VideoPlayer from "../components/VideoPlayer";
+import useLanguage from "../hooks/useLanguage";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -13,6 +14,7 @@ type Section = NonNullable<
 export default function VideoPage({ section }: { section: Section }) {
   const { slug } = useParams<{ slug: string }>();
   const { data: video, isLoading, error } = useVideo(slug!);
+  const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
@@ -23,7 +25,9 @@ export default function VideoPage({ section }: { section: Section }) {
 
   return (
     <>
-      <h1 className="text-xl">{video?.title?.es}</h1>
+      {video?.title?.es && (
+        <h1 className="text-xl">{video?.title[language] || video.title.es}</h1>
+      )}
       <p>{video?.date}</p>
 
       {video?.image && (
@@ -33,7 +37,9 @@ export default function VideoPage({ section }: { section: Section }) {
       )}
 
       {video?.embed && <VideoPlayer embedData={video?.embed} />}
-      {video?.text?.es && <PortableText value={video.text?.es} />}
+      {video?.text?.es && (
+        <PortableText value={video.text[language] || video.text.es} />
+      )}
     </>
   );
 }

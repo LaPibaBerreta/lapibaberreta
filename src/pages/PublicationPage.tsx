@@ -8,6 +8,7 @@ import BandcampPlayer from "../components/BandcampPlayer";
 import VideoPlayer from "../components/VideoPlayer";
 import ImageGallery from "../components/ImageGallery";
 import { NavLink } from "react-router";
+import useLanguage from "../hooks/useLanguage";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -16,6 +17,7 @@ type Section = NonNullable<
 export default function PublicationPage({ section }: { section: Section }) {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, error } = usePublication(slug!);
+  const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
@@ -26,9 +28,13 @@ export default function PublicationPage({ section }: { section: Section }) {
 
   return (
     <>
-      <h1 className="text-xl">{data?.title?.es}</h1>
+      {data?.title?.es && (
+        <h1 className="text-xl">{data.title[language] || data.title.es}</h1>
+      )}
       <p>{data?.date}</p>
-      <p>{data?.category?.name?.es}</p>
+      {data?.category?.name?.es && (
+        <p>{data.category.name[language] || data.category.name.es}</p>
+      )}
 
       {data?.mainImage && (
         <img
@@ -43,7 +49,9 @@ export default function PublicationPage({ section }: { section: Section }) {
         </div>
       )}
 
-      {data?.text?.es && <PortableText value={data.text.es} />}
+      {data?.text?.es && (
+        <PortableText value={data.text[language] || data.text.es} />
+      )}
       {data?.links?.length &&
         data.links.map((link) => (
           <a
@@ -53,7 +61,7 @@ export default function PublicationPage({ section }: { section: Section }) {
             rel="noopener noreferrer"
             className="underline"
           >
-            {link.title?.es}
+            {link.title?.es && (link.title[language] || link.title.es)}
           </a>
         ))}
       {data?.imageGallery?.length && <ImageGallery data={data.imageGallery} />}
@@ -61,7 +69,9 @@ export default function PublicationPage({ section }: { section: Section }) {
       {data?.videos?.length &&
         data.videos.map((video) => (
           <div key={video._id} className="bg-violet-400">
-            {video?.title?.es}
+            {video?.title?.es && (
+              <h2>{video.title[language] || video.title.es}</h2>
+            )}
             {video?.embed && <VideoPlayer embedData={video.embed} />}
           </div>
         ))}
@@ -69,7 +79,10 @@ export default function PublicationPage({ section }: { section: Section }) {
       {data?.additionalDocument && (
         <div className="text-4xl underline">
           <NavLink to={"/" + data.additionalDocument?.slug?.current}>
-            {data.additionalDocument.title?.es}
+            {data.additionalDocument.title?.es
+              ? data.additionalDocument.title[language] ||
+                data.additionalDocument.title.es
+              : "???"}
           </NavLink>
         </div>
       )}
