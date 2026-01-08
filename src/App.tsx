@@ -10,6 +10,7 @@ import { SECTION_IDS } from "./data/constants";
 import Section from "./components/Section";
 import logoBerreta from "./assets/logo-2.png";
 import ProjectSelectMenu from "./components/ProjectSelectMenu";
+import LanguageToggle from "./components/LanguageToggle";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -24,6 +25,9 @@ function App() {
       )}
 
       <ProjectSelectMenu />
+      <div className="fixed top-5 right-5">
+        <LanguageToggle />
+      </div>
 
       <header className="fixed right-5 bottom-5 z-20 flex flex-col">
         <NavMenu />

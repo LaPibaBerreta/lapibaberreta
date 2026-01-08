@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterByProjectProvider } from "./context/FilterByProjectContext.tsx";
+import { LanguageProvider } from "./context/LanguageContext.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,11 +19,13 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <FilterByProjectProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </FilterByProjectProvider>
+      <LanguageProvider>
+        <FilterByProjectProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </FilterByProjectProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   </StrictMode>,
 );
