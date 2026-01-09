@@ -2,6 +2,7 @@ import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useInfo } from "../hooks/useInfo";
 import { PortableText } from "@portabletext/react";
+import SongkickWidget from "../components/SongkickWidget";
 import useLanguage from "../hooks/useLanguage";
 
 type Section = NonNullable<
@@ -31,6 +32,7 @@ export default function Shows({ section }: { section: Section }) {
           value={infoData.bookingInfo[language] || infoData.bookingInfo.es}
         />
       )}
+      <SongkickWidget />
     </section>
   );
 }
