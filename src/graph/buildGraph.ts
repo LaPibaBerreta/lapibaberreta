@@ -39,6 +39,7 @@ export function buildGraph(
       const id = section.reference?._id ?? section.url ?? undefined;
 
       if (!id) return acc;
+      if (section.isHidden) return acc;
 
       const newNode = {
         id,
@@ -101,8 +102,6 @@ export function buildGraph(
         route: video.slug?.current,
         nodeType: "video",
         category: video.category || undefined,
-        // TODO:add references from video to projects in sanity
-        // reference: publication.section?._ref,
       });
       uniqueIds.add(video._id);
     }
@@ -116,7 +115,6 @@ export function buildGraph(
     ) {
       nodes.push({
         id: workshop._id,
-        //TODO: add multi-language support
         label: workshop.title?.[language] || workshop.title?.es || "???",
         route: workshop.slug?.current,
         nodeType: "workshop",
