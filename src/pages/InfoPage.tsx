@@ -3,6 +3,7 @@ import { useInfo } from "../hooks/useInfo";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import useLanguage from "../hooks/useLanguage";
+import ContactForm from "../components/ContactForm";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -50,6 +51,7 @@ export default function InfoPage({ section }: { section: Section }) {
             {link.title?.es && (link.title[language] || link.title.es)}
           </a>
         ))}
+      <ContactForm />
     </>
   );
 }
