@@ -8,8 +8,10 @@ const initialDataQuery = defineQuery(`*[_type == "siteConfig"][0]{
   sections[]{
     title,
     isHighlighted,
+    isHidden,
     url,
     icon,
+    group,
     reference->{
       _id,
       _type,

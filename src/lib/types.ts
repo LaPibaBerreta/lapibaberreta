@@ -288,6 +288,8 @@ export type SiteConfig = {
     };
     url?: string;
     isHighlighted?: boolean;
+    group?: "0" | "1" | "2";
+    isHidden?: boolean;
     _type: "navSection";
     _key: string;
   }>;
@@ -898,7 +900,7 @@ export type InfoQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
 // Variable: initialDataQuery
-// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    url,    icon,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
+// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    isHidden,    url,    icon,    group,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
 export type InitialDataQueryResult = {
   title: string | null;
   backgroundImage: {
@@ -919,6 +921,7 @@ export type InitialDataQueryResult = {
       en?: string;
     } | null;
     isHighlighted: boolean | null;
+    isHidden: boolean | null;
     url: string | null;
     icon: {
       asset?: {
@@ -932,6 +935,7 @@ export type InitialDataQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
+    group: "0" | "1" | "2" | null;
     reference: {
       _id: string;
       _type: "board";
@@ -1997,7 +2001,7 @@ declare module "@sanity/client" {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
     "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links,\n  pressLinks,\n  bookingInfo\n}": InfoQueryResult;
-    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    url,\n    icon,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
+    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;

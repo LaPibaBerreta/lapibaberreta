@@ -1,33 +1,30 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
-import { useSectionSlug } from "../hooks/useSectionSlug";
-import Loading from "../components/Loading";
-import { SECTION_IDS } from "../data/constants";
-import useLanguage from "../hooks/useLanguage";
+import NavMenuList from "./NavMenuList";
+import type { InitialDataQueryResult } from "../lib/types";
+
+type InitialData = NonNullable<InitialDataQueryResult>;
+type Section = NonNullable<InitialData["sections"]>[number];
 
 export default function NavMenu() {
   const { data } = useInitialData();
-  const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
-  const { language } = useLanguage();
 
-  if (sectionSlugLoading) return <Loading />;
+  const sections: Section[] = data?.sections ?? [];
 
-  const publicationsSlug = sectionSlug?.find(
-    (section) => section._id === SECTION_IDS.PUBLICATIONS,
-  );
-
-  const sections = data?.sections ?? [];
+  const firstGroup = sections.filter((section) => section.group === "0");
+  const secondGroup = sections.filter((section) => section.group === "1");
+  const thirdGroup = sections.filter((section) => section.group === "2");
 
   return (
-    <nav className="relative mb-5 font-mono">
+    <nav className="_mb-5 _relative pointer-events-none fixed inset-0 z-100 font-mono">
       <button
         onClick={() => {
           setIsOpen(!isOpen);
         }}
-        className={`${isOpen ? "bg-black" : ""} absolute right-0 -bottom-5 flex size-12 items-center justify-center border border-black`}
+        className={`${isOpen ? "bg-black" : ""} pointer-events-auto fixed right-5 bottom-5 z-100 flex size-12 items-center justify-center border border-black`}
       >
         <div
           className={`${isOpen ? "bg-white" : "bg-black"} size-10 rounded-full`}
@@ -39,63 +36,32 @@ export default function NavMenu() {
             <NavLink
               key="home"
               to="/"
-              className={`flex min-w-12 cursor-pointer items-center justify-center gap-1 rounded-4xl border bg-white/40 transition-colors hover:bg-black hover:text-white`}
+              className={`pointer-events-auto flex min-w-12 cursor-pointer items-center justify-center gap-1 rounded-4xl border bg-white/40 transition-colors hover:bg-black hover:text-white`}
             >
               X
             </NavLink>
           )}
 
-          {sections.map((section, index) => {
-            const mid = sections.length / 2;
-            return (
-              <li
-                key={section.reference?._id || section.url}
-                style={{
-                  transform: `translateY(${index < mid ? ((index - mid) / 2) * -8 : index + 1 - mid}px)`,
-                }}
-              >
-                {section.reference ? (
-                  section.reference._type === "publication" &&
-                  publicationsSlug ? (
-                    <NavLink
-                      to={
-                        "/" +
-                        publicationsSlug.slug?.current +
-                        "/" +
-                        section.reference.slug
-                      }
-                      className={({ isActive }) =>
-                        `transition-colors ${isActive ? "underline" : ""}`
-                      }
-                    >
-                      {section.title?.es &&
-                        (section.title[language] || section.title?.es)}
-                    </NavLink>
-                  ) : (
-                    <NavLink
-                      to={"/" + section.reference.slug}
-                      className={({ isActive }) =>
-                        `cursor-pointer rounded-xl border px-2 transition-colors hover:bg-black hover:text-white ${isActive ? "bg-black text-white" : "bg-white"}`
-                      }
-                    >
-                      {section.title?.es &&
-                        (section.title[language] || section.title?.es)}
-                    </NavLink>
-                  )
-                ) : (
-                  section.url && (
-                    <a
-                      href={section.url}
-                      target="_blank"
-                      className="bg-blue-200/30"
-                    >
-                      {section.title?.es}
-                    </a>
-                  )
-                )}
-              </li>
-            );
-          })}
+          {firstGroup?.length && (
+            <NavMenuList
+              data={firstGroup}
+              className="pointer-events-auto fixed top-20 left-5"
+            />
+          )}
+
+          {secondGroup?.length && (
+            <NavMenuList
+              data={secondGroup}
+              className="pointer-events-auto fixed right-20 bottom-5 flex gap-2"
+            />
+          )}
+
+          {thirdGroup?.length && (
+            <NavMenuList
+              data={thirdGroup}
+              className="pointer-events-auto fixed top-1/2 right-5 text-end"
+            />
+          )}
         </ul>
       )}
     </nav>
