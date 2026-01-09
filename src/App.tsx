@@ -11,6 +11,7 @@ import Section from "./components/Section";
 import logoBerreta from "./assets/logo-2.png";
 import ProjectSelectMenu from "./components/ProjectSelectMenu";
 import LanguageToggle from "./components/LanguageToggle";
+import PlayerContainer from "./components/PlayerContainer";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -30,6 +31,7 @@ function App() {
       </div>
       <NavMenu />
 
+      <PlayerContainer />
       <div className="text-accent pointer-events-none fixed top-0 -z-10 flex h-screen w-full flex-row items-end justify-center">
         <img
           src={logoBerreta}

@@ -4,11 +4,11 @@ import { usePublication } from "../hooks/usePublication";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
-import BandcampPlayer from "../components/BandcampPlayer";
 import VideoPlayer from "../components/VideoPlayer";
 import ImageGallery from "../components/ImageGallery";
 import { NavLink } from "react-router";
 import useLanguage from "../hooks/useLanguage";
+import LoadToPlayerButton from "../components/LoadToPlayerButton";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -43,11 +43,7 @@ export default function PublicationPage({ section }: { section: Section }) {
           }
         />
       )}
-      {data?.embed && (
-        <div className="my-2 w-full sm:w-1/2">
-          <BandcampPlayer embedData={data.embed} />
-        </div>
-      )}
+      {data?.embed && <LoadToPlayerButton data={data.embed} />}
 
       {data?.text?.es && (
         <PortableText value={data.text[language] || data.text.es} />
