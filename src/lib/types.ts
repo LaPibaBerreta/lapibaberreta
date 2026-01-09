@@ -127,60 +127,6 @@ export type Slug = {
   source?: string;
 };
 
-export type Show = {
-  _id: string;
-  _type: "show";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: {
-    es?: string;
-    en?: string;
-  };
-  date?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  text?: {
-    es?: BlockContent;
-    en?: BlockContent;
-  };
-  links?: Array<{
-    title?: {
-      es?: string;
-      en?: string;
-    };
-    url?: string;
-    text?: {
-      es?: string;
-      en?: string;
-    };
-    _type: "link";
-    _key: string;
-  }>;
-  project?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "project";
-  };
-  section?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "section";
-  };
-};
-
 export type BlogPost = {
   _id: string;
   _type: "blogPost";
@@ -763,7 +709,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | Show | BlogPost | SiteConfig | Photos | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | BlogPost | SiteConfig | Photos | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../lapibaberreta/src/lib/blogPostsQuery.ts
 // Variable: blogPostsQuery
@@ -1484,107 +1430,6 @@ export type SectionSlugQueryResult = Array<{
   slug: Slug | null;
 }>;
 
-// Source: ../lapibaberreta/src/lib/showsQuery.ts
-// Variable: showsQuery
-// Query: *[_type == "show"] | order(date desc){  _id,  title,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
-export type ShowsQueryResult = Array<{
-  _id: string;
-  title: {
-    es?: string;
-    en?: string;
-  } | null;
-  date: string | null;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  } | null;
-  text: {
-    es: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "normal";
-      listItem?: never;
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    } | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-      url: string | null;
-    }> | null;
-    en: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "normal";
-      listItem?: never;
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    } | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-      _key: string;
-      url: string | null;
-    }> | null;
-  } | null;
-  links: Array<{
-    title?: {
-      es?: string;
-      en?: string;
-    };
-    url?: string;
-    text?: {
-      es?: string;
-      en?: string;
-    };
-    _type: "link";
-    _key: string;
-  }> | null;
-}>;
-
 // Source: ../lapibaberreta/src/lib/videoQuery.ts
 // Variable: videoQuery
 // Query: *[_type == "video" && slug.current == $slug][0]{  _id,  title,  slug,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
@@ -2008,7 +1853,6 @@ declare module "@sanity/client" {
     "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
     "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
-    "*[_type == \"show\"] | order(date desc){\n  _id,\n  title,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ShowsQueryResult;
     "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideoQueryResult;
     "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
     "*[_type == \"workshop\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopQueryResult;
