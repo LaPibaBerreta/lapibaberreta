@@ -72,7 +72,8 @@ export default function NavMenuList({ data, className }: NavMenuListProps) {
                   target="_blank"
                   className="bg-blue-200/30"
                 >
-                  {section.title?.es}
+                  {section.title?.es &&
+                    (section.title[language] || section.title?.es)}
                 </a>
               )
             )}
