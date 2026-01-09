@@ -8,7 +8,6 @@ import Loading from "./components/Loading";
 import GraphSection from "./graph/GraphSection";
 import { SECTION_IDS } from "./data/constants";
 import Section from "./components/Section";
-import logoBerreta from "./assets/logo-2.png";
 import ProjectSelectMenu from "./components/ProjectSelectMenu";
 import LanguageToggle from "./components/LanguageToggle";
 import PlayerContainer from "./components/PlayerContainer";
@@ -25,24 +24,13 @@ function App() {
         <MainBackground image={data?.backgroundImage} />
       )}
 
+      <GraphSection />
       <ProjectSelectMenu />
       <div className="fixed top-5 right-5">
         <LanguageToggle />
       </div>
       <NavMenu />
-
       <PlayerContainer />
-      <div className="text-accent pointer-events-none fixed top-0 -z-10 flex h-screen w-full flex-row items-end justify-center">
-        <img
-          src={logoBerreta}
-          className="mb-4 h-16 opacity-90"
-          alt="La piba berreta logo"
-        />
-        {/* <h1 className="text-shadow-accent text-9xl opacity-40 text-shadow-md"> */}
-        {/*   {data?.title} */}
-        {/* </h1> */}
-      </div>
-      <GraphSection />
       <div className="pointer-events-none fixed inset-0 flex h-screen w-full items-center justify-center">
         <Routes>
           <Route path="/" />
