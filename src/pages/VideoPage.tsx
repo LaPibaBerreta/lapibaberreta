@@ -3,7 +3,6 @@ import type { InitialDataQueryResult } from "@/lib/types";
 import { useVideo } from "../hooks/useVideo";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
-import { urlFor } from "../lib/sanityImageUrl";
 import VideoPlayer from "../components/VideoPlayer";
 import useLanguage from "../hooks/useLanguage";
 
@@ -29,12 +28,6 @@ export default function VideoPage({ section }: { section: Section }) {
         <h1 className="text-xl">{video?.title[language] || video.title.es}</h1>
       )}
       <p>{video?.date}</p>
-
-      {video?.image && (
-        <img
-          src={urlFor(video.image).format("webp").width(600).url() + "&fit=max"}
-        />
-      )}
 
       {video?.embed && <VideoPlayer embedData={video?.embed} />}
       {video?.text?.es && (
