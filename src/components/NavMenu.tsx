@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import NavMenuList from "./NavMenuList";
 import type { InitialDataQueryResult } from "../lib/types";
@@ -10,7 +9,6 @@ type Section = NonNullable<InitialData["sections"]>[number];
 export default function NavMenu() {
   const { data } = useInitialData();
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
 
   const sections: Section[] = data?.sections ?? [];
 
@@ -32,16 +30,6 @@ export default function NavMenu() {
       </button>
       {isOpen && (
         <ul className="mr-30 flex w-full flex-col items-center justify-center gap-3 text-lg sm:flex-row">
-          {location.pathname !== "/" && (
-            <NavLink
-              key="home"
-              to="/"
-              className={`pointer-events-auto flex min-w-12 cursor-pointer items-center justify-center gap-1 rounded-4xl border bg-white/40 transition-colors hover:bg-black hover:text-white`}
-            >
-              X
-            </NavLink>
-          )}
-
           {firstGroup?.length && (
             <NavMenuList
               data={firstGroup}
