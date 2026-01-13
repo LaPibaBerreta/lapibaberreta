@@ -41,7 +41,7 @@ export function buildGraph(
       if (!id) return acc;
       if (section.isHidden) return acc;
 
-      const newNode = {
+      const newNode: GraphNode = {
         id,
         label: section.title?.[language] || section.title?.es || "???",
         route: section.reference?.slug || section.url,
@@ -49,8 +49,8 @@ export function buildGraph(
         referenceType: section.reference?._type,
         externalLink: Boolean(section.url),
         imageUrl: section.icon
-          ? urlFor(section.icon).format("webp").width(200).url() + "&fit=max"
-          : null,
+          ? urlFor(section.icon).format("webp").width(600).url() + "&fit=max"
+          : undefined,
       };
 
       if (
@@ -68,7 +68,6 @@ export function buildGraph(
 
   nodes.push({
     id: "hogar",
-    // label: "ヾ(≧▽≦*)o:",
     label: "",
     route: "/",
     externalLink: false,
@@ -89,6 +88,10 @@ export function buildGraph(
         nodeType: "publication",
         additionalDocument: publication.additionalDocument?._ref,
         videos: publication.videos?.map((v) => v._ref) ?? [],
+        imageUrl: publication.mainImage
+          ? urlFor(publication.mainImage).format("webp").width(600).url() +
+            "&fit=max"
+          : undefined,
       });
       uniqueIds.add(publication._id);
     }
@@ -102,6 +105,9 @@ export function buildGraph(
         route: video.slug?.current,
         nodeType: "video",
         category: video.category || undefined,
+        imageUrl: video.image
+          ? urlFor(video.image).format("webp").width(600).url() + "&fit=max"
+          : undefined,
       });
       uniqueIds.add(video._id);
     }
@@ -118,6 +124,9 @@ export function buildGraph(
         label: workshop.title?.[language] || workshop.title?.es || "???",
         route: workshop.slug?.current,
         nodeType: "workshop",
+        imageUrl: workshop.image
+          ? urlFor(workshop.image).format("webp").width(600).url() + "&fit=max"
+          : undefined,
       });
     }
   });

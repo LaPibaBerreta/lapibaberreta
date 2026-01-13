@@ -4,7 +4,7 @@ import type { GraphNode, GraphLink, SimLink, SimNode } from "./types/Graph";
 import { useNavigate, useLocation } from "react-router";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import { SECTION_IDS } from "../data/constants";
-import { imageSize, nodeStyles, ICONS, distance, line } from "./graphStyle";
+import { nodeStyles, distance, line } from "./graphStyle";
 
 interface Props {
   nodes: GraphNode[];
@@ -15,6 +15,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
+  const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
 
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -93,16 +94,6 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
         g.attr("transform", e.transform);
       }),
     );
-
-    // Optional circular clipping mask for images
-    // const defs = svg.append("defs");
-    // defs
-    //   .append("clipPath")
-    //   .attr("id", "circle-clip")
-    //   .append("circle")
-    //   .attr("r", imageSize / 2)
-    //   .attr("cx", 0)
-    //   .attr("cy", 0);
 
     const simNodes: SimNode[] = nodes.map((n) => ({ ...n }));
     const simLinks: SimLink[] = links.map((l) => ({ ...l }));
@@ -206,11 +197,6 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
     const nodeInner = node.append("g").attr("class", "node-inner");
 
-    // node
-    //   .append("circle")
-    //   .attr("r", ...)
-    //   .attr("fill", ...);
-
     node
       .append("circle")
       .attr("class", "hit-area")
@@ -220,49 +206,22 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
     nodeInner.selectAll("*").attr("pointer-events", "none");
 
+    // -------- ICONS --------
     nodeInner
-      .append("path")
-      .attr("d", (d) => {
-        if (d.nodeType === "hogar") return ICONS.home;
-        if (d.nodeType === "section" && d.referenceType === "oraculo")
-          return ICONS.oracle;
-        if (d.nodeType === "section") return ICONS.section;
-        if (d.nodeType === "publication") return ICONS.publication;
-        if (d.nodeType === "video") return ICONS.video;
-        if (d.nodeType === "workshop") return ICONS.workshop;
-        if (d.nodeType === "videoCategory") return ICONS.videoCategory;
-        if (d.nodeType === "publicationCategory")
-          return ICONS.publicationCategory;
-        return ICONS.home;
-      })
-      .attr("fill", (d) => {
-        if (d.nodeType === "section" && d.referenceType === "oraculo")
-          return nodeStyles.oracle.color;
-        if (d.nodeType === "section") return nodeStyles.section.color;
-        if (d.nodeType === "publication") return nodeStyles.publication.color;
-        if (d.nodeType === "video") return nodeStyles.video.color;
-        if (d.nodeType === "workshop") return nodeStyles.workshop.color;
-        if (d.nodeType === "videoCategory")
-          return nodeStyles.videoCategory.color;
-        if (d.nodeType === "publicationCategory")
-          return nodeStyles.publicationCategory.color;
-        if (d.externalLink) return nodeStyles.externalLink.color;
-        return nodeStyles.hogar.color;
-      })
-      .attr("stroke", "#000")
-      .attr("stroke-width", "0.2")
-      .attr("transform", "scale(1.5) translate(-8, -8)");
-
-    // --- IMAGE ---
-    nodeInner
-      .filter((d) => !!d.imageUrl)
       .append("image")
-      .attr("href", (d) => d.imageUrl!)
-      .attr("width", imageSize)
-      .attr("height", imageSize)
-      .attr("x", -imageSize / 2)
-      .attr("y", -imageSize / 2)
-      .attr("clip-path", "url(#circle-clip)");
+      .attr("href", (d: SimNode) => {
+        if (d.externalLink) return nodeStyles.externalLink?.icon ?? null;
+        return nodeStyles[d.nodeType]?.icon ?? nodeStyles.default?.icon ?? null;
+      })
+      .attr("width", 32)
+      .attr("height", 32)
+      .attr("x", -16)
+      .attr("y", -16)
+      .attr(
+        "transform",
+        (d: SimNode) =>
+          `scale(${nodeStyles[d.nodeType]?.size ?? nodeStyles.default?.size ?? 1})`,
+      );
 
     // -------- LABELS --------
     const labels = g
@@ -270,10 +229,10 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
       .data(simNodes)
       .enter()
       .append("text")
-      .style("font", "14px serif")
+      // .style("font", "14px monospace")
       .text((d) => d.label)
       .attr("font-size", 12)
-      .attr("dy", 55)
+      .attr("dy", 35)
       .attr("text-anchor", "middle")
       .attr("pointer-events", "none");
 
@@ -316,47 +275,24 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     if (!svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
-    const nodesSel = svg.selectAll<SVGGElement, GraphNode>("g.node");
+    const nodesSel = svg.selectAll<SVGGElement, SimNode>("g.node");
 
     const dimOpacity = 0.1;
     const fullOpacity = 1;
 
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     const simulation = simulationRef.current as any;
     const connectedMap: Map<string, Set<string>> | undefined =
       simulation?.__connectedMap;
 
-    function applyStyle(
-      // eslint-disable-next-line
-      selection: d3.Selection<SVGGElement, GraphNode, any, any>,
-    ) {
-      selection.select("path").attr("fill", (d) => {
-        if (d.route === activeId) return nodeStyles.active.color;
-        if (d.id === "hogar") return nodeStyles.hogar.color;
-        if (d.externalLink) return nodeStyles.externalLink.color;
-        if (d.nodeType === "section" && d.referenceType === "oraculo")
-          return nodeStyles.oracle.color;
-        if (d.nodeType === "section") return nodeStyles.section.color;
-        if (d.nodeType === "publication") return nodeStyles.publication.color;
-        if (d.nodeType === "video") return nodeStyles.video.color;
-        if (d.nodeType === "workshop") return nodeStyles.workshop.color;
-        if (d.nodeType === "videoCategory")
-          return nodeStyles.videoCategory.color;
-        if (d.nodeType === "publicationCategory")
-          return nodeStyles.publicationCategory.color;
-        return nodeStyles.hogar.color;
-      });
-    }
-
-    applyStyle(nodesSel);
-
     nodesSel
       .on("mouseover", function (_, d) {
+        setHoveredNode(d);
         if (!connectedMap) return;
 
         const connected = connectedMap.get(d.id!) ?? new Set();
 
-        // ---- NODES ----
+        // ---- DIM / HIGHLIGHT ----
         nodeSelRef.current
           ?.transition()
           .duration(150)
@@ -364,7 +300,6 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
             n.id === d.id || connected.has(n.id!) ? fullOpacity : dimOpacity,
           );
 
-        // ---- LABELS ----
         labelSelRef.current
           ?.transition()
           .duration(150)
@@ -372,7 +307,6 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
             n.id === d.id || connected.has(n.id!) ? fullOpacity : dimOpacity,
           );
 
-        // ---- LINKS ----
         linkSelRef.current
           ?.transition()
           .duration(150)
@@ -391,26 +325,27 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
               : dimOpacity;
           });
 
-        // ---- SCALE ACTIVE NODE ----
+        // ---- SCALE NODE ----
         d3.select(this)
           .select(".node-inner")
           .transition()
           .duration(150)
-          .attr("transform", "scale(1.2)");
+          .attr("transform", "scale(1.5)");
       })
+
       .on("mouseout", function () {
-        // ---- RESET NODES ----
+        setHoveredNode(null);
+        // ---- RESET OPACITY ----
         nodeSelRef.current
           ?.transition()
           .duration(150)
           .style("opacity", fullOpacity);
 
-        // ---- RESET LABELS ----
         labelSelRef.current
           ?.transition()
           .duration(150)
           .style("opacity", fullOpacity);
-        // ---- RESET LINKS ----
+
         linkSelRef.current
           ?.transition()
           .duration(150)
@@ -427,6 +362,19 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
   return (
     <div ref={containerRef} className="h-full w-full">
+      {hoveredNode?.imageUrl &&
+        hoveredNode.x != null &&
+        hoveredNode.y != null && (
+          <div
+            className={`pointer-events-none fixed ${window.innerWidth / 2 > hoveredNode.x ? "right-20" : "left-20"} ${window.innerHeight / 2 > hoveredNode.y ? "top-1/3" : "top-1/5"} `}
+          >
+            <img
+              src={hoveredNode.imageUrl}
+              className="max-h-[50vh] max-w-lg rounded shadow-lg"
+            />
+          </div>
+        )}
+
       <svg ref={svgRef} className="h-full w-full select-none" />
     </div>
   );

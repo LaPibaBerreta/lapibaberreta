@@ -22,16 +22,34 @@ export type GraphCategory = {
   } | null;
 };
 
+export type NodeStyle = {
+  icon?: string;
+  color?: string;
+  size?: number;
+};
+
+export type NodeType =
+  | "home"
+  | "publication"
+  | "video"
+  | "workshop"
+  | "section"
+  | "category"
+  | "externalLink"
+  | "oracle"
+  | "videoCategory"
+  | "publicationCategory";
+
 export type GraphNode = {
   id: string;
   label: string;
   route: string | null;
   externalLink?: boolean;
-  nodeType: string;
+  nodeType: NodeType;
   reference?: string;
   additionalDocument?: string;
   videos?: string[];
-  image?: string;
+  imageUrl?: string;
   referenceType?: string;
   category?: GraphCategory;
 };
