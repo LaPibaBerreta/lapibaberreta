@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import { SECTION_IDS } from "../data/constants";
 import { nodeStyles, distance, line } from "./graphStyle";
+import useIsMobile from "../hooks/useIsMobile";
 
 interface Props {
   nodes: GraphNode[];
@@ -16,6 +17,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
   const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
+  const mobile = useIsMobile();
 
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -362,7 +364,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
   return (
     <div ref={containerRef} className="h-full w-full">
-      {hoveredNode?.imageUrl &&
+      {!mobile &&
+        hoveredNode?.imageUrl &&
         hoveredNode.x != null &&
         hoveredNode.y != null && (
           <div
