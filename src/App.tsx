@@ -25,7 +25,7 @@ function App() {
 
       <GraphSection />
       <ProjectSelectMenu />
-      <div className="fixed top-5 right-5">
+      <div className="fixed top-5 right-5 z-100">
         <LanguageToggle />
       </div>
       <NavMenu />
