@@ -12,7 +12,9 @@ export default function VideoPlayer({ embedData }: { embedData: string }) {
     return (
       <iframe
         src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
-        allow="accelerometer; autoplay; encrypted-media; fullscreen; picture-in-picture"
+        allowFullScreen
+        allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+        className="h-full w-full rounded-2xl bg-black"
       />
     );
   }
@@ -21,7 +23,9 @@ export default function VideoPlayer({ embedData }: { embedData: string }) {
     <>
       <iframe
         src={`https://youtube.com/embed/${videoId}`}
-        allow="accelerometer; autoplay; encrypted-media; fullscreen; picture-in-picture"
+        allowFullScreen
+        allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+        className="h-full w-full rounded-2xl bg-black"
       />
     </>
   );
