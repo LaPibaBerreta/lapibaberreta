@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInitialData } from "../hooks/useInitialData";
 import NavMenuList from "./NavMenuList";
 import type { InitialDataQueryResult } from "../lib/types";
+import useIsMobile from "../hooks/useIsMobile";
 
 type InitialData = NonNullable<InitialDataQueryResult>;
 type Section = NonNullable<InitialData["sections"]>[number];
 
 export default function NavMenu() {
   const { data } = useInitialData();
+  const mobile = useIsMobile();
+
   const [isOpen, setIsOpen] = useState(true);
 
   const sections: Section[] = data?.sections ?? [];
@@ -15,6 +18,11 @@ export default function NavMenu() {
   const firstGroup = sections.filter((section) => section.group === "0");
   const secondGroup = sections.filter((section) => section.group === "1");
   const thirdGroup = sections.filter((section) => section.group === "2");
+
+  useEffect(() => {
+    if (mobile) setIsOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <nav className="_mb-5 _relative pointer-events-none fixed inset-0 z-100 font-mono">
