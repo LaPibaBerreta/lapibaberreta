@@ -23,7 +23,7 @@ const nodeStyles: Partial<Record<NodeType | "default", NodeStyle>> = {
     size: 0.5,
   },
   externalLink: {
-    icon: "icons/external-link.svg",
+    icon: "/icons/external-link.svg",
     color: "#37BDE9aa",
     size: 1,
   },
@@ -39,7 +39,7 @@ const distance = 120;
 const line = {
   color: "#000",
   opacity: 1,
-  width: 0.3,
+  width: 0.5,
 };
 
 export { imageSize, nodeStyles, distance, line };
