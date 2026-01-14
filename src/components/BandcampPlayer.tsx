@@ -13,6 +13,7 @@ export default function BandcampPlayer({ embedData }: { embedData: string }) {
         height={400}
         src={embedUrl}
         seamless
+        className="rounded-t-sm"
       ></iframe>
     </>
   );
