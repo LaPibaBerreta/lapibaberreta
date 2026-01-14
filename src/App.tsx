@@ -11,7 +11,6 @@ import Section from "./components/Section";
 import ProjectSelectMenu from "./components/ProjectSelectMenu";
 import LanguageToggle from "./components/LanguageToggle";
 import PlayerContainer from "./components/PlayerContainer";
-import HomeButton from "./components/HomeButton";
 
 function App() {
   const { data, isLoading, error } = useInitialData();
@@ -30,7 +29,6 @@ function App() {
       </div>
       <NavMenu />
       <PlayerContainer />
-      <HomeButton />
       <div className="pointer-events-none fixed inset-0 flex h-screen w-full items-center justify-center">
         <Routes>
           <Route path="/" />

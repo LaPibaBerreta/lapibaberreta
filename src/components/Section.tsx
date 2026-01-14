@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
-import { Link } from "react-router";
-import { motion } from "motion/react";
+import HomeButton from "./HomeButton";
 
 type Props = {
   children: ReactElement;
@@ -8,15 +7,13 @@ type Props = {
 
 export default function Section({ children }: Props) {
   return (
-    <motion.section
-      drag
-      dragMomentum={false}
-      className="bg-violet-200/00 pointer-events-auto max-h-[90vh] min-w-1/2 overflow-y-auto rounded-2xl p-12 shadow-md backdrop-blur-lg md:max-h-[70vh] md:max-w-[70vw]"
-    >
-      <Link to="/" className="text-4xl">
-        x
-      </Link>
-      {children}
-    </motion.section>
+    <section className="flex h-screen w-full items-center justify-center bg-violet-200/20 backdrop-blur-md">
+      <div className="_md:max-w-[70vw] _backdrop-blur-sm border-accent/20 _overflow-y-auto _max-h-[90vh] pointer-events-auto relative h-screen min-h-1/3 w-full min-w-1/2 rounded-2xl border bg-violet-200/20 shadow-md sm:w-3/4 sm:px-3 md:max-h-[80vh]">
+        <div className="h-screen overflow-y-auto sm:h-[79.8vh] sm:p-6">
+          {children}
+        </div>
+      </div>
+      <HomeButton />
+    </section>
   );
 }
