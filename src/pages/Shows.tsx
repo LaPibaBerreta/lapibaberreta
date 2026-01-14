@@ -1,7 +1,6 @@
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useInfo } from "../hooks/useInfo";
-import { PortableText } from "@portabletext/react";
 import SongkickWidget from "../components/SongkickWidget";
 import useLanguage from "../hooks/useLanguage";
 
@@ -21,18 +20,25 @@ export default function Shows({ section }: { section: Section }) {
   if (infoError) return <div>{infoError?.message}</div>;
 
   return (
-    <section>
+    <section className="flex h-full flex-col items-center justify-center gap-2">
       {section.title?.es && (
-        <h1 className="text-xl">
+        <h2 className="text-2xl uppercase">
           {section.title[language] || section.title.es}
-        </h1>
+        </h2>
       )}
-      {infoData?.bookingInfo?.es && (
-        <PortableText
-          value={infoData.bookingInfo[language] || infoData.bookingInfo.es}
-        />
-      )}
-      <SongkickWidget />
+      <div className="w-full rounded-lg sm:w-250">
+        <SongkickWidget />
+      </div>
+      <div className="mt-8 flex flex-col items-center justify-center">
+        {infoData?.bookingInfo?.es && (
+          <>
+            <h2 className="font-serif text-5xl font-thin">
+              {infoData.bookingInfo[language] || infoData.bookingInfo.es}
+            </h2>
+            <span className="text-xl"> {infoData.bookingContact}</span>
+          </>
+        )}
+      </div>
     </section>
   );
 }

@@ -7,7 +7,8 @@ const infoQuery = defineQuery(`*[_type == "info"][0]{
   email,
   links,
   pressLinks,
-  bookingInfo
+  bookingInfo,
+  bookingContact
 }`);
 
 export async function getInfo() {

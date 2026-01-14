@@ -325,9 +325,10 @@ export type Info = {
     _key: string;
   }>;
   bookingInfo?: {
-    es?: BlockContent;
-    en?: BlockContent;
+    es?: string;
+    en?: string;
   };
+  bookingContact?: string;
 };
 
 export type CadaverExquisito = {
@@ -804,7 +805,7 @@ export type BoardQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/infoQuery.ts
 // Variable: infoQuery
-// Query: *[_type == "info"][0]{  name,  bio,  email,  links,  pressLinks,  bookingInfo}
+// Query: *[_type == "info"][0]{  name,  bio,  email,  links,  pressLinks,  bookingInfo,  bookingContact}
 export type InfoQueryResult = {
   name: string | null;
   bio: {
@@ -839,9 +840,10 @@ export type InfoQueryResult = {
     _key: string;
   }> | null;
   bookingInfo: {
-    es?: BlockContent;
-    en?: BlockContent;
+    es?: string;
+    en?: string;
   } | null;
+  bookingContact: string | null;
 } | null;
 
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
@@ -1845,7 +1847,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
-    "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links,\n  pressLinks,\n  bookingInfo\n}": InfoQueryResult;
+    "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links,\n  pressLinks,\n  bookingInfo,\n  bookingContact\n}": InfoQueryResult;
     "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
