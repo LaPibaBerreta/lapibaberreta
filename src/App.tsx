@@ -21,9 +21,7 @@ function App() {
 
   return (
     <div className="_font-mono flex w-full flex-col items-start">
-      {data?.backgroundImage && (
-        <MainBackground image={data?.backgroundImage} />
-      )}
+      <MainBackground />
 
       <GraphSection />
       <ProjectSelectMenu />
