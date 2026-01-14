@@ -1,13 +1,7 @@
-import type { InitialDataQueryResult } from "@/lib/types";
 import { useBoard } from "../hooks/useBoard";
 import Loading from "../components/Loading";
-import { PortableText } from "@portabletext/react";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function Board({ section }: { section: Section }) {
+export default function Board() {
   const { data, isLoading, error } = useBoard();
 
   if (isLoading) return <Loading />;
@@ -15,10 +9,8 @@ export default function Board({ section }: { section: Section }) {
 
   return (
     <>
-      {section.title && <h1 className="text-xl">{section.title.es}</h1>}
-      {data?.text?.es && <PortableText value={data.text.es} />}
       {data?.embed && (
-        <div className="h-150 w-full rounded-full">
+        <div className="h-screen w-full rounded-full sm:h-175">
           <iframe src={data?.embed} width="100%" height="100%"></iframe>
         </div>
       )}
