@@ -28,11 +28,11 @@ export default function PlayerContainer() {
   }, []);
 
   return (
-    <section className="_items-center _justify-start _bg-green-200 pointer-events-none fixed bottom-0 left-5 z-150 flex w-full">
+    <section className="pointer-events-none fixed bottom-0 left-0 z-150 flex w-full sm:left-5">
       <div
         className={`flex flex-col items-start justify-center transition-all duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "translate-y-100"} pointer-events-none`}
       >
-        <div className="mb-4 flex items-center gap-2">
+        <div className="mb-4 ml-5 flex items-center gap-2 sm:ml-0">
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -40,7 +40,7 @@ export default function PlayerContainer() {
             // whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsExpanded(!isExpanded)}
-            className="_mb-4 pointer-events-auto flex cursor-pointer items-center justify-center rounded-sm border bg-white/90 px-2 py-1 select-none"
+            className="pointer-events-auto flex cursor-pointer items-center justify-center rounded-sm border bg-white/90 px-2 py-1 select-none"
           >
             <Turntable strokeWidth={1} />
             <Music4 size={18} strokeWidth={1} />
