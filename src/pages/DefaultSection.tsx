@@ -9,8 +9,7 @@ export default function DefaultSection({ section }: { section: Section }) {
 
   return (
     <>
-      <h1>default</h1>
-      <div>sección genérica</div>
+      <div>(～￣▽￣)～</div>
     </>
   );
 }

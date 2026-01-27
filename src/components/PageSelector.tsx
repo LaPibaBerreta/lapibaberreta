@@ -15,6 +15,7 @@ import Contact from "../pages/Contact";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useParams } from "react-router";
 import { SECTION_IDS } from "../data/constants";
+import Section from "./Section";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -45,23 +46,66 @@ export default function PageSelector({ section }: { section: Section }) {
 
   if (!ref) return null;
 
+  // Subcategorias
   if (slug && section.reference?._id === SECTION_IDS.PUBLICATIONS) {
-    return <PublicationPage section={section} />;
+    return (
+      <Section>
+        <PublicationPage section={section} />
+      </Section>
+    );
   } else if (slug && section.reference?._id === SECTION_IDS.WORKSHOPS) {
-    return <WorkshopPage section={section} />;
+    return (
+      <Section>
+        <WorkshopPage section={section} />
+      </Section>
+    );
   } else if (slug && section.reference?._id === SECTION_IDS.VIDEOS) {
-    return <VideoPage section={section} />;
+    return (
+      <Section>
+        <VideoPage section={section} />
+      </Section>
+    );
+  }
+
+  if (ref._id === SECTION_IDS.PHOTOS) {
+    return <Photos />;
+  }
+
+  if (ref._id === SECTION_IDS.SHOWS) {
+    return <Shows />;
+  }
+
+  if (ref._id === SECTION_IDS.BOARD) {
+    return <Board />;
   }
 
   if (ref._type === "section") {
     const SectionComponent =
       SECTION_ID_MAP[ref._id as keyof typeof SECTION_ID_MAP];
-    if (SectionComponent) return <SectionComponent section={section} />;
-    return <DefaultSection section={section} />;
+    if (SectionComponent)
+      return (
+        <Section>
+          <SectionComponent section={section} />
+        </Section>
+      );
+    return (
+      <Section>
+        <DefaultSection section={section} />
+      </Section>
+    );
   }
 
   const TypeComponent = TYPE_MAP[ref._type as keyof typeof TYPE_MAP];
-  if (TypeComponent) return <TypeComponent section={section} />;
+  if (TypeComponent)
+    return (
+      <Section>
+        <TypeComponent section={section} />
+      </Section>
+    );
 
-  return <DefaultSection section={section} />;
+  return (
+    <Section>
+      <DefaultSection section={section} />
+    </Section>
+  );
 }

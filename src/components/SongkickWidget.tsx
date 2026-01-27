@@ -50,5 +50,5 @@ export default function SongkickWidget() {
     document.body.appendChild(script);
   }, [location.pathname]);
 
-  return <div ref={containerRef} />;
+  return <div ref={containerRef} className="overflow-hidden rounded-2xl" />;
 }

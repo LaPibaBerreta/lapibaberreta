@@ -1,43 +1,14 @@
-import Loading from "../components/Loading";
-import type { InitialDataQueryResult } from "@/lib/types";
-import { useInfo } from "../hooks/useInfo";
 import SongkickWidget from "../components/SongkickWidget";
-import useLanguage from "../hooks/useLanguage";
+import HomeButton from "../components/HomeButton";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function Shows({ section }: { section: Section }) {
-  const {
-    data: infoData,
-    isLoading: isInfoLoading,
-    error: infoError,
-  } = useInfo();
-  const { language } = useLanguage();
-
-  if (isInfoLoading) return <Loading />;
-  if (infoError) return <div>{infoError?.message}</div>;
-
+export default function Shows() {
   return (
-    <section className="flex h-full flex-col items-center justify-center gap-2">
-      {section.title?.es && (
-        <h2 className="text-2xl uppercase">
-          {section.title[language] || section.title.es}
-        </h2>
-      )}
-      <div className="w-full rounded-lg sm:w-250">
-        <SongkickWidget />
-      </div>
-      <div className="mt-8 flex flex-col items-center justify-center">
-        {infoData?.bookingInfo?.es && (
-          <>
-            <h2 className="font-serif text-5xl font-thin">
-              {infoData.bookingInfo[language] || infoData.bookingInfo.es}
-            </h2>
-            <span className="text-xl"> {infoData.bookingContact}</span>
-          </>
-        )}
+    <section className="flex h-screen w-full items-center justify-center bg-violet-200/20 backdrop-blur-md">
+      <div className="border-accent/20 _bg-violet-200/20 _sm:px-3 _min-h-1/3 _h-screen _min-w-1/2 _sm:w-3/4 _w-full pointer-events-auto relative rounded-2xl border bg-white/50 shadow-md md:max-h-[80vh]">
+        <div className="w-full rounded-2xl sm:w-250">
+          <SongkickWidget />
+        </div>
+        <HomeButton className="absolute -top-6 -right-6" />
       </div>
     </section>
   );

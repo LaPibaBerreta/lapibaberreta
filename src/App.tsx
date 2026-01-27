@@ -6,7 +6,6 @@ import PageSelector from "./components/PageSelector";
 import Loading from "./components/Loading";
 import GraphSection from "./graph/GraphSection";
 import { SECTION_IDS } from "./data/constants";
-import Section from "./components/Section";
 import ProjectSelectMenu from "./components/ProjectSelectMenu";
 import LanguageToggle from "./components/LanguageToggle";
 import PlayerContainer from "./components/PlayerContainer";
@@ -35,11 +34,7 @@ function App() {
             <Route
               key={section.reference?._id}
               path={`/${section.reference?.slug}`}
-              element={
-                <Section>
-                  <PageSelector section={section} />
-                </Section>
-              }
+              element={<PageSelector section={section} />}
             />
           ))}
           {internalLinks
@@ -53,11 +48,7 @@ function App() {
               <Route
                 key={`${section.reference?._id}-detail`}
                 path={`/${section.reference?.slug}/:slug`}
-                element={
-                  <Section>
-                    <PageSelector section={section} />
-                  </Section>
-                }
+                element={<PageSelector section={section} />}
               />
             ))}
         </Routes>

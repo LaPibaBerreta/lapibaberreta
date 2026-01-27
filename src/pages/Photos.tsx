@@ -1,28 +1,22 @@
-import type { InitialDataQueryResult } from "@/lib/types";
 import { usePhotos } from "../hooks/usePhotos";
 import Loading from "../components/Loading";
 import ImageGallery from "../components/ImageGallery";
-import useLanguage from "../hooks/useLanguage";
+import HomeButton from "../components/HomeButton";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function Photos({ section }: { section: Section }) {
+export default function Photos() {
   const { data, isLoading, error } = usePhotos();
-  const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>error.message</div>;
 
   return (
     <>
-      {section.title?.es && (
-        <h1 className="text-xl">
-          {section.title[language] || section.title.es}
-        </h1>
-      )}
-      {data?.imageGallery && <ImageGallery data={data.imageGallery} />}
+      <section className="_backdrop-blur-md pointer-events-auto flex h-screen w-full items-center justify-center bg-violet-200/20">
+        <div className="w-3/4">
+          {data?.imageGallery && <ImageGallery data={data.imageGallery} />}
+          <HomeButton className="absolute top-16 right-16" />
+        </div>
+      </section>
     </>
   );
 }
