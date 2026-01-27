@@ -47,24 +47,33 @@ export default function Videos({ section }: { section: Section }) {
           filteredData.map((video) =>
             video.embed ? (
               <div key={video._id} className="_max-h-80 p-4">
+                <div className="h-55">
+                  <VideoPlayer embedData={video.embed} />
+                </div>
                 <div className="flex flex-col">
-                  {video.category?.name?.es && (
-                    <div className="text-xs">
-                      {video.category.name[language] || video.category.name.es}
-                    </div>
-                  )}
                   <div className="flex flex-col items-start">
                     {video.title?.es && (
                       <h2 className="text-lg">
                         {video.title[language] || video.title.es}
                       </h2>
                     )}
+                    <div className="flex gap-2">
+                      {video.category?.name?.es && (
+                        <div className="text-xs">
+                          {video.category.name[language] ||
+                            video.category.name.es}
+                        </div>
+                      )}
+
+                      {video.detail?.es && (
+                        <div className="border-l pl-2 text-xs">
+                          {video.detail?.[language] || video.detail.es}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <div className="h-55">
-                  <VideoPlayer embedData={video.embed} />
-                </div>
                 {video.text?.es && (
                   <button onClick={() => handleInfoClick(video)}>INFO</button>
                 )}
