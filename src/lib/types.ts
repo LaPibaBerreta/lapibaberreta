@@ -13,6 +13,60 @@
  */
 
 // Source: schema.json
+export type CadaverExquisito = {
+  _id: string;
+  _type: "cadaverExquisito";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: {
+    es?: string;
+    en?: string;
+  };
+  slug?: Slug;
+  text?: {
+    es?: BlockContent;
+    en?: BlockContent;
+  };
+};
+
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "blockquote";
+  listItem?: never;
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+  _key: string;
+}>;
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
 export type Video = {
   _id: string;
   _type: "video";
@@ -54,6 +108,10 @@ export type Video = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "project";
   };
+  detail?: {
+    es?: string;
+    en?: string;
+  };
   section?: {
     _ref: string;
     _type: "reference";
@@ -74,37 +132,6 @@ export type VideoCategory = {
   };
 };
 
-export type BlockContent = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  }>;
-  style?: "normal" | "blockquote";
-  listItem?: never;
-  markDefs?: Array<{
-    href?: string;
-    _type: "link";
-    _key: string;
-  }>;
-  level?: number;
-  _type: "block";
-  _key: string;
-} | {
-  asset?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-  };
-  media?: unknown;
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-  _key: string;
-}>;
-
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
   top?: number;
@@ -119,12 +146,6 @@ export type SanityImageHotspot = {
   y?: number;
   height?: number;
   width?: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
 };
 
 export type BlogPost = {
@@ -215,11 +236,6 @@ export type SiteConfig = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "cadaverExquisito";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "info";
     } | {
       _ref: string;
@@ -231,6 +247,11 @@ export type SiteConfig = {
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "photos";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "contact";
     };
     url?: string;
     isHighlighted?: boolean;
@@ -239,6 +260,35 @@ export type SiteConfig = {
     _type: "navSection";
     _key: string;
   }>;
+};
+
+export type Contact = {
+  _id: string;
+  _type: "contact";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  email?: string;
+  links?: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }>;
+  bookingInfo?: {
+    es?: string;
+    en?: string;
+  };
+  bookingContact?: string;
 };
 
 export type Photos = {
@@ -297,20 +347,6 @@ export type Info = {
     es?: BlockContent;
     en?: BlockContent;
   };
-  email?: string;
-  links?: Array<{
-    title?: {
-      es?: string;
-      en?: string;
-    };
-    url?: string;
-    text?: {
-      es?: string;
-      en?: string;
-    };
-    _type: "link";
-    _key: string;
-  }>;
   pressLinks?: Array<{
     title?: {
       es?: string;
@@ -324,28 +360,6 @@ export type Info = {
     _type: "link";
     _key: string;
   }>;
-  bookingInfo?: {
-    es?: string;
-    en?: string;
-  };
-  bookingContact?: string;
-};
-
-export type CadaverExquisito = {
-  _id: string;
-  _type: "cadaverExquisito";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: {
-    es?: string;
-    en?: string;
-  };
-  slug?: Slug;
-  text?: {
-    es?: BlockContent;
-    en?: BlockContent;
-  };
 };
 
 export type Workshop = {
@@ -450,6 +464,7 @@ export type Publication = {
     en?: BlockContent;
   };
   embed?: string;
+  tracklist?: Array<string>;
   imageGallery?: Array<{
     asset?: {
       _ref: string;
@@ -573,6 +588,7 @@ export type Project = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  color?: string;
   text?: {
     es?: BlockContent;
     en?: BlockContent;
@@ -710,7 +726,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Video | VideoCategory | BlockContent | SanityImageCrop | SanityImageHotspot | Slug | BlogPost | SiteConfig | Photos | Board | Info | CadaverExquisito | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = CadaverExquisito | BlockContent | Slug | Video | VideoCategory | SanityImageCrop | SanityImageHotspot | BlogPost | SiteConfig | Contact | Photos | Board | Info | Workshop | Publication | Oraculo | Project | PublicationCategory | Section | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../lapibaberreta/src/lib/blogPostsQuery.ts
 // Variable: blogPostsQuery
@@ -803,30 +819,12 @@ export type BoardQueryResult = {
   embed: string | null;
 } | null;
 
-// Source: ../lapibaberreta/src/lib/infoQuery.ts
-// Variable: infoQuery
-// Query: *[_type == "info"][0]{  name,  bio,  email,  links,  pressLinks,  bookingInfo,  bookingContact}
-export type InfoQueryResult = {
-  name: string | null;
-  bio: {
-    es?: BlockContent;
-    en?: BlockContent;
-  } | null;
+// Source: ../lapibaberreta/src/lib/contactQuery.ts
+// Variable: contactQuery
+// Query: *[_type == "contact"][0]{  email,  links,  bookingInfo,  bookingContact}
+export type ContactQueryResult = {
   email: string | null;
   links: Array<{
-    title?: {
-      es?: string;
-      en?: string;
-    };
-    url?: string;
-    text?: {
-      es?: string;
-      en?: string;
-    };
-    _type: "link";
-    _key: string;
-  }> | null;
-  pressLinks: Array<{
     title?: {
       es?: string;
       en?: string;
@@ -844,6 +842,30 @@ export type InfoQueryResult = {
     en?: string;
   } | null;
   bookingContact: string | null;
+} | null;
+
+// Source: ../lapibaberreta/src/lib/infoQuery.ts
+// Variable: infoQuery
+// Query: *[_type == "info"][0]{  name,  bio,  pressLinks,}
+export type InfoQueryResult = {
+  name: string | null;
+  bio: {
+    es?: BlockContent;
+    en?: BlockContent;
+  } | null;
+  pressLinks: Array<{
+    title?: {
+      es?: string;
+      en?: string;
+    };
+    url?: string;
+    text?: {
+      es?: string;
+      en?: string;
+    };
+    _type: "link";
+    _key: string;
+  }> | null;
 } | null;
 
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
@@ -894,11 +916,8 @@ export type InitialDataQueryResult = {
       slug: string | null;
     } | {
       _id: string;
-      _type: "cadaverExquisito";
-      title: {
-        es?: string;
-        en?: string;
-      } | null;
+      _type: "contact";
+      title: null;
       slug: string | null;
     } | {
       _id: string;
@@ -1030,7 +1049,7 @@ export type PhotosQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/projectsQuery.ts
 // Variable: projectsQuery
-// Query: *[_type == "project"] | order(_createdAt asc){  _id,  title,  slug,  section,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
+// Query: *[_type == "project"] | order(_createdAt asc){  _id,  title,  slug,  section,  color,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
 export type ProjectsQueryResult = Array<{
   _id: string;
   title: {
@@ -1044,6 +1063,7 @@ export type ProjectsQueryResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "section";
   } | null;
+  color: string | null;
   image: {
     asset?: {
       _ref: string;
@@ -1137,7 +1157,7 @@ export type ProjectsQueryResult = Array<{
 
 // Source: ../lapibaberreta/src/lib/publicationQuery.ts
 // Variable: publicationQuery
-// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
+// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  tracklist,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
 export type PublicationQueryResult = {
   _id: string;
   title: {
@@ -1235,6 +1255,7 @@ export type PublicationQueryResult = {
     }> | null;
   } | null;
   embed: string | null;
+  tracklist: Array<string> | null;
   imageGallery: Array<{
     asset?: {
       _ref: string;
@@ -1434,7 +1455,7 @@ export type SectionSlugQueryResult = Array<{
 
 // Source: ../lapibaberreta/src/lib/videoQuery.ts
 // Variable: videoQuery
-// Query: *[_type == "video" && slug.current == $slug][0]{  _id,  title,  slug,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
+// Query: *[_type == "video" && slug.current == $slug][0]{  _id,  title,  slug,  date,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  detail,}
 export type VideoQueryResult = {
   _id: string;
   title: {
@@ -1520,11 +1541,15 @@ export type VideoQueryResult = {
     }> | null;
   } | null;
   embed: string | null;
+  detail: {
+    es?: string;
+    en?: string;
+  } | null;
 } | null;
 
 // Source: ../lapibaberreta/src/lib/videosQuery.ts
 // Variable: videosQuery
-// Query: *[_type == "video"] | order(date desc){  _id,  title,  slug,  date,  category->{_id, name},  section,  project->{_id},  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,}
+// Query: *[_type == "video"] | order(date desc){  _id,  title,  slug,  date,  category->{_id, name},  section,  project->{_id},  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  detail,}
 export type VideosQueryResult = Array<{
   _id: string;
   title: {
@@ -1626,6 +1651,10 @@ export type VideosQueryResult = Array<{
     }> | null;
   } | null;
   embed: string | null;
+  detail: {
+    es?: string;
+    en?: string;
+  } | null;
 }>;
 
 // Source: ../lapibaberreta/src/lib/workshopQuery.ts
@@ -1847,16 +1876,17 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
-    "*[_type == \"info\"][0]{\n  name,\n  bio,\n  email,\n  links,\n  pressLinks,\n  bookingInfo,\n  bookingContact\n}": InfoQueryResult;
+    "*[_type == \"contact\"][0]{\n  email,\n  links,\n  bookingInfo,\n  bookingContact\n}": ContactQueryResult;
+    "*[_type == \"info\"][0]{\n  name,\n  bio,\n  pressLinks,\n}": InfoQueryResult;
     "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
-    "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
-    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
+    "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  color,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
+    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  tracklist,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
     "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
-    "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideoQueryResult;
-    "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n}": VideosQueryResult;
+    "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  detail,\n}": VideoQueryResult;
+    "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  detail,\n}": VideosQueryResult;
     "*[_type == \"workshop\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopQueryResult;
     "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
   }
