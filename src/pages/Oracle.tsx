@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
+import TiltedCard from "../components/TiltedCard";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -28,40 +29,64 @@ export default function Oracle({ section }: { section: Section }) {
   };
 
   return (
-    <>
+    <div className="flex h-full flex-col items-center justify-center gap-2">
       {section.title && (
         <h1 className="text-xl">
           {section.title.es && (section.title[language] || section.title.es)}
         </h1>
       )}
-      {data?.text?.es && (
-        <PortableText value={data.text[language] || data.text.es} />
+      {currentCard ? (
+        <div
+          key={currentCard._key}
+          className="flex flex-col items-center gap-2"
+        >
+          {currentCard.image && currentCard.title?.es && (
+            <TiltedCard
+              imageSrc={
+                urlFor(currentCard.image).format("webp").width(400).url() +
+                "&fit=max"
+              }
+              altText={currentCard.title[language] || currentCard.title.es}
+              captionText={currentCard.title[language] || currentCard.title.es}
+              containerHeight="300px"
+              containerWidth="300px"
+              imageHeight="300px"
+              imageWidth="300px"
+              rotateAmplitude={19}
+              scaleOnHover={1.25}
+              showMobileWarning={false}
+              showTooltip
+              displayOverlayContent={false}
+              overlayContent={
+                <p className="tilted-card-demo-text">
+                  {currentCard.title[language] || currentCard.title.es}
+                </p>
+              }
+            />
+          )}
+
+          {currentCard.title?.es && (
+            <h2>{currentCard.title[language] || currentCard.title.es}</h2>
+          )}
+          {currentCard.text?.es && (
+            <div className="max-w-prose">
+              <PortableText
+                value={currentCard.text[language] || currentCard.text.es}
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        data?.text?.es && (
+          <div className="max-w-prose text-center">
+            <PortableText value={data.text[language] || data.text.es} />
+          </div>
+        )
       )}
 
       <button className="my-2 border px-2" onClick={handleGetCard}>
         {language === "es" ? "Pedir Carta" : "Ask a Card"}
       </button>
-
-      {currentCard && (
-        <div key={currentCard._key} className="border-2">
-          {currentCard.title?.es && (
-            <h2>{currentCard.title[language] || currentCard.title.es}</h2>
-          )}
-          {currentCard.text?.es && (
-            <PortableText
-              value={currentCard.text[language] || currentCard.text.es}
-            />
-          )}
-          {currentCard.image && (
-            <img
-              src={
-                urlFor(currentCard.image).format("webp").width(400).url() +
-                "&fit=max"
-              }
-            />
-          )}
-        </div>
-      )}
-    </>
+    </div>
   );
 }
