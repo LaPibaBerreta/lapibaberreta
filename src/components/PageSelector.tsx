@@ -11,6 +11,7 @@ import Workshops from "../pages/Workshops";
 import WorkshopPage from "../pages/WorkshopPage";
 import DefaultSection from "../pages/DefaultSection";
 import Photos from "../pages/Photos";
+import Contact from "../pages/Contact";
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useParams } from "react-router";
 import { SECTION_IDS } from "../data/constants";
@@ -35,6 +36,7 @@ const TYPE_MAP = {
   info: InfoPage,
   board: Board,
   photos: Photos,
+  contact: Contact,
 } as const;
 
 export default function PageSelector({ section }: { section: Section }) {
