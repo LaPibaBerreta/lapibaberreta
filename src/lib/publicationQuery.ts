@@ -27,6 +27,7 @@ const publicationQuery = defineQuery(
     },
   },
   embed,
+  tracklist,
   imageGallery,
   videos[]->{
     _id,

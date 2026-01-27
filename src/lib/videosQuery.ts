@@ -28,6 +28,7 @@ const videosQuery = defineQuery(`*[_type == "video"] | order(date desc){
     },
   },
   embed,
+  detail,
 }`);
 
 export async function getVideos() {

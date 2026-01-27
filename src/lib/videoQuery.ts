@@ -25,6 +25,7 @@ const videoQuery = defineQuery(
     },
   },
   embed,
+  detail,
 }`,
 );
 
