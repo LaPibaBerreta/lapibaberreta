@@ -19,7 +19,7 @@ export default function Blog({ section }: { section: Section }) {
   return (
     <section className="my-6">
       {section?.title && (
-        <h1 className="font-bold">
+        <h1 className="text-2xl font-bold">
           {section.title.es ?? (section.title[language] || section.title.es)}
         </h1>
       )}
