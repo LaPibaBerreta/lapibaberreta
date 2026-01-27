@@ -24,11 +24,6 @@ export default function VideoPage({ section }: { section: Section }) {
 
   return (
     <>
-      {video?.title?.es && (
-        <h1 className="text-xl">{video?.title[language] || video.title.es}</h1>
-      )}
-      <p>{video?.date}</p>
-
       {video?.embed && <VideoPlayer embedData={video?.embed} />}
       {video?.text?.es && (
         <PortableText value={video.text[language] || video.text.es} />
