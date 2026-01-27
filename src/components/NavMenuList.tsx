@@ -7,6 +7,7 @@ import useLanguage from "../hooks/useLanguage";
 import type { InitialDataQueryResult, Slug } from "../lib/types";
 import { Brush, Eye } from "lucide-react";
 import type { JSX } from "react";
+import Button from "./ui/Button";
 
 type InitialData = NonNullable<InitialDataQueryResult>;
 type Section = NonNullable<InitialData["sections"]>[number];
@@ -21,78 +22,7 @@ type PublicationsSlug = {
   slug: Slug | null;
 };
 
-function renderSectionLink(
-  section: Section,
-  publicationsSlug: PublicationsSlug | undefined,
-  language: "es" | "en",
-): JSX.Element | null {
-  switch (section?.reference?._type) {
-    case "publication": {
-      if (!publicationsSlug?.slug?.current) return null;
-      if (!section.reference.slug) return null;
-
-      return (
-        <NavLink
-          to={`/${publicationsSlug.slug?.current}/${section.reference.slug}`}
-          className={({ isActive }) =>
-            `bg-accent rounded-xl border px-2 text-white transition-colors ${
-              isActive ? "" : ""
-            }`
-          }
-        >
-          {section.title?.es && (section.title[language] || section.title.es)}
-        </NavLink>
-      );
-    }
-
-    case "board": {
-      return (
-        <NavLink
-          to={`/${section.reference.slug}`}
-          className={({ isActive }) =>
-            `_size-18 flex cursor-pointer items-center justify-center rounded-xl border px-2 transition-colors hover:bg-yellow-400 hover:text-black ${
-              isActive ? "bg-yellow-400 text-black" : "bg-white"
-            }`
-          }
-        >
-          {section.title?.es && (section.title[language] || section.title.es)}
-          <Brush strokeWidth={0.75} size={42} />
-        </NavLink>
-      );
-    }
-
-    case "oraculo": {
-      return (
-        <NavLink
-          to={`/${section.reference.slug}`}
-          className={({ isActive }) =>
-            `flex cursor-pointer items-center justify-center rounded-xl border px-2 transition-colors hover:bg-pink-500 hover:text-white ${
-              isActive ? "bg-pink-500 text-white" : "bg-white"
-            }`
-          }
-        >
-          <Eye strokeWidth={0.75} size={48} />
-          {section.title?.es && (section.title[language] || section.title.es)}
-        </NavLink>
-      );
-    }
-
-    default: {
-      return (
-        <NavLink
-          to={`/${section?.reference?.slug}`}
-          className={({ isActive }) =>
-            `cursor-pointer rounded-xl border px-2 transition-colors hover:bg-black hover:text-white ${
-              isActive ? "bg-black text-white" : "bg-white"
-            }`
-          }
-        >
-          {section.title?.es && (section.title[language] || section.title.es)}
-        </NavLink>
-      );
-    }
-  }
-}
+const MotionNavLink = motion(NavLink);
 
 export default function NavMenuList({ data, className }: NavMenuListProps) {
   const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
@@ -110,22 +40,106 @@ export default function NavMenuList({ data, className }: NavMenuListProps) {
         if (section.isHidden) return null;
 
         return (
-          <motion.li drag key={section.reference?._id || section.url}>
+          <li key={section.reference?._id || section.url}>
             {section.reference
               ? renderSectionLink(section, publicationsSlug, language)
               : section.url && (
-                  <a
-                    href={section.url}
-                    target="_blank"
-                    className="bg-blue-200/30 underline"
-                  >
-                    {section.title?.es &&
-                      (section.title[language] || section.title?.es)}
-                  </a>
+                  <>
+                    <Button
+                      as={motion.a}
+                      href={section.url}
+                      target="_blank"
+                      className="bg-blue-300/60! hover:text-black!"
+                      motion="pop"
+                    >
+                      {section.title?.es &&
+                        (section.title[language] || section.title?.es)}
+                    </Button>
+                  </>
                 )}
-          </motion.li>
+          </li>
         );
       })}
     </ul>
   );
+}
+
+function renderSectionLink(
+  section: Section,
+  publicationsSlug: PublicationsSlug | undefined,
+  language: "es" | "en",
+): JSX.Element | null {
+  switch (section?.reference?._type) {
+    case "publication": {
+      if (!publicationsSlug?.slug?.current) return null;
+      if (!section.reference.slug) return null;
+
+      return (
+        <>
+          <Button
+            as={MotionNavLink}
+            to={`/${publicationsSlug.slug?.current}/${section.reference.slug}`}
+            variant="pinnedPublication"
+            motion="pop"
+          >
+            {section.title?.es && (section.title[language] || section.title.es)}
+          </Button>
+        </>
+      );
+    }
+
+    case "board": {
+      return (
+        <>
+          <Button
+            as={MotionNavLink}
+            to={`/${section.reference.slug}`}
+            motion="pop"
+            className={({ isActive }) =>
+              ` ${isActive ? "bg-accent! text-white" : ""}`
+            }
+          >
+            {section.title?.es && (section.title[language] || section.title.es)}
+
+            <Brush strokeWidth={0.75} size={42} />
+          </Button>
+        </>
+      );
+    }
+
+    case "oraculo": {
+      return (
+        <>
+          <Button
+            as={MotionNavLink}
+            to={`/${section.reference.slug}`}
+            motion="pop"
+            className={({ isActive }) =>
+              ` ${isActive ? "bg-accent! text-white" : ""}`
+            }
+          >
+            <Eye strokeWidth={0.75} size={38} />
+            {section.title?.es && (section.title[language] || section.title.es)}
+          </Button>
+        </>
+      );
+    }
+
+    default: {
+      return (
+        <>
+          <Button
+            as={MotionNavLink}
+            to={`/${section?.reference?.slug}`}
+            motion="pop"
+            className={({ isActive }) =>
+              ` ${isActive ? "bg-accent! text-white" : ""}`
+            }
+          >
+            {section.title?.es && (section.title[language] || section.title.es)}
+          </Button>
+        </>
+      );
+    }
+  }
 }
