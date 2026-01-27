@@ -36,30 +36,43 @@ export default function PublicationPage({ section }: { section: Section }) {
         <p>{data.category.name[language] || data.category.name.es}</p>
       )}
 
-      {data?.mainImage && (
-        <img
-          src={
-            urlFor(data.mainImage).format("webp").width(600).url() + "&fit=max"
-          }
-        />
-      )}
-      {data?.embed && <LoadToPlayerButton data={data.embed} />}
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div>
+          {data?.mainImage && (
+            <img
+              src={
+                urlFor(data.mainImage).format("webp").width(600).url() +
+                "&fit=max"
+              }
+            />
+          )}
+        </div>
+        <div>
+          {data?.embed && <LoadToPlayerButton data={data.embed} />}
 
-      {data?.text?.es && (
-        <PortableText value={data.text[language] || data.text.es} />
-      )}
-      {data?.links?.length &&
-        data.links.map((link) => (
-          <a
-            key={link._key}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            {link.title?.es && (link.title[language] || link.title.es)}
-          </a>
-        ))}
+          {data?.tracklist?.length &&
+            data.tracklist.map((track, index) => {
+              return <li key={index + track}>{track}</li>;
+            })}
+
+          {data?.text?.es && (
+            <PortableText value={data.text[language] || data.text.es} />
+          )}
+          {data?.links?.length &&
+            data.links.map((link) => (
+              <a
+                key={link._key}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                {link.title?.es && (link.title[language] || link.title.es)}
+              </a>
+            ))}
+        </div>
+      </div>
+
       {data?.imageGallery?.length && <ImageGallery data={data.imageGallery} />}
 
       {data?.videos?.length &&
