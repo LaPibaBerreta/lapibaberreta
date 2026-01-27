@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router";
 import { useInitialData } from "./hooks/useInitialData";
 import NavMenu from "./components/NavMenu";
 import MainBackground from "./components/MainBackground";
-// import Home from "./pages/Home";
 import PageSelector from "./components/PageSelector";
 import Loading from "./components/Loading";
 import GraphSection from "./graph/GraphSection";
@@ -31,7 +30,7 @@ function App() {
       <PlayerContainer />
       <div className="pointer-events-none fixed inset-0 flex h-screen w-full items-center justify-center">
         <Routes>
-          <Route path="/" />
+          <Route path="/" element={null} />
           {internalLinks?.map((section) => (
             <Route
               key={section.reference?._id}
