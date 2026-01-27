@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useProjects } from "../hooks/useProjects";
 import useFilterByProject from "../hooks/useFilterByProject";
 import useLanguage from "../hooks/useLanguage";
+import Button from "./ui/Button";
 
 import { X } from "lucide-react";
 import { motion } from "motion/react";
@@ -21,6 +22,10 @@ export default function ProjectSelectMenu() {
 
   if (projectsLoading) return <div>...</div>;
   if (projectsError) return <div>{projectsError?.message}</div>;
+
+  const selected = selectedProject
+    ? projectsData?.find((p) => p._id === selectedProject)
+    : undefined;
 
   return (
     <>
@@ -46,16 +51,11 @@ export default function ProjectSelectMenu() {
                     ) : (
                       "projects"
                     )
-                  ) : selectedProject ? (
-                    projectsData.find(
-                      (project) => project._id === selectedProject,
-                    ).title?.[language] ||
-                    projectsData.find(
-                      (project) => project._id === selectedProject,
-                    ).title?.es
+                  ) : selected ? (
+                    selected.title?.[language] || selected.title?.es
                   ) : (
                     <div>
-                      {projectsData?.[0].title[language] ||
+                      {projectsData?.[0].title?.[language] ||
                         projectsData?.[0].title?.es}
                     </div>
                   )}
@@ -93,13 +93,7 @@ export default function ProjectSelectMenu() {
                   key={project._id}
                   className="pointer-events-auto flex items-center gap-1 text-2xl"
                 >
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    whileHover={{ scale: 1.025 }}
-                    whileTap={{ scale: 0.985 }}
-                    className={`min-w-12 cursor-pointer rounded-4xl border px-2 transition-colors hover:bg-black hover:text-white ${selectedProject === project._id ? "bg-black text-white" : "bg-white"}`}
+                  <Button
                     onClick={() => {
                       setSelectedProject(project._id);
                       setIsExpanded(false);
@@ -107,44 +101,59 @@ export default function ProjectSelectMenu() {
                   >
                     {project.title?.es &&
                       (project.title[language] || project.title?.es)}
-                  </motion.button>
+                  </Button>
                 </div>
               ))}
           </div>
         </>
       ) : (
-        <div className="pointer-events-none fixed top-5 left-5 z-100 flex flex-col gap-2 font-mono text-xs font-thin sm:flex-row">
+        <div className="font-display pointer-events-none fixed top-5 left-5 z-100 flex flex-col gap-2 sm:flex-row">
           {projectsData &&
-            projectsData.map((project) => (
+            projectsData.map((project, index) => (
               <div
                 key={project._id}
-                className="pointer-events-auto flex items-center gap-1 text-2xl"
+                className="pointer-events-auto flex items-center gap-1"
               >
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  whileHover={{ scale: 1.025 }}
-                  whileTap={{ scale: 0.985 }}
-                  className={`min-w-12 cursor-pointer rounded-4xl border px-2 transition-colors hover:bg-black hover:text-white ${selectedProject === project._id ? "bg-black text-white" : "bg-white"}`}
-                  onClick={() => {
-                    setSelectedProject(project._id);
-                  }}
-                >
-                  {project.title?.es &&
-                    (project.title[language] || project.title?.es)}
-                </motion.button>
+                <div className="flex items-center">
+                  <div
+                    className={`size-2 rounded-full`}
+                    style={{ background: "#" + project.color }}
+                  />
+                  <Button
+                    motion="pop"
+                    onClick={() => {
+                      setSelectedProject(project._id);
+                    }}
+                    className={`text-2xl font-black uppercase ${
+                      selectedProject === project._id
+                        ? "bg-accent! text-white!"
+                        : ""
+                    } ${index === 0 ? "shadow-accent" : ""} `}
+                  >
+                    {project.title?.es &&
+                      (project.title[language] || project.title?.es)}
+                  </Button>
+                </div>
               </div>
             ))}
           {selectedProject && (
-            <div className="pointer-events-auto flex items-center gap-1 text-2xl">
+            <div className="pointer-events-auto flex items-center">
+              {/* <Button */}
+              {/*   onClick={() => { */}
+              {/*     setSelectedProject(null); */}
+              {/*   }} */}
+              {/*   className="size-10 h-10! w-10! rounded-full p-0!" */}
+              {/* > */}
+              {/*   <X strokeWidth={1.5} size={26} /> */}
+              {/* </Button> */}
+
               <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className={`_min-w-12 _hover:bg-black _hover:text-white cursor-pointer rounded-4xl border bg-white/40 transition-colors`}
+                className={`cursor-pointer rounded-4xl border bg-white/40 transition-colors`}
                 onClick={() => {
                   setSelectedProject(null);
                 }}

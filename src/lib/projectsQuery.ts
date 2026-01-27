@@ -7,6 +7,7 @@ const projectsQuery =
   title,
   slug,
   section,
+  color,
   image,
   text{
     es[]{
