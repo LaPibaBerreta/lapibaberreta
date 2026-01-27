@@ -33,23 +33,24 @@ export default function Workshops({ section }: { section: Section }) {
       <div className="flex gap-2">
         {data &&
           data.map((workshop) => (
-            <div key={workshop._id} className="border p-4">
+            <div key={workshop._id} className="p-4">
               <NavLink
                 to={`/${workshopsSection?.reference?.slug}/${workshop.slug?.current}`}
               >
-                <h2>
-                  {workshop.title?.es &&
-                    (workshop.title[language] || workshop.title.es)}
-                </h2>
-                {workshop.date && <p>{workshop.date}</p>}
                 {workshop.image && (
                   <img
+                    className="rounded-2xl"
                     src={
                       urlFor(workshop.image).format("webp").width(400).url() +
                       "&fit=max"
                     }
                   />
                 )}
+                <h2>
+                  {workshop.title?.es &&
+                    (workshop.title[language] || workshop.title.es)}
+                </h2>
+                {workshop.date && <p>{workshop.date}</p>}
               </NavLink>
             </div>
           ))}
