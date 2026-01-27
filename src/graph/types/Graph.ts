@@ -36,9 +36,18 @@ export type NodeType =
   | "section"
   | "category"
   | "externalLink"
-  | "oracle"
   | "videoCategory"
   | "publicationCategory";
+
+export type SectionType =
+  | "photos"
+  | "videos"
+  | "blog"
+  | "shows"
+  | "info"
+  | "oracle"
+  | "workshops"
+  | "board";
 
 export type GraphNode = {
   id: string;

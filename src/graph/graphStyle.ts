@@ -1,8 +1,10 @@
-import type { NodeType, NodeStyle } from "./types/Graph";
+import type { NodeType, NodeStyle, SectionType } from "./types/Graph";
 
 const imageSize = 80;
 
-const nodeStyles: Partial<Record<NodeType | "default", NodeStyle>> = {
+type NodeStyleKey = NodeType | SectionType | "default";
+
+const nodeStyles: Partial<Record<NodeStyleKey, NodeStyle>> = {
   home: { icon: "/icons/home.svg", color: "#fb3640", size: 2 },
   publication: {
     icon: "/icons/publication.svg",
@@ -29,17 +31,27 @@ const nodeStyles: Partial<Record<NodeType | "default", NodeStyle>> = {
   },
   default: { icon: "/icons/default.svg", size: 1 },
 
+  photos: { icon: "/icons/photos.svg", size: 1 },
+  videos: { icon: "/icons/videos.svg", size: 1 },
+  blog: { icon: "/icons/blog.svg", size: 1 },
+  shows: { icon: "/icons/shows.svg", size: 1 },
+  info: { icon: "/icons/info.svg", size: 1 },
+  workshops: { icon: "/icons/workshops.svg", size: 1 },
+  board: { icon: "/icons/board.svg", size: 1 },
+  oracle: { icon: "/icons/oracle.svg", color: "#e086d3", size: 1 },
+
   // active: { icon: "/icons/home.svg", color: "#fb3640", size: 26 },
   // hover: { color: "#bce784", size: 14 },
-  // oracle: { color: "#e086d3", size: 0 },
 };
 
 const distance = 120;
 
 const line = {
+  // color: "#ff1e12",
   color: "#000",
   opacity: 1,
-  width: 0.5,
+  width: 0.75,
+  // width: 1,
 };
 
 export { imageSize, nodeStyles, distance, line };

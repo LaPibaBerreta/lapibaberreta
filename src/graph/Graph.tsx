@@ -12,6 +12,31 @@ interface Props {
   links: GraphLink[];
 }
 
+function getNodeIcon(d: SimNode): string | null {
+  if (d.externalLink) return nodeStyles.externalLink?.icon ?? null;
+
+  switch (d.id) {
+    case SECTION_IDS.VIDEOS:
+      return nodeStyles.videos?.icon ?? null;
+    case SECTION_IDS.PHOTOS:
+      return nodeStyles.photos?.icon ?? null;
+    case SECTION_IDS.BLOG:
+      return nodeStyles.blog?.icon ?? null;
+    case SECTION_IDS.SHOWS:
+      return nodeStyles.shows?.icon ?? null;
+    case SECTION_IDS.INFO:
+      return nodeStyles.info?.icon ?? null;
+    case SECTION_IDS.WORKSHOPS:
+      return nodeStyles.workshops?.icon ?? null;
+    case SECTION_IDS.BOARD:
+      return nodeStyles.board?.icon ?? null;
+    case SECTION_IDS.ORACLE:
+      return nodeStyles.oracle?.icon ?? null;
+  }
+
+  return nodeStyles[d.nodeType]?.icon ?? nodeStyles.default?.icon ?? null;
+}
+
 export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -211,10 +236,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     // -------- ICONS --------
     nodeInner
       .append("image")
-      .attr("href", (d: SimNode) => {
-        if (d.externalLink) return nodeStyles.externalLink?.icon ?? null;
-        return nodeStyles[d.nodeType]?.icon ?? nodeStyles.default?.icon ?? null;
-      })
+      .attr("href", getNodeIcon)
       .attr("width", 32)
       .attr("height", 32)
       .attr("x", -16)
