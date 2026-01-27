@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useInitialData } from "../hooks/useInitialData";
 import NavMenuList from "./NavMenuList";
 import type { InitialDataQueryResult } from "../lib/types";
-import { SquareMenu, SquareX } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import useIsMobile from "../hooks/useIsMobile";
 import { motion } from "motion/react";
 import { useLocation } from "react-router";
@@ -14,7 +14,7 @@ export default function NavMenu() {
   const { data } = useInitialData();
   const mobile = useIsMobile();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const sections: Section[] = data?.sections ?? [];
 
@@ -29,49 +29,50 @@ export default function NavMenu() {
   }, [location]);
 
   return (
-    <nav className="pointer-events-none fixed inset-0 z-100 font-mono">
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        className="pointer-events-auto fixed right-5 bottom-5 z-100 flex cursor-pointer items-center justify-center rounded-md"
-      >
-        {!isOpen ? (
-          <SquareMenu size={42} strokeWidth={0.75} fill="white" />
-        ) : (
-          <SquareX size={42} strokeWidth={0.75} fill="white" />
-        )}
-      </motion.button>
+    <nav className="font-body pointer-events-none fixed inset-0 z-100">
+      {mobile && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+          className="border-accent/20 pointer-events-auto fixed right-5 bottom-5 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full border bg-white/60"
+        >
+          {!isOpen ? (
+            <Menu size={36} strokeWidth={1} />
+          ) : (
+            <X strokeWidth={1} size={42} />
+          )}
+        </motion.button>
+      )}
+
       {!mobile ? (
-        isOpen ? (
-          <ul className="mr-30 flex w-full flex-col items-center justify-center gap-3 text-lg sm:flex-row">
-            {firstGroup?.length && (
-              <NavMenuList
-                data={firstGroup}
-                className="pointer-events-auto fixed top-20 left-5"
-              />
-            )}
+        <ul className="mr-30 flex w-full flex-col items-center justify-center gap-3 text-lg sm:flex-row">
+          {firstGroup?.length && (
+            <NavMenuList
+              data={firstGroup}
+              className="pointer-events-auto fixed top-20 left-5 flex flex-col gap-2"
+            />
+          )}
 
-            {secondGroup?.length && (
-              <NavMenuList
-                data={secondGroup}
-                className="pointer-events-auto fixed right-20 bottom-5 flex gap-2"
-              />
-            )}
+          {secondGroup?.length && (
+            <NavMenuList
+              data={secondGroup}
+              className="pointer-events-auto fixed right-5 bottom-5 flex gap-2"
+            />
+          )}
 
-            {thirdGroup?.length && (
-              <NavMenuList
-                data={thirdGroup}
-                className="pointer-events-auto fixed top-1/2 right-5 flex flex-col gap-2 text-end"
-              />
-            )}
-          </ul>
-        ) : null
+          {thirdGroup?.length && (
+            <NavMenuList
+              data={thirdGroup}
+              className="pointer-events-auto fixed top-1/2 right-5 flex flex-col gap-2 text-end"
+            />
+          )}
+        </ul>
       ) : isOpen ? (
         sections.length && (
           <NavMenuList
