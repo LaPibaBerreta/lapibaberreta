@@ -3,7 +3,6 @@ import { useInfo } from "../hooks/useInfo";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import useLanguage from "../hooks/useLanguage";
-import ContactForm from "../components/ContactForm";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -24,34 +23,29 @@ export default function InfoPage({ section }: { section: Section }) {
         </h1>
       )}
       {data?.bio?.es && (
-        <PortableText value={data.bio[language] || data.bio.es} />
+        <div className="">
+          <PortableText value={data.bio[language] || data.bio.es} />
+        </div>
       )}
-      {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
-      {data?.links?.length &&
-        data.links.map((link) => (
-          <a
-            key={link._key}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            {link.title?.es && (link.title[language] || link.title.es)}
-          </a>
-        ))}
-      {data?.pressLinks?.length &&
-        data.pressLinks.map((link) => (
-          <a
-            key={link._key}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            {link.title?.es && (link.title[language] || link.title.es)}
-          </a>
-        ))}
-      <ContactForm />
+      {data?.pressLinks?.length && (
+        <ul className="my-4 flex flex-wrap gap-2">
+          {data.pressLinks.map((link) => (
+            <li
+              key={link._key}
+              className="border-accent/40 rounded-2xl border px-2 whitespace-nowrap"
+            >
+              <a
+                key={link._key}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.title?.es && (link.title[language] || link.title.es)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }
