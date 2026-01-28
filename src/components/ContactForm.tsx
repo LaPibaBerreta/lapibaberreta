@@ -30,13 +30,13 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="w-3/4 max-w-prose py-8 sm:w-full">
+    <div className="w-3/4 max-w-prose py-8 font-mono sm:w-full">
       <form className="flex flex-col gap-2" onSubmit={onSubmit}>
         <label className="text-base" htmlFor="name">
           {language === "es" ? "Nombre" : "Name"}
         </label>
         <input
-          className="border-text bg-background border px-2 py-1"
+          className="border-text rounded-xl border bg-white/40 px-2 py-1"
           type="text"
           name="name"
           required
@@ -46,7 +46,7 @@ export default function ContactForm() {
           E-mail
         </label>
         <input
-          className="border-text bg-background border px-2 py-1"
+          className="border-text rounded-xl border bg-white/40 px-2 py-1"
           type="email"
           name="email"
           required
@@ -56,13 +56,13 @@ export default function ContactForm() {
           {language === "es" ? "Mensaje" : "Message"}
         </label>
         <textarea
-          className="border-text bg-background min-h-48 border px-2 py-1"
+          className="border-text min-h-48 rounded-xl border bg-white/40 px-2 py-1"
           name="message"
           required
         ></textarea>
 
         <button
-          className="border-text bg-text text-background hover:border-accent hover:bg-accent mt-4 border p-1"
+          className="border-text _text-background hover:border-accent hover:bg-accent mt-4 cursor-pointer self-center rounded-xl border bg-white/40 p-1 px-2 hover:text-white"
           type="submit"
         >
           {language === "es" ? "Enviar" : "Send"}
