@@ -1,7 +1,6 @@
 import type { InitialDataQueryResult } from "@/lib/types";
 import { useContact } from "../hooks/useContact";
 import Loading from "../components/Loading";
-// import { PortableText } from "@portabletext/react";
 import useLanguage from "../hooks/useLanguage";
 import ContactForm from "../components/ContactForm";
 
@@ -26,6 +25,9 @@ export default function Contact({ section }: { section: Section }) {
 
       <ContactForm />
 
+      {data?.bookingInfo?.es && (
+        <p>{data.bookingInfo.es || data.bookingInfo[language]}</p>
+      )}
       {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
 
       {data?.links?.length && (
