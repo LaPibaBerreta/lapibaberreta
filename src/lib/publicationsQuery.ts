@@ -10,7 +10,7 @@ const publicationsQuery =
   date,
   category->{_id, name},
   section,
-  project->{_id},
+  project->{_id, color},
   mainImage,
   text{
     es[]{

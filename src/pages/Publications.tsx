@@ -8,6 +8,8 @@ import { SECTION_IDS } from "../data/constants";
 import useFilterByProject from "../hooks/useFilterByProject";
 import useLanguage from "../hooks/useLanguage";
 import { useProjects } from "../hooks/useProjects";
+import { motion } from "motion/react";
+import ProjectIndicator from "../components/ProjectIndicator";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -59,10 +61,15 @@ export default function Publications({ section }: { section: Section }) {
       {fullTitle && (
         <h1 className="font-mono text-xl font-thin uppercase">{fullTitle}</h1>
       )}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (
-            <div key={publication._id} className="_border _p-4 rounded-2xl">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              key={publication._id}
+              className="_border _p-4 rounded-2xl"
+            >
               <NavLink
                 to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
               >
@@ -79,17 +86,25 @@ export default function Publications({ section }: { section: Section }) {
                   />
                 )}
                 {publication.title?.es && (
-                  <h2>{publication.title[language] || publication.title.es}</h2>
+                  <h2 className="font-bold">
+                    {publication.title[language] || publication.title.es}
+                  </h2>
                 )}
-                {publication.date && <p>{publication.date}</p>}
+                {/* {publication.date && <p>{publication.date}</p>} */}
                 {publication.category?.name?.es && (
-                  <div className="text-xs">
-                    {publication.category.name[language] ||
-                      publication.category.name.es}
+                  <div className="flex items-baseline gap-2">
+                    <ProjectIndicator
+                      color={publication?.project?.color || "000"}
+                    />
+
+                    <div className="text-xs">
+                      {publication.category.name[language] ||
+                        publication.category.name.es}
+                    </div>
                   </div>
                 )}
               </NavLink>
-            </div>
+            </motion.div>
           ))
         ) : language === "es" ? (
           <p>

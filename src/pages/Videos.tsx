@@ -7,6 +7,7 @@ import useFilterByProject from "../hooks/useFilterByProject";
 import useLanguage from "../hooks/useLanguage";
 import { useProjects } from "../hooks/useProjects";
 import VideoInfoPanel from "../components/VideoInfoPanel";
+import ProjectIndicator from "../components/ProjectIndicator";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -77,7 +78,10 @@ export default function Videos({ section }: { section: Section }) {
                         {video.title[language] || video.title.es}
                       </h2>
                     )}
-                    <div className="flex gap-2">
+                    <div className="flex items-baseline gap-2">
+                      <ProjectIndicator
+                        color={video?.project?.color || "000"}
+                      />
                       {video.category?.name?.es && (
                         <div className="text-xs">
                           {video.category.name[language] ||

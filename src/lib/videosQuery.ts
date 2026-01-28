@@ -9,7 +9,7 @@ const videosQuery = defineQuery(`*[_type == "video"] | order(date desc){
   date,
   category->{_id, name},
   section,
-  project->{_id},
+  project->{_id, color},
   image,
   text{
     es[]{
