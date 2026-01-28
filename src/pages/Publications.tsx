@@ -32,20 +32,52 @@ export default function Publications({ section }: { section: Section }) {
   if (isLoading || projectsDataLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
+  const selectedProjectData = projectsData?.find(
+    (project) => project._id === selectedProject,
+  );
+
+  const sectionTitle = section.title?.[language] || section.title?.es;
+
+  const projectTitle =
+    selectedProjectData?.title?.[language] || selectedProjectData?.title?.es;
+
+  let fullTitle: string | null = null;
+
+  if (sectionTitle) {
+    if (!projectTitle) {
+      fullTitle = (language === "es" ? "Todas las " : "All ") + sectionTitle;
+    } else {
+      fullTitle =
+        language === "en"
+          ? `${projectTitle} ${sectionTitle}`
+          : `${sectionTitle} de ${projectTitle}`;
+    }
+  }
+
   return (
     <section className="flex flex-col gap-2">
-      {section.title?.es && (
-        <h1 className="text-xl">
-          {section.title[language] || section.title.es}
-        </h1>
+      {fullTitle && (
+        <h1 className="font-mono text-xl font-thin uppercase">{fullTitle}</h1>
       )}
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (
             <div key={publication._id} className="_border _p-4 rounded-2xl">
               <NavLink
                 to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
               >
+                {publication.mainImage && (
+                  <img
+                    className="rounded-2xl"
+                    src={
+                      urlFor(publication.mainImage)
+                        .format("webp")
+                        .width(400)
+                        .height(400)
+                        .url() + "&fit=max"
+                    }
+                  />
+                )}
                 {publication.title?.es && (
                   <h2>{publication.title[language] || publication.title.es}</h2>
                 )}
@@ -55,16 +87,6 @@ export default function Publications({ section }: { section: Section }) {
                     {publication.category.name[language] ||
                       publication.category.name.es}
                   </div>
-                )}
-                {publication.mainImage && (
-                  <img
-                    src={
-                      urlFor(publication.mainImage)
-                        .format("webp")
-                        .width(400)
-                        .url() + "&fit=max"
-                    }
-                  />
                 )}
               </NavLink>
             </div>
