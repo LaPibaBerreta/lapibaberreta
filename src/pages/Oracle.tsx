@@ -48,14 +48,14 @@ export default function Oracle({ section }: { section: Section }) {
               }
               altText={currentCard.title[language] || currentCard.title.es}
               captionText={currentCard.title[language] || currentCard.title.es}
-              containerHeight="300px"
-              containerWidth="300px"
-              imageHeight="300px"
-              imageWidth="300px"
+              containerHeight="350px"
+              containerWidth="350px"
+              imageHeight="350px"
+              imageWidth="350px"
               rotateAmplitude={19}
               scaleOnHover={1.25}
               showMobileWarning={false}
-              showTooltip
+              showTooltip={false}
               displayOverlayContent={false}
               overlayContent={
                 <p className="tilted-card-demo-text">
