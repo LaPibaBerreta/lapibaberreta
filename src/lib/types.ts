@@ -260,6 +260,7 @@ export type SiteConfig = {
     _type: "navSection";
     _key: string;
   }>;
+  embed?: string;
 };
 
 export type Contact = {
@@ -870,7 +871,7 @@ export type InfoQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/initialDataQuery.ts
 // Variable: initialDataQuery
-// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    isHidden,    url,    icon,    group,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },}
+// Query: *[_type == "siteConfig"][0]{  title,  backgroundImage,  sections[]{    title,    isHighlighted,    isHidden,    url,    icon,    group,    reference->{      _id,      _type,      title,      "slug": slug.current    }  },  embed,}
 export type InitialDataQueryResult = {
   title: string | null;
   backgroundImage: {
@@ -971,6 +972,7 @@ export type InitialDataQueryResult = {
       slug: string | null;
     } | null;
   }> | null;
+  embed: string | null;
 } | null;
 
 // Source: ../lapibaberreta/src/lib/oraculoQuery.ts
@@ -1878,7 +1880,7 @@ declare module "@sanity/client" {
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
     "*[_type == \"contact\"][0]{\n  email,\n  links,\n  bookingInfo,\n  bookingContact\n}": ContactQueryResult;
     "*[_type == \"info\"][0]{\n  name,\n  bio,\n  pressLinks,\n}": InfoQueryResult;
-    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n}": InitialDataQueryResult;
+    "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n  embed,\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  color,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;

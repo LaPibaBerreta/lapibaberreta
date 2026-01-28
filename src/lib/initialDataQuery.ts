@@ -19,6 +19,7 @@ const initialDataQuery = defineQuery(`*[_type == "siteConfig"][0]{
       "slug": slug.current
     }
   },
+  embed,
 }`);
 
 export async function getInitialData() {

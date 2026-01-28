@@ -1,31 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import BandcampPlayer from "./BandcampPlayer";
 import usePlayer from "../hooks/usePlayer";
-import useLanguage from "../hooks/useLanguage";
-import { Turntable, Music4 } from "lucide-react";
+import { Music4 } from "lucide-react";
 import { motion } from "motion/react";
+import { useInitialData } from "../hooks/useInitialData";
 
 export default function PlayerContainer() {
-  const { currentEmbed, isExpanded, setIsExpanded } = usePlayer();
-  const { language } = useLanguage();
-  const [explainer, setExplainer] = useState(true);
-
-  const buttonText = {
-    show: {
-      es: "mostrar reproductor",
-      en: "show player",
-    },
-    hide: {
-      es: "esconder reproductor",
-      en: "hide player",
-    },
-  };
+  const { setCurrentEmbed, currentEmbed, isExpanded, setIsExpanded } =
+    usePlayer();
+  const { data } = useInitialData();
 
   useEffect(() => {
-    setTimeout(() => {
-      setExplainer(false);
-    }, 6000);
-  }, []);
+    if (!currentEmbed && data?.embed) {
+      setCurrentEmbed(data.embed);
+    }
+  }, [data?.embed, currentEmbed, setCurrentEmbed]);
 
   return (
     <section className="pointer-events-none fixed bottom-0 left-0 z-150 flex w-full sm:left-5">
@@ -37,21 +26,12 @@ export default function PlayerContainer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            // whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsExpanded(!isExpanded)}
-            className="pointer-events-auto flex cursor-pointer items-center justify-center rounded-sm border bg-white/90 px-2 py-1 select-none"
+            className="pointer-events-auto flex size-10 cursor-pointer items-center justify-center rounded-full border bg-white/90 px-2 py-1 select-none"
           >
-            <Turntable strokeWidth={1} />
-            <Music4 size={18} strokeWidth={1} />
+            <Music4 size={20} strokeWidth={1.25} />
           </motion.button>
-          {explainer && (
-            <div className="rounded-sm bg-white/20 px-1 text-xs">
-              {isExpanded
-                ? buttonText.hide[language]
-                : buttonText.show[language]}
-            </div>
-          )}
         </div>
         <div className="pointer-events-auto w-full rounded-t-sm bg-black">
           {currentEmbed && <BandcampPlayer embedData={currentEmbed} />}
