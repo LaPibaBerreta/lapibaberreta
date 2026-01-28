@@ -35,12 +35,32 @@ export default function Videos({ section }: { section: Section }) {
   if (isLoading || projectsDataLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
+  const selectedProjectData = projectsData?.find(
+    (project) => project._id === selectedProject,
+  );
+
+  const sectionTitle = section.title?.[language] || section.title?.es;
+
+  const projectTitle =
+    selectedProjectData?.title?.[language] || selectedProjectData?.title?.es;
+
+  let fullTitle: string | null = null;
+
+  if (sectionTitle) {
+    if (!projectTitle) {
+      fullTitle = (language === "es" ? "Todos los " : "All ") + sectionTitle;
+    } else {
+      fullTitle =
+        language === "en"
+          ? `${projectTitle} ${sectionTitle}`
+          : `${sectionTitle} de ${projectTitle}`;
+    }
+  }
+
   return (
     <>
-      {section.title?.es && (
-        <h1 className="text-xl">
-          {section.title[language] || section.title.es}
-        </h1>
+      {fullTitle && (
+        <h1 className="font-mono text-xl font-thin uppercase">{fullTitle}</h1>
       )}
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
         {filteredData?.length ? (
