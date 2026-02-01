@@ -44,7 +44,7 @@ const nodeStyles: Partial<Record<NodeStyleKey, NodeStyle>> = {
   // hover: { color: "#bce784", size: 14 },
 };
 
-const distance = 120;
+const distance = 80;
 
 const line = {
   // color: "#ff1e12",
