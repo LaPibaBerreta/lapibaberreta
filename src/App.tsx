@@ -1,15 +1,12 @@
 import { Routes, Route, useLocation } from "react-router";
 import { useInitialData } from "./hooks/useInitialData";
-import NavMenu from "./components/NavMenu";
 import MainBackground from "./components/MainBackground";
 import PageSelector from "./components/PageSelector";
 import Loading from "./components/Loading";
 import GraphSection from "./graph/GraphSection";
 import { SECTION_IDS } from "./data/constants";
-import ProjectSelectMenu from "./components/ProjectSelectMenu";
-import LanguageToggle from "./components/LanguageToggle";
-import PlayerContainer from "./components/PlayerContainer";
 import { AnimatePresence } from "motion/react";
+import Overlay from "./components/Overlay";
 
 function App() {
   const location = useLocation();
@@ -21,14 +18,8 @@ function App() {
   return (
     <div className="flex w-full flex-col items-start">
       <MainBackground />
-
       <GraphSection />
-      <ProjectSelectMenu />
-      <div className="fixed top-5 right-5 z-100">
-        <LanguageToggle />
-      </div>
-      <NavMenu />
-      <PlayerContainer />
+      <Overlay />
       <div className="pointer-events-none fixed inset-0 flex h-screen w-full items-center justify-center">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
