@@ -30,17 +30,18 @@ export default function ProjectSelectMenu() {
       : `linear-gradient(
         90deg,
         ${projectsData
-          ?.filter((p) => p.color)
-          .map((p) => `#${p.color}`)
-          .join(", ")}
+        ?.filter((p) => p.color)
+        .map((p) => `#${p.color}`)
+        .join(", ")}
       )`;
 
   return (
     <div className="flex flex-col gap-1 font-mono">
-      <div className="pointer-events-auto flex items-center gap-1 self-start text-xl md:mt-3">
+      <div className="pointer-events-auto flex items-center gap-1 self-start text-xl md:mt-3 mb-2">
         <Button
+          motion='pop'
           onClick={() => setIsExpanded((v) => !v)}
-          className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md"
+          className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md "
           style={{ background: backgroundStyle }}
         >
           {selected
@@ -79,17 +80,15 @@ export default function ProjectSelectMenu() {
             key={project._id}
             className="pointer-events-auto flex items-center gap-1"
           >
-            <div
-              className="size-3 rounded-full"
-              style={{ background: "#" + project.color }}
-            />
 
             <Button
               onClick={() => {
                 setSelectedProject(project._id);
                 setIsExpanded(false);
               }}
-              className="text-xl"
+              motion='pop'
+              className="text-xl flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md"
+              style={{ background: "#" + project.color }}
             >
               {project.title?.es &&
                 (project.title[language] || project.title?.es)}
