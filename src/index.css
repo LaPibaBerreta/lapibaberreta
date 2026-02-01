@@ -36,7 +36,7 @@
 }
 
 @theme inline {
-  --color-accent: oklch(0.6357 0.2499 29.51);
+  --color-accent: #ff3300;
   --font-display: "Syne-ExtraBold", sans-serif;
   --font-body: "Syne-Regular", sans-serif;
   --font-mono: "SyneMono-Regular", monospace;
