@@ -6,6 +6,7 @@ import { useSectionSlug } from "../hooks/useSectionSlug";
 import { SECTION_IDS } from "../data/constants";
 import { nodeStyles, distance, line } from "./graphStyle";
 import useIsMobile from "../hooks/useIsMobile";
+import { AnimatePresence, motion } from "motion/react";
 
 interface Props {
   nodes: GraphNode[];
@@ -386,19 +387,24 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
 
   return (
     <div ref={containerRef} className="h-full w-full">
-      {!mobile &&
-        hoveredNode?.imageUrl &&
-        hoveredNode.x != null &&
-        hoveredNode.y != null && (
-          <div
-            className={`pointer-events-none fixed ${window.innerWidth / 2 > hoveredNode.x ? "right-20" : "left-20"} ${window.innerHeight / 2 > hoveredNode.y ? "top-1/3" : "top-1/5"} `}
-          >
-            <img
-              src={hoveredNode.imageUrl}
-              className="max-h-[50vh] max-w-lg rounded shadow-lg"
-            />
-          </div>
-        )}
+      <AnimatePresence mode="wait">
+        {!mobile &&
+          hoveredNode?.imageUrl &&
+          hoveredNode.x != null &&
+          hoveredNode.y != null && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.75 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.75 }}
+              className={`pointer-events-none fixed ${window.innerWidth / 2 > hoveredNode.x ? "right-20" : "left-20"} ${window.innerHeight / 2 > hoveredNode.y ? "top-1/3" : "top-1/5"} `}
+            >
+              <img
+                src={hoveredNode.imageUrl}
+                className="max-h-[50vh] max-w-lg rounded shadow-lg"
+              />
+            </motion.div>
+          )}
+      </AnimatePresence>
 
       <svg ref={svgRef} className="h-full w-full select-none" />
     </div>
