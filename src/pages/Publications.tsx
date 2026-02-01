@@ -10,6 +10,7 @@ import useLanguage from "../hooks/useLanguage";
 import { useProjects } from "../hooks/useProjects";
 import { motion } from "motion/react";
 import ProjectIndicator from "../components/ProjectIndicator";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -58,9 +59,7 @@ export default function Publications({ section }: { section: Section }) {
 
   return (
     <section className="flex flex-col items-center gap-2">
-      {fullTitle && (
-        <h1 className="font-mono text-xl font-thin uppercase">{fullTitle}</h1>
-      )}
+      {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (

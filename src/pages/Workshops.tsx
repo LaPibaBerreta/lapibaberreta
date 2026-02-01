@@ -6,6 +6,7 @@ import type { InitialDataQueryResult } from "@/lib/types";
 import { urlFor } from "../lib/sanityImageUrl";
 import { SECTION_IDS } from "../data/constants";
 import useLanguage from "../hooks/useLanguage";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -24,11 +25,11 @@ export default function Workshops({ section }: { section: Section }) {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col items-center gap-2">
       {section.title?.es && (
-        <h1 className="text-xl">
+        <SectionTitle>
           {section.title[language] || section.title.es}
-        </h1>
+        </SectionTitle>
       )}
       <div className="flex gap-2">
         {data &&

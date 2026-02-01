@@ -6,6 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
 import TiltedCard from "../components/TiltedCard";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -29,11 +30,11 @@ export default function Oracle({ section }: { section: Section }) {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-2">
-      {section.title && (
-        <h1 className="text-xl">
-          {section.title.es && (section.title[language] || section.title.es)}
-        </h1>
+    <div className="_justify-center flex h-full flex-col items-center gap-2">
+      {section?.title?.es && (
+        <SectionTitle>
+          {section.title[language] || section.title.es}
+        </SectionTitle>
       )}
       {currentCard ? (
         <div
@@ -84,7 +85,7 @@ export default function Oracle({ section }: { section: Section }) {
         )
       )}
 
-      <button className="my-2 border px-2" onClick={handleGetCard}>
+      <button className="my-2 border px-2 text-2xl" onClick={handleGetCard}>
         {language === "es" ? "Pedir Carta" : "Ask a Card"}
       </button>
     </div>

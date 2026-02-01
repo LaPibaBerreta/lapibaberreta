@@ -4,6 +4,7 @@ import { BlogPortableText } from "../components/BlogPortableText";
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import useLanguage from "../hooks/useLanguage";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -17,11 +18,11 @@ export default function Blog({ section }: { section: Section }) {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section className="my-6">
-      {section?.title && (
-        <h1 className="text-2xl font-bold">
-          {section.title.es ?? (section.title[language] || section.title.es)}
-        </h1>
+    <section className="flex flex-col items-center gap-2">
+      {section?.title?.es && (
+        <SectionTitle>
+          {section.title[language] || section.title.es}
+        </SectionTitle>
       )}
       {data &&
         data.map((post) => (
