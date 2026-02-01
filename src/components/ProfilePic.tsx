@@ -1,0 +1,26 @@
+import { useInitialData } from "../hooks/useInitialData";
+import { urlFor } from "../lib/sanityImageUrl";
+import { motion } from "motion/react";
+
+export default function ProfilePic() {
+  const { data, isLoading, error } = useInitialData();
+  if (isLoading) return null;
+  if (error) return null;
+
+  if (data?.backgroundImage)
+    return (
+      <motion.img
+        initial={{ y: 500 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, delay: 1.5 }}
+        className="fixed -bottom-12 -z-10 w-40 rotate-15 rounded-2xl transition-all sm:w-60 md:w-87.5"
+        src={
+          urlFor(data.backgroundImage)
+            .format("webp")
+            .width(350)
+            .height(350)
+            .url() + "&fit=max"
+        }
+      />
+    );
+}
