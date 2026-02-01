@@ -49,7 +49,7 @@ export default function Videos({ section }: { section: Section }) {
 
   if (sectionTitle) {
     if (!projectTitle) {
-      fullTitle = (language === "es" ? "Todos los " : "All ") + sectionTitle;
+      fullTitle = sectionTitle;
     } else {
       fullTitle =
         language === "en"

@@ -47,7 +47,7 @@ export default function Publications({ section }: { section: Section }) {
 
   if (sectionTitle) {
     if (!projectTitle) {
-      fullTitle = (language === "es" ? "Todas las " : "All ") + sectionTitle;
+      fullTitle = sectionTitle;
     } else {
       fullTitle =
         language === "en"
