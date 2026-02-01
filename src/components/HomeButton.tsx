@@ -18,7 +18,7 @@ export default function HomeButton({ className }: { className: string }) {
           <Link
             key="home"
             to="/"
-            className={`hover:bg-accent pointer-events-auto flex size-12 cursor-pointer items-center justify-center gap-1 rounded-full border bg-white/70 shadow-yellow-300/80 transition-colors hover:text-white`}
+            className="hover:bg-accent pointer-events-auto flex size-12 cursor-pointer items-center justify-center gap-1 rounded-full border bg-white transition-colors hover:text-white"
           >
             <X size={48} strokeWidth={1} />
           </Link>

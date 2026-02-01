@@ -10,7 +10,7 @@ export default function LanguageToggle() {
       onClick={() => {
         setLanguage(language === "es" ? "en" : "es");
       }}
-      className="_uppercase font-body text-xl"
+      className="uppercase"
     >
       {language === "es" ? "en" : "es"}
     </Button>

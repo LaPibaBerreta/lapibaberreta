@@ -29,7 +29,7 @@ export default function NavMenu() {
   }, [location]);
 
   return (
-    <nav className="font-body pointer-events-none fixed inset-0 z-100">
+    <nav className="pointer-events-none fixed inset-0 z-150">
       {mobile && (
         <motion.button
           initial={{ opacity: 0 }}
@@ -40,7 +40,7 @@ export default function NavMenu() {
           onClick={() => {
             setIsOpen(!isOpen);
           }}
-          className="border-accent/20 pointer-events-auto fixed right-5 bottom-5 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full border bg-white/60"
+          className="pointer-events-auto fixed right-4 bottom-4 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full border bg-white/60"
         >
           {!isOpen ? (
             <Menu size={36} strokeWidth={1} />
@@ -51,28 +51,28 @@ export default function NavMenu() {
       )}
 
       {!mobile ? (
-        <ul className="mr-30 flex w-full flex-col items-center justify-center gap-3 text-lg sm:flex-row">
+        <div>
           {firstGroup?.length && (
             <NavMenuList
               data={firstGroup}
-              className="pointer-events-auto fixed top-20 left-5 flex flex-col gap-2"
+              className="pointer-events-auto fixed top-18 left-4 flex flex-col p-1 font-mono text-xl"
             />
           )}
 
           {secondGroup?.length && (
             <NavMenuList
               data={secondGroup}
-              className="pointer-events-auto fixed right-5 bottom-5 flex gap-2"
+              className="pointer-events-auto fixed top-4 right-20 flex gap-2 p-1 text-xl uppercase"
             />
           )}
 
           {thirdGroup?.length && (
             <NavMenuList
               data={thirdGroup}
-              className="pointer-events-auto fixed top-1/2 right-5 flex flex-col gap-2 text-end"
+              className="pointer-events-auto fixed right-4 bottom-4 flex flex-col text-end"
             />
           )}
-        </ul>
+        </div>
       ) : isOpen ? (
         sections.length && (
           <NavMenuList

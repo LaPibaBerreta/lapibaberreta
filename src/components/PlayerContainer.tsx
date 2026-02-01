@@ -17,7 +17,7 @@ export default function PlayerContainer() {
   }, [data?.embed, currentEmbed, setCurrentEmbed]);
 
   return (
-    <section className="pointer-events-none fixed bottom-0 left-0 z-150 flex w-full sm:left-5">
+    <section className="pointer-events-none fixed bottom-0 left-0 z-100 flex w-full sm:left-4">
       <div
         className={`flex flex-col items-start justify-center transition-all duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "translate-y-100"} pointer-events-none`}
       >
