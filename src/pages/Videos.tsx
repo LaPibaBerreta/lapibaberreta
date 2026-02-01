@@ -59,7 +59,7 @@ export default function Videos({ section }: { section: Section }) {
   }
 
   return (
-    <>
+    <section className="flex flex-col items-center gap-2">
       {fullTitle && (
         <h1 className="font-mono text-xl font-thin uppercase">{fullTitle}</h1>
       )}
@@ -129,6 +129,6 @@ export default function Videos({ section }: { section: Section }) {
           />
         )}
       </div>
-    </>
+    </section>
   );
 }
