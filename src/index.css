@@ -1,9 +1,33 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Syne-ExtraBold";
+  src: url("/fonts/Syne-ExtraBold.woff2");
+}
+
+@font-face {
+  font-family: "SyneMono-Regular";
+  src: url("/fonts/SyneMono-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Syne-Regular";
+  src: url("/fonts/Syne-Regular.woff2");
+}
+
+@font-face {
+  font-family: "SyneTactile-Regular";
+  src: url("/fonts/SyneTactile-Regular.woff2");
+}
+
 :root {
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #000;
+  background-color: #ffffff;
+
+  font-family:
+    var(--font-body), Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -11,13 +35,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+@theme inline {
+  --color-accent: oklch(0.6357 0.2499 29.51);
+  --font-display: "Syne-ExtraBold", sans-serif;
+  --font-body: "Syne-Regular", sans-serif;
+  --font-mono: "SyneMono-Regular", monospace;
+  --font-secondary: "SyneTactile-Regular", sans-serif;
 }
 
-@theme inline {
-  --color-accent: oklch(0.77 0.3 42);
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+}
+
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-accent);
+  }
 }
