@@ -25,9 +25,10 @@ export default function BackgroundGlow() {
             #${selected?.color}cc 0%,
             transparent 60%
           )`
-          : `radial-gradient(
+          : // TODO: definir que hacer con el fondo aca, por el momento es transpaente
+            `radial-gradient(
             circle at 50% 50%,
-            #ff1e12 0%,
+            #ff1e1200 0%,
             transparent 60%
           )`,
       }}
