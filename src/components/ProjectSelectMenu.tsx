@@ -29,7 +29,10 @@ export default function ProjectSelectMenu() {
       ? `#${selected.color}`
       : `linear-gradient(
         90deg,
-        ${projectsData?.map((p) => `#${p.color}`).join(", ")}
+        ${projectsData
+          ?.filter((p) => p.color)
+          .map((p) => `#${p.color}`)
+          .join(", ")}
       )`;
 
   return (
