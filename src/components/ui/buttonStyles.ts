@@ -7,7 +7,7 @@ export const buttonMotion = {
 };
 
 export const buttonBase =
-  "inline-flex items-center justify-center min-w-12 cursor-pointer transition-colors drop-shadow-[0_0_2px_white]";
+  "inline-flex items-center justify-center cursor-pointer transition-colors drop-shadow-[0_0_2px_white]";
 
 // TODO: ajustar variantes
 export const buttonVariants = {
