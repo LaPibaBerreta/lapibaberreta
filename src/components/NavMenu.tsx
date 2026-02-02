@@ -67,7 +67,7 @@ export default function NavMenu() {
             />
           )}
 
-          <div className="bg-secondary fixed top-4 right-4 z-100 flex gap-2 p-1 lg:text-lg xl:text-xl">
+          <div className="bg-secondary pointer-events-auto fixed top-4 right-4 z-100 flex gap-2 p-1 lg:text-lg xl:text-xl">
             <HelpButton />
             <LanguageToggle />
           </div>
@@ -87,7 +87,7 @@ export default function NavMenu() {
               className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-2 bg-violet-200/20 pr-6 pb-20 font-mono text-xl backdrop-blur-md"
             />
 
-            <div className="fixed top-5 right-4 z-100 flex gap-3 text-xl">
+            <div className="pointer-events-auto fixed top-5 right-4 z-100 flex gap-3 text-xl">
               <HelpButton />
               <LanguageToggle />
             </div>
