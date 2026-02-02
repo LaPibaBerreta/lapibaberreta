@@ -9,6 +9,7 @@ import ImageGallery from "../components/ImageGallery";
 import { NavLink } from "react-router";
 import useLanguage from "../hooks/useLanguage";
 import LoadToPlayerButton from "../components/LoadToPlayerButton";
+import Button from "../components/ui/Button";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -81,15 +82,16 @@ export default function PublicationPage({ section }: { section: Section }) {
 
         {data?.links?.length &&
           data.links.map((link) => (
-            <a
-              key={link._key}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              {link.title?.es && (link.title[language] || link.title.es)}
-            </a>
+            <Button motion="pop" variant="link">
+              <a
+                key={link._key}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.title?.es && (link.title[language] || link.title.es)}
+              </a>
+            </Button>
           ))}
 
         {data?.imageGallery?.length && (

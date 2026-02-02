@@ -49,13 +49,11 @@ export default function HelpPage({ bgActive, setBgActive }: HelpPagePropsType) {
 
       <p className="pt-2">
         Diseñado y programado con amor por{" "}
-        <a
-          href="https://i10.dev"
-          target="_blank"
-          className="font-mono text-white hover:underline"
-        >
-          instrumento
-        </a>
+        <Button variant="link" motion="pop">
+          <a href="https://i10.dev" target="_blank">
+            instrumento
+          </a>
+        </Button>
       </p>
     </motion.section>
   );

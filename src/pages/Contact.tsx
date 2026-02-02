@@ -4,6 +4,7 @@ import Loading from "../components/Loading";
 import useLanguage from "../hooks/useLanguage";
 import ContactForm from "../components/ContactForm";
 import SectionTitle from "../components/SectionTitle";
+import Button from "../components/ui/Button";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -34,13 +35,12 @@ export default function Contact({ section }: { section: Section }) {
       {data?.links?.length && (
         <ul className="flex flex-col items-start gap-1">
           {data.links.map((link) => (
-            <li
-              key={link._key}
-              className="border-accent/40 rounded-2xl border px-2"
-            >
-              <a href={link.url} target="_blank" rel="noopener noreferrer">
-                {link.title?.es && (link.title[language] || link.title.es)}
-              </a>
+            <li key={link._key}>
+              <Button motion="pop" variant="link">
+                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                  {link.title?.es && (link.title[language] || link.title.es)}
+                </a>
+              </Button>
             </li>
           ))}
         </ul>

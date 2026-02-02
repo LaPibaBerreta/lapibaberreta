@@ -49,7 +49,7 @@ export default function NavMenuList({ data, className }: NavMenuListProps) {
                       as={motion.a}
                       href={section.url}
                       target="_blank"
-                      className="bg-blue-300/60! hover:text-black!"
+                      variant="link"
                       motion="pop"
                     >
                       {section.title?.es &&
