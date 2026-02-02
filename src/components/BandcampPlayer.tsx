@@ -10,7 +10,7 @@ export default function BandcampPlayer({ embedData }: { embedData: string }) {
       <iframe
         // bandcamp tiene 700px como maximo
         width={400}
-        height={400}
+        height={300}
         src={embedUrl}
         seamless
         className="sm:rounded-t-sm"

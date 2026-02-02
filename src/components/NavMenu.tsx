@@ -41,7 +41,7 @@ export default function NavMenu() {
           onClick={() => {
             setIsOpen(!isOpen);
           }}
-          className="pointer-events-auto fixed right-4 bottom-4 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white"
+          className="pointer-events-auto fixed right-2 bottom-2 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white sm:right-4 sm:bottom-4"
         >
           {!isOpen ? (
             <Menu size={36} strokeWidth={1} />
@@ -84,10 +84,10 @@ export default function NavMenu() {
           <>
             <NavMenuList
               data={sections}
-              className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-2 bg-violet-200/20 pr-6 pb-20 font-mono text-xl backdrop-blur-md"
+              className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-2 bg-violet-200/20 pr-2 pb-20 font-mono text-xl backdrop-blur-md sm:pr-4"
             />
 
-            <div className="pointer-events-auto fixed top-5 right-4 z-100 flex gap-3 text-xl">
+            <div className="pointer-events-auto fixed top-5 right-2 z-100 flex gap-4 text-2xl sm:right-4 sm:text-xl">
               <HelpButton />
               <LanguageToggle />
             </div>

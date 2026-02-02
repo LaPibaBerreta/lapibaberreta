@@ -17,18 +17,18 @@ export default function PlayerContainer() {
   }, [data?.embed, currentEmbed, setCurrentEmbed]);
 
   return (
-    <section className="pointer-events-none fixed bottom-0 left-0 z-100 flex w-full sm:left-4">
+    <section className="pointer-events-none fixed bottom-0 left-0 z-100 flex w-full sm:left-4 lg:z-160">
       <div
-        className={`flex flex-col items-start justify-center transition-all duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "translate-y-100"} pointer-events-none`}
+        className={`flex flex-col items-start justify-center transition-all duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "translate-y-75"} pointer-events-none`}
       >
-        <div className="mb-4 ml-5 flex items-center gap-2 sm:ml-0">
+        <div className="mb-2 ml-2 flex items-center gap-2 sm:mb-4 sm:ml-0">
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsExpanded(!isExpanded)}
-            className="pointer-events-auto flex size-12 cursor-pointer items-center justify-center rounded-full bg-black px-2 py-1 text-white select-none"
+            className="pointer-events-auto flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white select-none"
           >
             <Music4 size={20} strokeWidth={1.25} />
           </motion.button>

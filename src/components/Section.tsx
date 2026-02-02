@@ -23,7 +23,7 @@ export default function Section({ children }: Props) {
         <div className="h-screen overflow-y-auto border-2 border-transparent pt-24 pb-24 sm:h-[calc(100vh-12rem)] sm:p-6">
           {children}
         </div>
-        <HomeButton className="absolute right-18 bottom-4 sm:-top-6 sm:-right-6" />
+        <HomeButton className="absolute right-18 bottom-2 sm:-top-6 sm:-right-6" />
       </motion.div>
     </motion.section>
   );
