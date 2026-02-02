@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import HomeButton from "./HomeButton";
 import { motion } from "motion/react";
+import BackButton from "../components/ui/BackButton";
 
 type Props = {
   children: ReactElement;
@@ -23,7 +24,11 @@ export default function Section({ children }: Props) {
         <div className="h-screen overflow-y-auto border-2 border-transparent pt-24 pb-24 sm:h-[calc(100vh-12rem)] sm:p-6">
           {children}
         </div>
-        <HomeButton className="absolute right-18 bottom-2 sm:-top-6 sm:-right-6" />
+
+        <div className="absolute right-16 bottom-2 flex h-12 items-start gap-2 sm:-top-6 sm:-right-6">
+          <BackButton />
+          <HomeButton />
+        </div>
       </motion.div>
     </motion.section>
   );
