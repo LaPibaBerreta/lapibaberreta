@@ -30,7 +30,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="w-3/4 max-w-prose py-8 font-mono sm:w-full">
+    <div className="w-3/4 max-w-prose py-4 font-mono sm:w-full">
       <form className="flex flex-col gap-2" onSubmit={onSubmit}>
         <label className="text-base" htmlFor="name">
           {language === "es" ? "Nombre" : "Name"}
