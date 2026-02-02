@@ -12,8 +12,7 @@ type Section = NonNullable<InitialData["sections"]>[number];
 
 export default function NavMenu() {
   const { data } = useInitialData();
-  const mobile = useIsMobile();
-
+  const { isDesktop } = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
   const sections: Section[] = data?.sections ?? [];
@@ -24,13 +23,13 @@ export default function NavMenu() {
   const location = useLocation();
 
   useEffect(() => {
-    if (mobile) setIsOpen(false);
+    if (!isDesktop) setIsOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (
     <nav className="pointer-events-none fixed inset-0 z-150">
-      {mobile && (
+      {!isDesktop && (
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -50,7 +49,7 @@ export default function NavMenu() {
         </motion.button>
       )}
 
-      {!mobile ? (
+      {isDesktop ? (
         <div>
           {firstGroup?.length && (
             <NavMenuList

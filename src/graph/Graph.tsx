@@ -43,7 +43,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
   const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
-  const mobile = useIsMobile();
+  const { isMobile, isTablet } = useIsMobile();
 
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -388,7 +388,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
   return (
     <div ref={containerRef} className="h-full w-full">
       <AnimatePresence mode="wait">
-        {!mobile &&
+        {!isMobile &&
           hoveredNode?.imageUrl &&
           hoveredNode.x != null &&
           hoveredNode.y != null && (
@@ -400,7 +400,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
             >
               <img
                 src={hoveredNode.imageUrl}
-                className="max-h-[50vh] max-w-lg rounded shadow-lg"
+                className={`max-h-[50vh] ${isTablet ? "max-w-sm" : "max-w-lg"} rounded shadow-lg`}
               />
             </motion.div>
           )}
