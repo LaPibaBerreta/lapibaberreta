@@ -20,11 +20,11 @@ export default function Board() {
         initial={{ opacity: 0, scaleY: 0.75 }}
         animate={{ opacity: 1, scaleY: 1 }}
         exit={{ opacity: 0, scaleY: 0.75 }}
-        className="border-accent/20 _bg-violet-200/20 _sm:px-3 _min-h-1/3 _h-screen pointer-events-auto relative w-full min-w-1/2 rounded-2xl border bg-white/50 shadow-md sm:w-3/4 md:max-h-[calc(100vh-12rem)]"
+        className="pointer-events-auto relative w-3/4 min-w-1/2 rounded-2xl border border-black/20 bg-white/50 shadow-md md:max-h-[calc(100vh-12rem)]"
       >
         {/* <div className="_sm:p-6 _h-screen _sm:h-[79.8vh] overflow-y-auto"> */}
         {data?.embed && (
-          <div className="h-screen w-full sm:h-[calc(100vh-12rem)]">
+          <div className="h-[calc(100vh-12rem)] w-full">
             <iframe
               src={data?.embed}
               width="100%"
@@ -34,7 +34,7 @@ export default function Board() {
           </div>
         )}
         {/* </div> */}
-        <HomeButton className="absolute -top-6 -right-6" />
+        <HomeButton variantX={true} className="absolute -top-6 -right-6" />
       </motion.div>
     </motion.section>
   );
