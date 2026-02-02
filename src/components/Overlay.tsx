@@ -7,8 +7,8 @@ import ProfilePic from "./ProfilePic";
 export default function Overlay() {
   return (
     <>
-      <header className="fixed top-2 left-4 z-100 flex flex-col lg:flex-row">
-        <h1 className="font-display text-[6.4vw] sm:text-[4vw] lg:text-[3vw]">
+      <header className="fixed top-2 left-4 z-100 flex flex-col lg:flex-row lg:gap-2">
+        <h1 className="font-display text-[6.4vw] sm:text-[4.5vw] lg:text-[3vw]">
           {location.pathname != "/" ? (
             <NavLink to={"/"}>LA PIBA BERRETA</NavLink>
           ) : (
