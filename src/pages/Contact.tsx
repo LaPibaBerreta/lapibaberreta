@@ -3,6 +3,7 @@ import { useContact } from "../hooks/useContact";
 import Loading from "../components/Loading";
 import useLanguage from "../hooks/useLanguage";
 import ContactForm from "../components/ContactForm";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -16,11 +17,11 @@ export default function Contact({ section }: { section: Section }) {
   if (error) return <div>error.message</div>;
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      {section.title && (
-        <h1 className="text-xl">
+    <div className="flex w-full flex-col items-center gap-2 pb-8">
+      {section.title?.es && (
+        <SectionTitle>
           {section.title[language] || section.title.es}
-        </h1>
+        </SectionTitle>
       )}
 
       <ContactForm />
