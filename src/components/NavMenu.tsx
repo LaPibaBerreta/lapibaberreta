@@ -63,7 +63,7 @@ export default function NavMenu() {
           {secondGroup?.length && (
             <NavMenuList
               data={secondGroup}
-              className="pointer-events-auto fixed top-4 right-18 flex gap-2 p-1 uppercase lg:text-lg xl:text-xl"
+              className="pointer-events-auto fixed top-4 right-22 flex gap-2 p-1 uppercase lg:text-lg xl:text-xl"
             />
           )}
 
