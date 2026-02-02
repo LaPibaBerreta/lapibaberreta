@@ -36,7 +36,7 @@ export default function ProjectSelectMenu() {
       )`;
 
   return (
-    <div className="flex flex-col gap-1 font-mono">
+    <div className="relative flex flex-col gap-1 font-mono">
       <div className="pointer-events-auto mb-2 flex items-center gap-1 self-start lg:mt-3 2xl:text-xl">
         <Button
           motion="pop"
@@ -73,27 +73,29 @@ export default function ProjectSelectMenu() {
         )}
       </div>
 
-      {projectsData &&
-        isExpanded &&
-        projectsData.map((project) => (
-          <div
-            key={project._id}
-            className="pointer-events-auto flex items-center gap-1"
-          >
-            <Button
-              onClick={() => {
-                setSelectedProject(project._id);
-                setIsExpanded(false);
-              }}
-              motion="pop"
-              className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md 2xl:text-xl"
-              style={{ background: "#" + project.color }}
+      {projectsData && isExpanded && (
+        <div className="absolute top-12 flex min-w-70 flex-col gap-1">
+          {projectsData.map((project) => (
+            <div
+              key={project._id}
+              className="pointer-events-auto flex items-center gap-1"
             >
-              {project.title?.es &&
-                (project.title[language] || project.title?.es)}
-            </Button>
-          </div>
-        ))}
+              <Button
+                onClick={() => {
+                  setSelectedProject(project._id);
+                  setIsExpanded(false);
+                }}
+                motion="pop"
+                className="_backdrop-blur-md flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md 2xl:text-xl"
+                style={{ background: "#" + project.color }}
+              >
+                {project.title?.es &&
+                  (project.title[language] || project.title?.es)}
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
