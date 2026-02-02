@@ -1,6 +1,6 @@
 import { useProjects } from "../hooks/useProjects";
 import useFilterByProject from "../hooks/useFilterByProject";
-import { motion } from 'motion/react'
+import { motion } from "motion/react";
 
 export default function BackgroundGlow() {
   const { data, isLoading, error } = useProjects();
@@ -16,11 +16,11 @@ export default function BackgroundGlow() {
     ? data?.find((p: { _id: string }) => p._id === selectedProject)
     : undefined;
 
-  const homeBackground =
-    data
-      ?.filter((p) => p.color).reverse()
-      .map((p) => `#${p.color}`)
-      .join(", ")
+  const homeBackground = data
+    ?.filter((p) => p.color)
+    .reverse()
+    .map((p) => `#${p.color}`)
+    .join(", ");
 
   return (
     <motion.div
@@ -34,8 +34,7 @@ export default function BackgroundGlow() {
             #${selected?.color}cc 0%,
             transparent 60%
           )`
-          :
-          `radial-gradient(
+          : `radial-gradient(
             circle at 50% 50%,
             ${homeBackground} 5%,
             transparent 20%

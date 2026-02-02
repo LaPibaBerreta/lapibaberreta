@@ -10,9 +10,9 @@ export default function ProfilePic() {
   if (data?.backgroundImage)
     return (
       <AnimatePresence>
-        {location.pathname == '/' &&
+        {location.pathname == "/" && (
           <motion.img
-            key='profile-pic'
+            key="profile-pic"
             initial={{ y: 500 }}
             animate={{
               y: 0,
@@ -38,7 +38,8 @@ export default function ProfilePic() {
                 .height(300)
                 .url() + "&fit=max"
             }
-          />}
+          />
+        )}
       </AnimatePresence>
     );
 }
