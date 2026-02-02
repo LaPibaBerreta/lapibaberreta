@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { useInitialData } from "./hooks/useInitialData";
 import MainBackground from "./components/MainBackground";
@@ -7,17 +8,20 @@ import GraphSection from "./graph/GraphSection";
 import { SECTION_IDS } from "./data/constants";
 import { AnimatePresence } from "motion/react";
 import Overlay from "./components/Overlay";
+import HelpPage from "./pages/HelpPage";
 
 function App() {
   const location = useLocation();
   const { data, isLoading, error } = useInitialData();
+  const [bgActive, setBgActive] = useState<boolean>(true);
+
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
   const internalLinks = data?.sections?.filter((section) => section.reference);
 
   return (
     <div className="flex w-full flex-col items-start">
-      <MainBackground />
+      <MainBackground bgActive={bgActive} />
       <GraphSection />
       <Overlay />
       <div className="pointer-events-none fixed inset-0 flex h-screen w-full items-center justify-center">
@@ -45,6 +49,12 @@ function App() {
                   element={<PageSelector section={section} />}
                 />
               ))}
+            <Route
+              path="/que-es-esto"
+              element={
+                <HelpPage setBgActive={setBgActive} bgActive={bgActive} />
+              }
+            />
           </Routes>
         </AnimatePresence>
       </div>
