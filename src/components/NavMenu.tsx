@@ -6,6 +6,8 @@ import { Menu, X } from "lucide-react";
 import useIsMobile from "../hooks/useIsMobile";
 import { motion } from "motion/react";
 import { useLocation } from "react-router";
+import HelpButton from "./HelpButton";
+import LanguageToggle from "./LanguageToggle";
 
 type InitialData = NonNullable<InitialDataQueryResult>;
 type Section = NonNullable<InitialData["sections"]>[number];
@@ -39,7 +41,7 @@ export default function NavMenu() {
           onClick={() => {
             setIsOpen(!isOpen);
           }}
-          className="pointer-events-auto fixed right-4 bottom-4 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full border bg-white/60"
+          className="pointer-events-auto fixed right-4 bottom-4 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white"
         >
           {!isOpen ? (
             <Menu size={36} strokeWidth={1} />
@@ -54,30 +56,42 @@ export default function NavMenu() {
           {firstGroup?.length && (
             <NavMenuList
               data={firstGroup}
-              className="pointer-events-auto fixed top-18 left-4 flex flex-col p-1 font-mono text-xl"
+              className="pointer-events-auto fixed top-1/3 left-4 flex flex-col p-1 font-mono text-xl lg:top-[4.5vw]"
             />
           )}
 
           {secondGroup?.length && (
             <NavMenuList
               data={secondGroup}
-              className="pointer-events-auto fixed top-4 right-20 flex gap-2 p-1 text-xl uppercase"
+              className="pointer-events-auto fixed top-4 right-18 flex gap-2 p-1 uppercase lg:text-lg xl:text-xl"
             />
           )}
+
+          <div className="bg-secondary fixed top-4 right-4 z-100 flex gap-2 p-1 lg:text-lg xl:text-xl">
+            <HelpButton />
+            <LanguageToggle />
+          </div>
 
           {thirdGroup?.length && (
             <NavMenuList
               data={thirdGroup}
-              className="pointer-events-auto fixed right-4 bottom-4 flex flex-col text-end"
+              className="pointer-events-auto fixed right-4 bottom-4 flex flex-col text-end font-mono"
             />
           )}
         </div>
       ) : isOpen ? (
         sections.length && (
-          <NavMenuList
-            data={sections}
-            className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-2 bg-violet-200/20 pr-6 pb-20 text-xl backdrop-blur-md"
-          />
+          <>
+            <NavMenuList
+              data={sections}
+              className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-2 bg-violet-200/20 pr-6 pb-20 font-mono text-xl backdrop-blur-md"
+            />
+
+            <div className="fixed top-5 right-4 z-100 flex gap-3 text-xl">
+              <HelpButton />
+              <LanguageToggle />
+            </div>
+          </>
         )
       ) : null}
     </nav>

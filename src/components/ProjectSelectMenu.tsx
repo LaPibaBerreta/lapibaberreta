@@ -30,18 +30,18 @@ export default function ProjectSelectMenu() {
       : `linear-gradient(
         90deg,
         ${projectsData
-        ?.filter((p) => p.color)
-        .map((p) => `#${p.color}`)
-        .join(", ")}
+          ?.filter((p) => p.color)
+          .map((p) => `#${p.color}`)
+          .join(", ")}
       )`;
 
   return (
     <div className="flex flex-col gap-1 font-mono">
-      <div className="pointer-events-auto flex items-center gap-1 self-start text-xl md:mt-3 mb-2">
+      <div className="pointer-events-auto mb-2 flex items-center gap-1 self-start lg:mt-3 2xl:text-xl">
         <Button
-          motion='pop'
+          motion="pop"
           onClick={() => setIsExpanded((v) => !v)}
-          className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md "
+          className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md"
           style={{ background: backgroundStyle }}
         >
           {selected
@@ -61,13 +61,13 @@ export default function ProjectSelectMenu() {
               exit={{ opacity: 0 }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`cursor-pointer rounded-4xl border bg-white/40 transition-colors`}
+              className={`cursor-pointer rounded-4xl bg-black text-white transition-colors`}
               onClick={() => {
                 setSelectedProject(null);
                 setIsExpanded(false);
               }}
             >
-              <X strokeWidth={1.5} size={26} />
+              <X strokeWidth={1.5} size={24} />
             </motion.button>
           </div>
         )}
@@ -80,14 +80,13 @@ export default function ProjectSelectMenu() {
             key={project._id}
             className="pointer-events-auto flex items-center gap-1"
           >
-
             <Button
               onClick={() => {
                 setSelectedProject(project._id);
                 setIsExpanded(false);
               }}
-              motion='pop'
-              className="text-xl flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md"
+              motion="pop"
+              className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md 2xl:text-xl"
               style={{ background: "#" + project.color }}
             >
               {project.title?.es &&

@@ -28,7 +28,7 @@ export default function PlayerContainer() {
             exit={{ opacity: 0 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsExpanded(!isExpanded)}
-            className="pointer-events-auto flex size-10 cursor-pointer items-center justify-center rounded-full border bg-white/90 px-2 py-1 select-none"
+            className="pointer-events-auto flex size-12 cursor-pointer items-center justify-center rounded-full bg-black px-2 py-1 text-white select-none"
           >
             <Music4 size={20} strokeWidth={1.25} />
           </motion.button>
