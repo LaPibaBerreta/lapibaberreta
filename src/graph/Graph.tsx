@@ -180,6 +180,8 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
       .on("click", (_, d) => {
         if (!d.externalLink && d.nodeType === "section") {
           navigate(`${d.route}`);
+        } else if (!d.externalLink && d.nodeType === "home") {
+          navigate("/");
         } else if (
           !d.externalLink &&
           d.nodeType === "publication" &&
