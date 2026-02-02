@@ -5,6 +5,7 @@ const initialDataQuery = defineQuery(`*[_type == "siteConfig"][0]{
 
   title,
   backgroundImage,
+  status,
   sections[]{
     title,
     isHighlighted,
