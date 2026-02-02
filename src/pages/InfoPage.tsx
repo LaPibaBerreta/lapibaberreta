@@ -3,6 +3,7 @@ import { useInfo } from "../hooks/useInfo";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import useLanguage from "../hooks/useLanguage";
+import SectionTitle from "../components/SectionTitle";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -16,36 +17,32 @@ export default function InfoPage({ section }: { section: Section }) {
   if (error) return <div>error.message</div>;
 
   return (
-    <>
-      {section.title && (
-        <h1 className="text-xl">
-          {section.title[language] || section.title.es}
-        </h1>
-      )}
-      {data?.bio?.es && (
-        <div className="">
+    <section className="flex flex-col items-center">
+      <div className="flex max-w-prose flex-col items-center gap-4">
+        {section.title?.es && (
+          <SectionTitle>
+            {section.title[language] || section.title.es}
+          </SectionTitle>
+        )}
+        {data?.bio?.es && (
           <PortableText value={data.bio[language] || data.bio.es} />
-        </div>
-      )}
-      {data?.pressLinks?.length && (
-        <ul className="my-4 flex flex-wrap gap-2">
-          {data.pressLinks.map((link) => (
-            <li
-              key={link._key}
-              className="border-accent/40 rounded-2xl border px-2 whitespace-nowrap"
-            >
-              <a
+        )}
+        {data?.pressLinks?.length && (
+          <ul className="my-4 flex flex-wrap gap-2">
+            {data.pressLinks.map((link) => (
+              <li
                 key={link._key}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                className="border-accent/40 rounded-2xl border px-2 whitespace-nowrap"
               >
-                {link.title?.es && (link.title[language] || link.title.es)}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+                {/*TODO: usar Button con variante Link */}
+                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                  {link.title?.es && (link.title[language] || link.title.es)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
   );
 }

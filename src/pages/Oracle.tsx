@@ -29,13 +29,15 @@ export default function Oracle({ section }: { section: Section }) {
     );
   };
 
+  const title = currentCard?.title?.es
+    ? currentCard.title[language] || currentCard.title.es
+    : section?.title?.es && (section.title[language] || section.title.es);
+
   return (
     <div className="_justify-center flex h-full flex-col items-center gap-2">
-      {section?.title?.es && (
-        <SectionTitle>
-          {section.title[language] || section.title.es}
-        </SectionTitle>
-      )}
+      <div className="capitalize">
+        {title && <SectionTitle>{title.toLowerCase()}</SectionTitle>}
+      </div>
       {currentCard ? (
         <div
           key={currentCard._key}
@@ -66,9 +68,6 @@ export default function Oracle({ section }: { section: Section }) {
             />
           )}
 
-          {currentCard.title?.es && (
-            <h2>{currentCard.title[language] || currentCard.title.es}</h2>
-          )}
           {currentCard.text?.es && (
             <div className="max-w-prose">
               <PortableText

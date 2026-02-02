@@ -62,20 +62,18 @@ export default function Videos({ section }: { section: Section }) {
   return (
     <section className="flex flex-col items-center gap-2">
       {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
-      <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         {filteredData?.length ? (
           filteredData.map((video) =>
             video.embed ? (
-              <div key={video._id} className="_max-h-80 p-4">
+              <div key={video._id}>
                 <div className="h-55">
                   <VideoPlayer embedData={video.embed} />
                 </div>
                 <div className="flex flex-col">
                   <div className="flex flex-col items-start">
                     {video.title?.es && (
-                      <h2 className="text-lg">
-                        {video.title[language] || video.title.es}
-                      </h2>
+                      <h2>{video.title[language] || video.title.es}</h2>
                     )}
                     <div className="flex items-baseline gap-2">
                       <ProjectIndicator

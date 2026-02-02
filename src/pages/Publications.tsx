@@ -60,14 +60,14 @@ export default function Publications({ section }: { section: Section }) {
   return (
     <section className="flex flex-col items-center gap-2">
       {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               key={publication._id}
-              className="_border _p-4 rounded-2xl"
+              className="rounded-2xl"
             >
               <NavLink
                 to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
@@ -85,9 +85,7 @@ export default function Publications({ section }: { section: Section }) {
                   />
                 )}
                 {publication.title?.es && (
-                  <h2 className="font-bold">
-                    {publication.title[language] || publication.title.es}
-                  </h2>
+                  <h2>{publication.title[language] || publication.title.es}</h2>
                 )}
                 {/* {publication.date && <p>{publication.date}</p>} */}
                 {publication.category?.name?.es && (
