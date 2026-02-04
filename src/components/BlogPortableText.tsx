@@ -6,7 +6,7 @@ export const BlogPortableText: PortableTextComponents = {
     image: (props) => (
       <img
         className="my-1 max-w-full rounded-md"
-        src={urlFor(props.value).format("webp").width(600).url() + "&fit=max"}
+        src={urlFor(props.value).format("webp").width(400).url() + "&fit=max"}
       />
     ),
   },
