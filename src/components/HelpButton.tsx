@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 import { motion } from "motion/react";
 
 export default function HelpButton() {
-  const MotionNavLink = motion(NavLink);
+  const MotionNavLink = motion.create(NavLink);
 
   return (
     <Button

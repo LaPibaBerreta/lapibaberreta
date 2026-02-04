@@ -22,7 +22,7 @@ type PublicationsSlug = {
   slug: Slug | null;
 };
 
-const MotionNavLink = motion(NavLink);
+const MotionNavLink = motion.create(NavLink);
 
 export default function NavMenuList({ data, className }: NavMenuListProps) {
   const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
