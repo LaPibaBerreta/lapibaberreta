@@ -68,7 +68,11 @@ export default function PageSelector({ section }: { section: Section }) {
   }
 
   if (ref._id === SECTION_IDS.PHOTOS) {
-    return <Photos />;
+    return (
+      <Section>
+        <Photos />
+      </Section>
+    );
   }
 
   if (ref._id === SECTION_IDS.SHOWS) {
