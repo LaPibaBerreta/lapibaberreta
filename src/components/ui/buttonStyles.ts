@@ -16,7 +16,7 @@ export const buttonVariants = {
   special: "font-secondary",
   secondary: "bg-neutral-200 text-black hover:bg-neutral-300",
   ghost: "bg-transparent hover:bg-neutral-100",
-  link: "border-black rounded-2xl border px-2 whitespace-nowrap bg-white text-blue",
+  link: "border-black rounded-2xl border px-2 whitespace-nowrap bg-black text-white",
   linkMenu: "border-black whitespace-nowrap bg-green font-extra",
 };
 
