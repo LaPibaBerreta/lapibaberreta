@@ -50,6 +50,17 @@
   --font-mono: "SyneMono-Regular", monospace;
   --font-secondary: "SyneTactile-Regular", sans-serif;
   --font-extra: "Syne-Bold", sans-serif;
+
+  --animate-scroll: scroll 25s linear infinite;
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 ::-webkit-scrollbar {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useLanguage from "../hooks/useLanguage";
+import { motion } from "motion/react";
 
 export default function ContactForm() {
   const [result, setResult] = useState("");
@@ -61,12 +62,14 @@ export default function ContactForm() {
           required
         ></textarea>
 
-        <button
-          className="border-text _text-background hover:border-accent hover:bg-accent mt-4 cursor-pointer self-center rounded-xl border bg-white/40 p-1 px-2 hover:text-white"
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="border-text mt-4 cursor-pointer self-center rounded-xl border bg-white/40 p-1 px-2"
           type="submit"
         >
           {language === "es" ? "Enviar" : "Send"}
-        </button>
+        </motion.button>
       </form>
       <span className="text-base">{result}</span>
     </div>

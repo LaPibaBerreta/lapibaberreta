@@ -5,6 +5,7 @@ import useLanguage from "../hooks/useLanguage";
 import ContactForm from "../components/ContactForm";
 import SectionTitle from "../components/SectionTitle";
 import Button from "../components/ui/Button";
+import Marquee from "../components/Marquee";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -18,7 +19,13 @@ export default function Contact({ section }: { section: Section }) {
   if (error) return <div>error.message</div>;
 
   return (
-    <div className="flex w-full flex-col items-center gap-2 pb-8">
+    <div className="flex w-full flex-col items-center gap-1 pb-8">
+      {data?.bookingInfo?.es && (
+        <div className="font-extra sticky top-0 mb-4 flex w-full flex-nowrap overflow-hidden rounded-2xl bg-black text-2xl text-white">
+          <Marquee text={data.bookingInfo[language] || data.bookingInfo.es} />
+        </div>
+      )}
+
       {section.title?.es && (
         <SectionTitle>
           {section.title[language] || section.title.es}
@@ -27,10 +34,11 @@ export default function Contact({ section }: { section: Section }) {
 
       <ContactForm />
 
-      {data?.bookingInfo?.es && (
-        <p>{data.bookingInfo.es || data.bookingInfo[language]}</p>
-      )}
-      {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
+      <div className="my-2 flex flex-col items-center">
+        <p className="font-extra text-xl">
+          {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
+        </p>
+      </div>
 
       {data?.links?.length && (
         <ul className="flex flex-col items-start gap-1">
