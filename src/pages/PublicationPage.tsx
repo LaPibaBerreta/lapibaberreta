@@ -3,13 +3,13 @@ import type { InitialDataQueryResult } from "@/lib/types";
 import { usePublication } from "../hooks/usePublication";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
-import { urlFor } from "../lib/sanityImageUrl";
 import VideoPlayer from "../components/VideoPlayer";
 import ImageGallery from "../components/ImageGallery";
 import { NavLink } from "react-router";
 import useLanguage from "../hooks/useLanguage";
 import LoadToPlayerButton from "../components/LoadToPlayerButton";
 import Button from "../components/ui/Button";
+import PublicationMainImage from "../components/PublicationMainImage";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -27,6 +27,11 @@ export default function PublicationPage({ section }: { section: Section }) {
   console.log("Slug from useParams:", slug);
   console.log("Section:", section);
 
+  //Poeamario y poeasia se ven redundantes juntos
+  const poemarioPoesia =
+    data?.category?.name?.es?.toLowerCase() === "poemario" &&
+    data?.project?.title?.es?.toLowerCase() === "poesía";
+
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -38,24 +43,19 @@ export default function PublicationPage({ section }: { section: Section }) {
         {data?.embed && <LoadToPlayerButton data={data.embed} />}
       </div>
 
-      <div className="flex gap-2">
+      <div className="mb-2 flex gap-2">
         <p>{data?.date}</p>
         {data?.category?.name?.es && (
           <p>{data.category.name[language] || data.category.name.es}</p>
+        )}
+        {data?.project?.title?.es && !poemarioPoesia && (
+          <p>{data.project.title[language] || data.project.title.es}</p>
         )}
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          {data?.mainImage && (
-            <img
-              className="rounded-2xl"
-              src={
-                urlFor(data.mainImage).format("webp").width(600).url() +
-                "&fit=max"
-              }
-            />
-          )}
+          {data?.mainImage && <PublicationMainImage image={data.mainImage} />}
         </div>
         <div>
           {data?.tracklist?.length ? (
@@ -80,19 +80,19 @@ export default function PublicationPage({ section }: { section: Section }) {
           <PortableText value={data.text[language] || data.text.es} />
         )}
 
-        {data?.links?.length &&
-          data.links.map((link) => (
-            <Button motion="pop" variant="link">
-              <a
-                key={link._key}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.title?.es && (link.title[language] || link.title.es)}
-              </a>
-            </Button>
-          ))}
+        {data?.links?.length && (
+          <ul className="my-4 flex flex-wrap gap-2">
+            {data.links.map((link) => (
+              <li key={link._key}>
+                <Button motion="pop" variant="link">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.title?.es && (link.title[language] || link.title.es)}
+                  </a>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
 
         {data?.imageGallery?.length && (
           <ImageGallery data={data.imageGallery} />

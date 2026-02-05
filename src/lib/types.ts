@@ -1167,7 +1167,7 @@ export type ProjectsQueryResult = Array<{
 
 // Source: ../lapibaberreta/src/lib/publicationQuery.ts
 // Variable: publicationQuery
-// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  tracklist,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
+// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  project->{title},  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  tracklist,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
 export type PublicationQueryResult = {
   _id: string;
   title: {
@@ -1187,6 +1187,12 @@ export type PublicationQueryResult = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "section";
+  } | null;
+  project: {
+    title: {
+      es?: string;
+      en?: string;
+    } | null;
   } | null;
   mainImage: {
     asset?: {
@@ -1894,7 +1900,7 @@ declare module "@sanity/client" {
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
     "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  color,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
-    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  tracklist,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
+    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{title},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  tracklist,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
     "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id, color},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
     "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  detail,\n}": VideoQueryResult;

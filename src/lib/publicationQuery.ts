@@ -9,6 +9,7 @@ const publicationQuery = defineQuery(
   date,
   category->{name},
   section,
+  project->{title},
   mainImage,
   text{
     es[]{
