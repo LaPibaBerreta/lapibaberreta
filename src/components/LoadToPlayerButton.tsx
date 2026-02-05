@@ -16,7 +16,7 @@ export default function LoadToPlayerButton({ data }: { data: string }) {
       exit={{ opacity: 0 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
-      className="flex size-12 cursor-pointer items-center justify-center rounded-full border bg-green-400 px-2 py-1 text-3xl lowercase"
+      className="bg-green flex size-12 cursor-pointer items-center justify-center rounded-full border px-2 py-1 text-3xl lowercase"
       onClick={handleClick}
     >
       <Play strokeWidth={1} fill="white" />
