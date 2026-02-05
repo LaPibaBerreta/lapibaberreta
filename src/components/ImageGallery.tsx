@@ -19,7 +19,7 @@ export default function ImageGallery({ data }: ImageGalleryProps) {
   if (!data) return null;
 
   return (
-    <div className="grid items-center gap-1 sm:grid-cols-5">
+    <div className="grid items-center gap-3 sm:grid-cols-5">
       {data.map((image) => (
         <div key={image._key}>
           {isMobile ? (
