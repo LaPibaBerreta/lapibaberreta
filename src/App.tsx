@@ -9,6 +9,7 @@ import { SECTION_IDS } from "./data/constants";
 import { AnimatePresence } from "motion/react";
 import Overlay from "./components/Overlay";
 import HelpPage from "./pages/HelpPage";
+import Lightbox from "./components/Lightbox";
 
 function App() {
   const location = useLocation();
@@ -58,6 +59,7 @@ function App() {
           </Routes>
         </AnimatePresence>
       </div>
+      <Lightbox />
     </div>
   );
 }
