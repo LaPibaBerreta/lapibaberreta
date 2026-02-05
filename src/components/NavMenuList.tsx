@@ -49,7 +49,7 @@ export default function NavMenuList({ data, className }: NavMenuListProps) {
                       as={motion.a}
                       href={section.url}
                       target="_blank"
-                      variant="link"
+                      variant="linkMenu"
                       motion="pop"
                     >
                       {section.title?.es &&

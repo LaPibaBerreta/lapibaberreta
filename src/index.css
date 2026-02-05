@@ -37,6 +37,7 @@
 
 @theme inline {
   --color-accent: #ff3300;
+  --color-blue: #00f;
   --font-display: "Syne-ExtraBold", sans-serif;
   --font-body: "Syne-Regular", sans-serif;
   --font-mono: "SyneMono-Regular", monospace;

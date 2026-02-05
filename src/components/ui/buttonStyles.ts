@@ -15,7 +15,9 @@ export const buttonVariants = {
   pinnedPublication: "bg-yellow-200/80 hover:bg-pink-600 hover:text-white",
   secondary: "bg-neutral-200 text-black hover:bg-neutral-300",
   ghost: "bg-transparent hover:bg-neutral-100",
-  link: "border-accent/40 hover:underline rounded-2xl border px-2 whitespace-nowrap bg-[#00f] text-white",
+  link: "border-black rounded-2xl border px-2 whitespace-nowrap bg-white text-blue",
+  linkMenu:
+    "border-black rounded-2xl border px-2 whitespace-nowrap bg-blue text-white",
 };
 
 export type ButtonVariant = keyof typeof buttonVariants;
