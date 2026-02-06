@@ -101,7 +101,7 @@ export default function PublicationPage({ section }: { section: Section }) {
         {data?.videos?.length && (
           <div className="flex flex-col gap-4">
             {data.videos.map((video) => (
-              <div key={video._id} className="h-100">
+              <div key={video._id} className="aspect-video">
                 {video?.embed && <VideoPlayer embedData={video.embed} />}
               </div>
             ))}
