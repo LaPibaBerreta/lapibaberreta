@@ -5,6 +5,7 @@ import { PortableText } from "@portabletext/react";
 import useLanguage from "../hooks/useLanguage";
 import SectionTitle from "../components/SectionTitle";
 import Button from "../components/ui/Button";
+import { urlFor } from "../lib/sanityImageUrl";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -24,6 +25,18 @@ export default function InfoPage({ section }: { section: Section }) {
           <SectionTitle>
             {section.title[language] || section.title.es}
           </SectionTitle>
+        )}
+
+        {data?.detail?.es && (
+          <div className="">{data?.detail[language] || data?.detail.es}</div>
+        )}
+        {data?.image && (
+          <img
+            src={
+              urlFor(data.image).format("webp").width(800).url() + "&fit=max"
+            }
+            className="rounded-2xl"
+          />
         )}
         {data?.bio?.es && (
           <PortableText value={data.bio[language] || data.bio.es} />
