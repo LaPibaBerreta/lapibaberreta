@@ -17,11 +17,11 @@ export default function PlayerContainer() {
   }, [data?.embed, currentEmbed, setCurrentEmbed]);
 
   return (
-    <section className="pointer-events-none fixed bottom-0 left-0 z-100 flex w-full sm:left-4 lg:z-160">
+    <section className="pointer-events-none fixed bottom-0 left-0 z-100 flex w-full justify-center sm:left-4 sm:justify-start lg:z-160">
       <div
         className={`flex flex-col items-start justify-center transition-all duration-500 ease-in-out ${isExpanded ? "translate-y-0" : "translate-y-75"} pointer-events-none`}
       >
-        <div className="mb-2 ml-2 flex items-center gap-2 sm:mb-4 sm:ml-0">
+        <div className="mb-2 flex items-center gap-2 sm:mb-4 sm:ml-0">
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
