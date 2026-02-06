@@ -35,7 +35,7 @@ export default function Contact({ section }: { section: Section }) {
       <ContactForm />
 
       <div className="my-2 flex flex-col items-center">
-        <p className="font-extra text-xl">
+        <p className="font-extra sm:text-xl">
           {data?.email && <a href={"mailto:" + data.email}>{data.email}</a>}
         </p>
       </div>
