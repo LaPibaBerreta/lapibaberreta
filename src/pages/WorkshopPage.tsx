@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
+import Button from "../components/ui/Button";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -23,33 +24,47 @@ export default function WorkshopPage({ section }: { section: Section }) {
   console.log("Section:", section);
 
   return (
-    <>
-      {data?.title?.es && (
-        <h1 className="text-xl">{data.title[language] || data.title.es}</h1>
-      )}
-      <p>{data?.date}</p>
+    <div className="flex w-full justify-center">
+      <div className="flex max-w-prose flex-col">
+        <div className="mb-3 flex flex-col">
+          {data?.title?.es && (
+            <h1 className="text-xl">{data.title[language] || data.title.es}</h1>
+          )}
+          <span>{data?.date}</span>
+        </div>
 
-      {data?.image && (
-        <img
-          src={urlFor(data.image).format("webp").width(600).url() + "&fit=max"}
-        />
-      )}
+        <div className="mb-3 flex flex-col gap-2">
+          {data?.image && (
+            <img
+              src={
+                urlFor(data.image).format("webp").width(800).url() + "&fit=max"
+              }
+              className="rounded-2xl"
+            />
+          )}
 
-      {data?.text?.es && (
-        <PortableText value={data.text[language] || data.text.es} />
-      )}
-      {data?.links?.length &&
-        data.links.map((link) => (
-          <a
-            key={link._key}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            {link.title?.es && (link.title[language] || link.title.es)}
-          </a>
-        ))}
-    </>
+          {data?.text?.es && (
+            <PortableText value={data.text[language] || data.text.es} />
+          )}
+        </div>
+
+        {data?.links?.length && (
+          <div className="flex flex-col items-start gap-1">
+            {data.links.map((link) => (
+              <Button motion="pop" variant="link">
+                <a
+                  key={link._key}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.title?.es && (link.title[language] || link.title.es)}
+                </a>
+              </Button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

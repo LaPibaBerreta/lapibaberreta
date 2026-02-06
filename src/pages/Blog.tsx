@@ -26,14 +26,16 @@ export default function Blog({ section }: { section: Section }) {
       )}
       {data &&
         data.map((post) => (
-          <div key={post._id} className="my-6 max-w-prose">
-            <div className="mb-1 flex flex-row gap-2">
-              <span className="underline">{post.date}</span>
+          <div key={post._id} className="max-w-prose sm:my-6">
+            <div className="mb-3 flex flex-col">
               {post.title && (
-                <h2 className="font-bold">
+                <h2 className="flex gap-1 text-xl font-bold">
+                  <span>»</span>
                   {post.title.es && (post.title[language] || post.title.es)}
                 </h2>
               )}
+
+              <span className="">{post.date}</span>
             </div>
 
             <PortableText
@@ -44,7 +46,7 @@ export default function Blog({ section }: { section: Section }) {
               }
               components={BlogPortableText}
             />
-            <hr className="my-6 opacity-40" />
+            <hr className="my-8 opacity-40" />
           </div>
         ))}
     </section>
