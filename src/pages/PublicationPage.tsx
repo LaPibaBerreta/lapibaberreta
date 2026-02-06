@@ -53,7 +53,7 @@ export default function PublicationPage({ section }: { section: Section }) {
         )}
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div>
           {data?.mainImage && <PublicationMainImage image={data.mainImage} />}
         </div>

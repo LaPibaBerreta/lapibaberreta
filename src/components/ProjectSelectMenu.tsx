@@ -41,7 +41,7 @@ export default function ProjectSelectMenu() {
         <Button
           motion="pop"
           onClick={() => setIsExpanded((v) => !v)}
-          className="flex items-center gap-1 rounded-2xl border bg-white/50 px-3 shadow-md backdrop-blur-md"
+          className="flex items-center gap-1 rounded-2xl border bg-white/90 px-3 shadow-md backdrop-blur-md"
           style={{ background: backgroundStyle }}
         >
           {selected

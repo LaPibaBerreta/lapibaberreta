@@ -16,12 +16,12 @@ export default function Section({ children }: Props) {
       className="flex w-full items-center justify-center sm:pt-8"
     >
       <motion.div
-        initial={{ opacity: 0, scaleY: 0.75 }}
-        animate={{ opacity: 1, scaleY: 1 }}
-        exit={{ opacity: 0, scaleY: 0.75 }}
+        initial={{ opacity: 0, scale: 0.75 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.75 }}
         className="pointer-events-auto relative w-full min-w-1/2 border-black/20 bg-white/20 shadow-xl backdrop-blur-md sm:w-3/4 sm:rounded-2xl sm:border sm:px-3 sm:pt-0 md:max-h-[calc(100vh-12rem)]"
       >
-        <div className="h-screen overflow-y-auto border-2 border-transparent pt-24 pb-24 sm:h-[calc(100vh-12rem)] sm:p-6">
+        <div className="h-screen overflow-y-auto border-2 border-transparent px-2 pt-24 pb-24 sm:h-[calc(100vh-12rem)] sm:p-6">
           {children}
         </div>
 
