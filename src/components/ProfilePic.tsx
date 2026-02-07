@@ -62,7 +62,7 @@ export default function ProfilePic() {
                     ease: "easeIn",
                   },
                 }}
-                className="fixed bottom-8 left-30 max-w-75 origin-left bg-white text-xs"
+                className="fixed bottom-6 left-28 w-40 origin-left bg-white text-xs sm:w-auto sm:max-w-75"
               >
                 {data.status[language] || data.status.es}
               </motion.div>
