@@ -225,11 +225,6 @@ export type SiteConfig = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "project";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "workshop";
     } | {
       _ref: string;
@@ -976,14 +971,6 @@ export type InitialDataQueryResult = {
     } | {
       _id: string;
       _type: "photos";
-      title: {
-        es?: string;
-        en?: string;
-      } | null;
-      slug: string | null;
-    } | {
-      _id: string;
-      _type: "project";
       title: {
         es?: string;
         en?: string;
