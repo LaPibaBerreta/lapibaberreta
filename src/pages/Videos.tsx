@@ -1,12 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Loading from "../components/Loading";
 import { useVideos } from "../hooks/useVideos";
-import type { InitialDataQueryResult, VideosQueryResult } from "@/lib/types";
-import VideoPlayer from "../components/VideoPlayer";
+import { NavLink } from "react-router";
+import { urlFor } from "../lib/sanityImageUrl";
+import { useInitialData } from "../hooks/useInitialData";
+import type { InitialDataQueryResult } from "@/lib/types";
 import useFilterByProject from "../hooks/useFilterByProject";
 import useLanguage from "../hooks/useLanguage";
 import { useProjects } from "../hooks/useProjects";
-import VideoInfoPanel from "../components/VideoInfoPanel";
+import { motion } from "motion/react";
+import { SECTION_IDS } from "../data/constants";
 import ProjectIndicator from "../components/ProjectIndicator";
 import SectionTitle from "../components/SectionTitle";
 
@@ -17,22 +20,18 @@ type Section = NonNullable<
 export default function Videos({ section }: { section: Section }) {
   const { data, isLoading, error } = useVideos();
   const { data: projectsData, isLoading: projectsDataLoading } = useProjects();
+  const { data: initialData } = useInitialData();
   const { selectedProject } = useFilterByProject();
   const { language } = useLanguage();
-  const [isInfoPanelOpen, setIsInfoPanelOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<
-    VideosQueryResult[number] | null
-  >(null);
+
+  const videosSection = initialData?.sections?.find(
+    (section) => section.reference?._id === SECTION_IDS.VIDEOS,
+  );
 
   const filteredData = data?.filter((video) => {
     if (!selectedProject) return true;
     return video.project?._id === selectedProject;
   });
-
-  const handleInfoClick = (video: VideosQueryResult[number]) => {
-    setIsInfoPanelOpen(true);
-    setSelectedVideo(video);
-  };
 
   if (isLoading || projectsDataLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
@@ -66,39 +65,46 @@ export default function Videos({ section }: { section: Section }) {
         {filteredData?.length ? (
           filteredData.map((video) =>
             video.embed ? (
-              <div key={video._id}>
-                <div className="h-55">
-                  <VideoPlayer embedData={video.embed} />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex flex-col items-start">
-                    {video.title?.es && (
-                      <h2>{video.title[language] || video.title.es}</h2>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                key={video._id}
+                className="rounded-2xl"
+              >
+                <NavLink
+                  to={`/${videosSection?.reference?.slug}/${video.slug?.current}`}
+                >
+                  {video.image && (
+                    <img
+                      className="aspect-video w-full rounded-2xl object-cover"
+                      src={urlFor(video.image)
+                        .format("webp")
+                        .width(800)
+                        .height(450)
+                        .fit("crop")
+                        .url()}
+                    />
+                  )}
+                  {video.title?.es && (
+                    <h2>{video.title[language] || video.title.es}</h2>
+                  )}
+                  <div className="flex items-baseline gap-2">
+                    <ProjectIndicator color={video?.project?.color || "000"} />
+
+                    {video.category?.name?.es && (
+                      <div className="text-xs">
+                        {video.category.name[language] ||
+                          video.category.name.es}
+                      </div>
                     )}
-                    <div className="flex items-baseline gap-2">
-                      <ProjectIndicator
-                        color={video?.project?.color || "000"}
-                      />
-                      {video.category?.name?.es && (
-                        <div className="text-xs">
-                          {video.category.name[language] ||
-                            video.category.name.es}
-                        </div>
-                      )}
-
-                      {video.detail?.es && (
-                        <div className="border-l pl-2 text-xs">
-                          {video.detail?.[language] || video.detail.es}
-                        </div>
-                      )}
-                    </div>
+                    {video.detail?.es && (
+                      <div className="border bg-black text-xs text-white">
+                        {video.detail[language] || video.detail.es}
+                      </div>
+                    )}
                   </div>
-                </div>
-
-                {video.text?.es && (
-                  <button onClick={() => handleInfoClick(video)}>INFO</button>
-                )}
-              </div>
+                </NavLink>
+              </motion.div>
             ) : null,
           )
         ) : language === "es" ? (
@@ -118,12 +124,6 @@ export default function Videos({ section }: { section: Section }) {
             }{" "}
             {section?.title?.en || section.title?.es}
           </p>
-        )}
-        {isInfoPanelOpen && selectedVideo && (
-          <VideoInfoPanel
-            video={selectedVideo}
-            handleClose={() => setIsInfoPanelOpen(false)}
-          />
         )}
       </div>
     </section>
