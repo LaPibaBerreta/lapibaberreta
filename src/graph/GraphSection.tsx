@@ -94,7 +94,7 @@ export default function GraphSection() {
   const { nodes, links } = buildGraph(graphInputData, language);
 
   return (
-    <section className="flex h-screen w-full items-center justify-center">
+    <section className="flex h-screen w-full cursor-crosshair items-center justify-center">
       <Graph
         key={`${selectedProject ?? "all"}-${language}`}
         nodes={nodes}
