@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { InitialDataQueryResult, OraculoQueryResult } from "@/lib/types";
 import { useOraculo } from "../hooks/useOraculo";
 import Loading from "../components/Loading";
@@ -6,7 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
 import TiltedCard from "../components/TiltedCard";
-import SectionTitle from "../components/SectionTitle";
+import Button from "../components/ui/Button";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -18,6 +18,14 @@ export default function Oracle({ section }: { section: Section }) {
   const { data, isLoading, error } = useOraculo();
   const [currentCard, setCurrentCard] = useState<OracleCard | null>(null);
   const { language } = useLanguage();
+  const topRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToTop = () => {
+    topRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   if (isLoading) return <Loading />;
   if (error) return <div>error.message</div>;
@@ -34,14 +42,20 @@ export default function Oracle({ section }: { section: Section }) {
     : section?.title?.es && (section.title[language] || section.title.es);
 
   return (
-    <div className="_justify-center flex h-full flex-col items-center gap-2">
-      <div className="capitalize">
-        {title && <SectionTitle>{title.toLowerCase()}</SectionTitle>}
-      </div>
+    <div
+      ref={topRef}
+      className="mb-16 flex scroll-m-16 flex-col items-center gap-6"
+    >
+      {title && (
+        <h1 className="font-secondary text-6xl capitalize">
+          {title.toLowerCase()}
+        </h1>
+      )}
+
       {currentCard ? (
         <div
           key={currentCard._key}
-          className="flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-6"
         >
           {currentCard.image && currentCard.title?.es && (
             <TiltedCard
@@ -69,24 +83,40 @@ export default function Oracle({ section }: { section: Section }) {
           )}
 
           {currentCard.text?.es && (
-            <div className="max-w-prose">
+            <div className="max-w-xl text-center text-xl">
               <PortableText
                 value={currentCard.text[language] || currentCard.text.es}
               />
             </div>
           )}
+
+          <Button
+            motion="pop"
+            className="my-2 px-2 text-2xl underline"
+            onClick={() => {
+              setCurrentCard(null);
+              scrollToTop();
+            }}
+          >
+            {language === "es" ? "Volver al Oráculo" : "Back to Oracle"}
+          </Button>
         </div>
       ) : (
-        data?.text?.es && (
-          <div className="max-w-prose text-center">
-            <PortableText value={data.text[language] || data.text.es} />
-          </div>
-        )
+        <div className="mb-16 flex flex-col items-center gap-6">
+          <Button
+            motion="pop"
+            className="bg-blue my-2 h-16 w-64 rounded-full px-3 font-mono text-2xl text-white"
+            onClick={handleGetCard}
+          >
+            {language === "es" ? "Pedir Carta" : "Ask a Card"}
+          </Button>
+          {data?.text?.es && (
+            <div className="flex max-w-2xl flex-col gap-4 text-center text-xl">
+              <PortableText value={data.text[language] || data.text.es} />
+            </div>
+          )}
+        </div>
       )}
-
-      <button className="my-2 border px-2 text-2xl" onClick={handleGetCard}>
-        {language === "es" ? "Pedir Carta" : "Ask a Card"}
-      </button>
     </div>
   );
 }
