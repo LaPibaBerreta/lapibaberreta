@@ -53,13 +53,13 @@ export default function PublicationPage({ section }: { section: Section }) {
         )}
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
+      <div className="mb-8 grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
+        <div className="top-0 lg:sticky">
           {data?.mainImage && <PublicationMainImage image={data.mainImage} />}
         </div>
         <div>
-          {data?.tracklist?.length ? (
-            <ul>
+          {data?.tracklist?.length && (
+            <ul className="mb-4 font-mono">
               {data.tracklist.map((track, index) => {
                 return (
                   <li key={index + track}>
@@ -68,18 +68,14 @@ export default function PublicationPage({ section }: { section: Section }) {
                 );
               })}
             </ul>
-          ) : (
-            data?.text?.es && (
-              <PortableText value={data.text[language] || data.text.es} />
-            )
+          )}
+
+          {data?.text?.es && (
+            <PortableText value={data.text[language] || data.text.es} />
           )}
         </div>
       </div>
       <div className="flex flex-col gap-8">
-        {data?.tracklist?.length && data?.text?.es && (
-          <PortableText value={data.text[language] || data.text.es} />
-        )}
-
         {data?.links?.length && (
           <ul className="my-4 flex flex-wrap justify-center gap-2 sm:justify-start">
             {data.links.map((link) => (
