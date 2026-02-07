@@ -78,8 +78,8 @@ export default function Publications({ section }: { section: Section }) {
                     src={
                       urlFor(publication.mainImage)
                         .format("webp")
-                        .width(400)
-                        .height(400)
+                        .width(800)
+                        .height(800)
                         .url() + "&fit=max"
                     }
                   />
