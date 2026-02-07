@@ -81,7 +81,7 @@ export default function PublicationPage({ section }: { section: Section }) {
         )}
 
         {data?.links?.length && (
-          <ul className="my-4 flex flex-wrap gap-2">
+          <ul className="my-4 flex flex-wrap justify-center gap-2 sm:justify-start">
             {data.links.map((link) => (
               <li key={link._key}>
                 <Button motion="pop" variant="link">

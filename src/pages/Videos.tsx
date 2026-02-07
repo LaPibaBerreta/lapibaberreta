@@ -98,7 +98,7 @@ export default function Videos({ section }: { section: Section }) {
                       </div>
                     )}
                     {video.detail?.es && (
-                      <div className="border bg-black text-xs text-white">
+                      <div className="bg-black text-xs text-white">
                         {video.detail[language] || video.detail.es}
                       </div>
                     )}

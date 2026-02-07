@@ -25,9 +25,11 @@ export default function VideoPage({ section }: { section: Section }) {
   return (
     <>
       {video?.embed && <VideoPlayer embedData={video?.embed} />}
-      {video?.text?.es && (
-        <PortableText value={video.text[language] || video.text.es} />
-      )}
+      <div className="mt-2">
+        {video?.text?.es && (
+          <PortableText value={video.text[language] || video.text.es} />
+        )}
+      </div>
     </>
   );
 }

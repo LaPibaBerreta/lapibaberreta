@@ -42,7 +42,7 @@ export default function InfoPage({ section }: { section: Section }) {
           <PortableText value={data.bio[language] || data.bio.es} />
         )}
         {data?.pressLinks?.length && (
-          <ul className="my-4 flex flex-wrap gap-2">
+          <ul className="my-4 flex flex-wrap justify-center gap-2 sm:justify-start">
             {data.pressLinks.map((link) => (
               <li key={link._key}>
                 <Button motion="pop" variant="link">
