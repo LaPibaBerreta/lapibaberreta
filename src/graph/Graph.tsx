@@ -402,7 +402,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
             >
               <img
                 src={hoveredNode.imageUrl}
-                className={`max-h-[50vh] ${isTablet ? "max-w-sm" : "max-w-lg"} rounded shadow-lg`}
+                className={`max-h-[50vh] ${isTablet ? "max-w-sm" : "max-w-lg"} rounded-2xl shadow-lg`}
               />
             </motion.div>
           )}
