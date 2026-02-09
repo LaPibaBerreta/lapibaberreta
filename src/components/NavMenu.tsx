@@ -84,7 +84,7 @@ export default function NavMenu() {
           <>
             <NavMenuList
               data={sections}
-              className="pointer-events-auto flex h-screen flex-col items-end justify-end gap-1 bg-violet-200/20 pr-2 pb-20 font-mono text-lg backdrop-blur-md sm:pr-4"
+              className="pointer-events-auto flex h-dvh flex-col items-end justify-end gap-1 bg-violet-200/20 pr-2 pb-20 font-mono text-lg backdrop-blur-md sm:pr-4"
             />
 
             <div className="pointer-events-auto fixed top-5 right-2 z-100 flex gap-4 text-2xl sm:right-4 sm:text-xl">
