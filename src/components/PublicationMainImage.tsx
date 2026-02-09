@@ -3,6 +3,7 @@ import type { PublicationQueryResult } from "../lib/types";
 import { motion } from "motion/react";
 import useIsMobile from "../hooks/useIsMobile";
 import useLightbox from "../hooks/useLightbox";
+import Image from "./Image";
 
 type MainImage = NonNullable<PublicationQueryResult>["mainImage"];
 
@@ -13,25 +14,23 @@ export default function PublicationMainImage({ image }: { image: MainImage }) {
   if (!image) return null;
 
   return (
-    <>
+    <div>
       {isMobile ? (
-        <motion.img
-          src={urlFor(image).format("webp").width(400).url() + "&fit=max"}
-          className="pointer-events-auto cursor-pointer rounded-2xl"
-        />
+        <Image imageData={image} width={800} />
       ) : (
-        <motion.img
+        <motion.div
+          className="cursor-pointer"
           whileTap={{ scale: 0.95 }}
           onClick={() => {
             if (!isMobile) {
-              setCurrentImage(urlFor(image).format("webp").height(800).url());
+              setCurrentImage(urlFor(image).format("webp").height(1000).url());
               setIsLightboxOpen(true);
             }
           }}
-          src={urlFor(image).format("webp").width(600).url() + "&fit=max"}
-          className="pointer-events-auto cursor-pointer rounded-2xl"
-        />
+        >
+          <Image imageData={image} width={800} />
+        </motion.div>
       )}
-    </>
+    </div>
   );
 }

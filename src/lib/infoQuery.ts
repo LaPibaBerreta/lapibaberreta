@@ -4,7 +4,10 @@ import { defineQuery } from "groq";
 const infoQuery = defineQuery(`*[_type == "info"][0]{
   name,
   detail,
-  image,
+  image{
+    ...,
+    "aspectRatio": asset->metadata.dimensions.aspectRatio,
+  },
   bio,
   pressLinks,
 }`);

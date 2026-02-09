@@ -11,7 +11,10 @@ const publicationsQuery =
   category->{_id, name},
   section,
   project->{_id, color},
-  mainImage,
+  mainImage{
+    ...,
+    "aspectRatio": asset->metadata.dimensions.aspectRatio,
+  },
   text{
     es[]{
     ...,

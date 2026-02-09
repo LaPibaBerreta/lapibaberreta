@@ -3,9 +3,9 @@ import type { InitialDataQueryResult } from "@/lib/types";
 import { useWorkshop } from "../hooks/useWorkshop";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
-import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
 import Button from "../components/ui/Button";
+import Image from "../components/Image";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -34,14 +34,7 @@ export default function WorkshopPage({ section }: { section: Section }) {
         </div>
 
         <div className="mb-3 flex flex-col gap-2">
-          {data?.image && (
-            <img
-              src={
-                urlFor(data.image).format("webp").width(800).url() + "&fit=max"
-              }
-              className="rounded-2xl"
-            />
-          )}
+          {data?.image && <Image imageData={data.image} width={800} />}
 
           {data?.text?.es && (
             <PortableText value={data.text[language] || data.text.es} />

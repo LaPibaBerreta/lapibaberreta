@@ -3,10 +3,10 @@ import { NavLink } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
-import { urlFor } from "../lib/sanityImageUrl";
 import { SECTION_IDS } from "../data/constants";
 import useLanguage from "../hooks/useLanguage";
 import SectionTitle from "../components/SectionTitle";
+import Image from "../components/Image";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -31,21 +31,15 @@ export default function Workshops({ section }: { section: Section }) {
           {section.title[language] || section.title.es}
         </SectionTitle>
       )}
-      <div className="flex gap-2">
+      <div className="flex w-full flex-col gap-2 sm:flex-row">
         {data &&
           data.map((workshop) => (
-            <div key={workshop._id} className="p-4">
+            <div key={workshop._id} className="w-full p-4">
               <NavLink
                 to={`/${workshopsSection?.reference?.slug}/${workshop.slug?.current}`}
               >
                 {workshop.image && (
-                  <img
-                    className="rounded-2xl"
-                    src={
-                      urlFor(workshop.image).format("webp").width(400).url() +
-                      "&fit=max"
-                    }
-                  />
+                  <Image imageData={workshop.image} width={600} />
                 )}
                 <h2>
                   {workshop.title?.es &&

@@ -3,6 +3,7 @@ import { urlFor } from "../lib/sanityImageUrl";
 import { motion } from "motion/react";
 import useIsMobile from "../hooks/useIsMobile";
 import useLightbox from "../hooks/useLightbox";
+import Image from "./Image";
 
 type PublicationImages = NonNullable<
   NonNullable<PublicationQueryResult>["imageGallery"]
@@ -23,12 +24,9 @@ export default function ImageGallery({ data }: ImageGalleryProps) {
       {data.map((image) => (
         <div key={image._key}>
           {isMobile ? (
-            <motion.img
-              src={urlFor(image).format("webp").width(400).url() + "&fit=max"}
-              className="pointer-events-auto cursor-pointer rounded-2xl"
-            />
+            <Image imageData={image} width={400} />
           ) : (
-            <motion.img
+            <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
@@ -39,9 +37,10 @@ export default function ImageGallery({ data }: ImageGalleryProps) {
                   setIsLightboxOpen(true);
                 }
               }}
-              src={urlFor(image).format("webp").width(400).url() + "&fit=max"}
-              className="pointer-events-auto cursor-pointer rounded-2xl"
-            />
+              className="cursor-pointer"
+            >
+              <Image imageData={image} width={400} />
+            </motion.div>
           )}
         </div>
       ))}

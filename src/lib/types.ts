@@ -862,7 +862,7 @@ export type ContactQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/infoQuery.ts
 // Variable: infoQuery
-// Query: *[_type == "info"][0]{  name,  detail,  image,  bio,  pressLinks,}
+// Query: *[_type == "info"][0]{  name,  detail,  image{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  },  bio,  pressLinks,}
 export type InfoQueryResult = {
   name: string | null;
   detail: {
@@ -880,6 +880,7 @@ export type InfoQueryResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+    aspectRatio: number | null;
   } | null;
   bio: {
     es?: BlockContent;
@@ -1054,7 +1055,7 @@ export type OraculoQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/photosQuery.ts
 // Variable: photosQuery
-// Query: *[_type == "photos"][0]{  title,  slug,  imageGallery}
+// Query: *[_type == "photos"][0]{  title,  slug,  imageGallery[]{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  }}
 export type PhotosQueryResult = {
   title: {
     es?: string;
@@ -1073,6 +1074,7 @@ export type PhotosQueryResult = {
     crop?: SanityImageCrop;
     _type: "image";
     _key: string;
+    aspectRatio: number | null;
   }> | null;
 } | null;
 
@@ -1186,7 +1188,7 @@ export type ProjectsQueryResult = Array<{
 
 // Source: ../lapibaberreta/src/lib/publicationQuery.ts
 // Variable: publicationQuery
-// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  project->{title},  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  tracklist,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
+// Query: *[_type == "publication" && slug.current == $slug][0]{  _id,  title,  slug,  date,  category->{name},  section,  project->{title},  mainImage{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  },  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  tracklist,  imageGallery,  videos[]->{    _id,    title,    embed  },  links,  additionalDocument->{    _id,    title,    slug  },}
 export type PublicationQueryResult = {
   _id: string;
   title: {
@@ -1224,6 +1226,7 @@ export type PublicationQueryResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+    aspectRatio: number | null;
   } | null;
   text: {
     es: Array<{
@@ -1337,7 +1340,7 @@ export type PublicationQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/publicationsQuery.ts
 // Variable: publicationsQuery
-// Query: *[_type == "publication"] | order(date desc){  _id,  title,  slug,  date,  category->{_id, name},  section,  project->{_id, color},  mainImage,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
+// Query: *[_type == "publication"] | order(date desc){  _id,  title,  slug,  date,  category->{_id, name},  section,  project->{_id, color},  mainImage{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  },  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  embed,  imageGallery,  videos,  links,  additionalDocument,}
 export type PublicationsQueryResult = Array<{
   _id: string;
   title: {
@@ -1374,6 +1377,7 @@ export type PublicationsQueryResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+    aspectRatio: number | null;
   } | null;
   text: {
     es: Array<{
@@ -1696,7 +1700,7 @@ export type VideosQueryResult = Array<{
 
 // Source: ../lapibaberreta/src/lib/workshopQuery.ts
 // Variable: workshopQuery
-// Query: *[_type == "workshop" && slug.current == $slug][0]{  _id,  title,  slug,  date,  section,  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
+// Query: *[_type == "workshop" && slug.current == $slug][0]{  _id,  title,  slug,  date,  section,  image{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  },  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
 export type WorkshopQueryResult = {
   _id: string;
   title: {
@@ -1722,6 +1726,7 @@ export type WorkshopQueryResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+    aspectRatio: number | null;
   } | null;
   text: {
     es: Array<{
@@ -1804,7 +1809,7 @@ export type WorkshopQueryResult = {
 
 // Source: ../lapibaberreta/src/lib/workshopsQuery.ts
 // Variable: workshopsQuery
-// Query: *[_type == "workshop"] | order(date desc){  _id,  title,  slug,  date,  project->{_id},  image,  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
+// Query: *[_type == "workshop"] | order(date desc){  _id,  title,  slug,  date,  project->{_id},  image{    ...,    "aspectRatio": asset->metadata.dimensions.aspectRatio,  },  text{    es[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },    en[]{    ...,    _type == "image" => {        ...,        'url': asset->url,      }    },  },  links,}
 export type WorkshopsQueryResult = Array<{
   _id: string;
   title: {
@@ -1827,6 +1832,7 @@ export type WorkshopsQueryResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
+    aspectRatio: number | null;
   } | null;
   text: {
     es: Array<{
@@ -1914,17 +1920,17 @@ declare module "@sanity/client" {
     "*[_type == \"blogPost\"] | order(date desc){\n  _id,\n  title,\n  date,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n}": BlogPostsQueryResult;
     "*[_type == \"board\"][0]{\n  title,\n  text,\n  embed\n}": BoardQueryResult;
     "*[_type == \"contact\"][0]{\n  email,\n  links,\n  bookingInfo,\n  bookingContact\n}": ContactQueryResult;
-    "*[_type == \"info\"][0]{\n  name,\n  detail,\n  image,\n  bio,\n  pressLinks,\n}": InfoQueryResult;
+    "*[_type == \"info\"][0]{\n  name,\n  detail,\n  image{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  },\n  bio,\n  pressLinks,\n}": InfoQueryResult;
     "*[_type == \"siteConfig\"][0]{\n\n  title,\n  backgroundImage,\n  status,\n  sections[]{\n    title,\n    isHighlighted,\n    isHidden,\n    url,\n    icon,\n    group,\n    reference->{\n      _id,\n      _type,\n      title,\n      \"slug\": slug.current\n    }\n  },\n  embed,\n}": InitialDataQueryResult;
     "*[_type == \"oraculo\"][0]{\n  title,\n  image,\n  text,\n  cards\n}": OraculoQueryResult;
-    "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery\n}": PhotosQueryResult;
+    "*[_type == \"photos\"][0]{\n  title,\n  slug,\n  imageGallery[]{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  }\n}": PhotosQueryResult;
     "*[_type == \"project\"] | order(_createdAt asc){\n  _id,\n  title,\n  slug,\n  section,\n  color,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": ProjectsQueryResult;
-    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{title},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  tracklist,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
-    "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id, color},\n  mainImage,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
+    "*[_type == \"publication\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  category->{name},\n  section,\n  project->{title},\n  mainImage{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  },\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  tracklist,\n  imageGallery,\n  videos[]->{\n    _id,\n    title,\n    embed\n  },\n  links,\n  additionalDocument->{\n    _id,\n    title,\n    slug\n  },\n}": PublicationQueryResult;
+    "*[_type == \"publication\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id, color},\n  mainImage{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  },\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  imageGallery,\n  videos,\n  links,\n  additionalDocument,\n}": PublicationsQueryResult;
     "*[_type == \"section\"]{\n  _id,\n  slug,\n}": SectionSlugQueryResult;
     "*[_type == \"video\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  detail,\n}": VideoQueryResult;
     "*[_type == \"video\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  category->{_id, name},\n  section,\n  project->{_id, color},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  embed,\n  detail,\n}": VideosQueryResult;
-    "*[_type == \"workshop\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  section,\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopQueryResult;
-    "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  project->{_id},\n  image,\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
+    "*[_type == \"workshop\" && slug.current == $slug][0]{\n  _id,\n  title,\n  slug,\n  date,\n  section,\n  image{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  },\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopQueryResult;
+    "*[_type == \"workshop\"] | order(date desc){\n  _id,\n  title,\n  slug,\n  date,\n  project->{_id},\n  image{\n    ...,\n    \"aspectRatio\": asset->metadata.dimensions.aspectRatio,\n  },\n  text{\n    es[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n    en[]{\n    ...,\n    _type == \"image\" => {\n        ...,\n        'url': asset->url,\n      }\n    },\n  },\n  links,\n}": WorkshopsQueryResult;
   }
 }

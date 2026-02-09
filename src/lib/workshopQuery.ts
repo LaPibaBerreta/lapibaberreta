@@ -8,7 +8,10 @@ const workshopQuery = defineQuery(
   slug,
   date,
   section,
-  image,
+  image{
+    ...,
+    "aspectRatio": asset->metadata.dimensions.aspectRatio,
+  },
   text{
     es[]{
     ...,

@@ -10,7 +10,10 @@ const publicationQuery = defineQuery(
   category->{name},
   section,
   project->{title},
-  mainImage,
+  mainImage{
+    ...,
+    "aspectRatio": asset->metadata.dimensions.aspectRatio,
+  },
   text{
     es[]{
     ...,

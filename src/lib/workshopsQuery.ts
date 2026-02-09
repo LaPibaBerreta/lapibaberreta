@@ -7,7 +7,10 @@ const workshopsQuery = defineQuery(`*[_type == "workshop"] | order(date desc){
   slug,
   date,
   project->{_id},
-  image,
+  image{
+    ...,
+    "aspectRatio": asset->metadata.dimensions.aspectRatio,
+  },
   text{
     es[]{
     ...,

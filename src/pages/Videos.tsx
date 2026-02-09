@@ -2,7 +2,6 @@
 import Loading from "../components/Loading";
 import { useVideos } from "../hooks/useVideos";
 import { NavLink } from "react-router";
-import { urlFor } from "../lib/sanityImageUrl";
 import { useInitialData } from "../hooks/useInitialData";
 import type { InitialDataQueryResult } from "@/lib/types";
 import useFilterByProject from "../hooks/useFilterByProject";
@@ -12,6 +11,7 @@ import { motion } from "motion/react";
 import { SECTION_IDS } from "../data/constants";
 import ProjectIndicator from "../components/ProjectIndicator";
 import SectionTitle from "../components/SectionTitle";
+import Image from "../components/Image";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -75,14 +75,11 @@ export default function Videos({ section }: { section: Section }) {
                   to={`/${videosSection?.reference?.slug}/${video.slug?.current}`}
                 >
                   {video.image && (
-                    <img
-                      className="aspect-video w-full rounded-2xl object-cover"
-                      src={urlFor(video.image)
-                        .format("webp")
-                        .width(800)
-                        .height(450)
-                        .fit("crop")
-                        .url()}
+                    <Image
+                      imageData={video.image}
+                      aspectRatio="1.77"
+                      width={600}
+                      // height={450}
                     />
                   )}
                   {video.title?.es && (

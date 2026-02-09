@@ -2,8 +2,11 @@ import { usePublications } from "../hooks/usePublications";
 import { NavLink } from "react-router";
 import { useInitialData } from "../hooks/useInitialData";
 import Loading from "../components/Loading";
-import type { InitialDataQueryResult } from "@/lib/types";
-import { urlFor } from "../lib/sanityImageUrl";
+import type {
+  InitialDataQueryResult,
+  PublicationsQueryResult,
+} from "@/lib/types";
+// import { urlFor } from "../lib/sanityImageUrl";
 import { SECTION_IDS } from "../data/constants";
 import useFilterByProject from "../hooks/useFilterByProject";
 import useLanguage from "../hooks/useLanguage";
@@ -11,10 +14,13 @@ import { useProjects } from "../hooks/useProjects";
 import { motion } from "motion/react";
 import ProjectIndicator from "../components/ProjectIndicator";
 import SectionTitle from "../components/SectionTitle";
+import Image from "../components/Image";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
 >[number];
+
+type Publication = PublicationsQueryResult[number];
 
 export default function Publications({ section }: { section: Section }) {
   const { data, isLoading, error } = usePublications();
@@ -27,9 +33,9 @@ export default function Publications({ section }: { section: Section }) {
     (section) => section.reference?._id === SECTION_IDS.PUBLICATIONS,
   );
 
-  const filteredData = data?.filter((publication) => {
+  const filteredData = data?.filter((publication: Publication) => {
     if (!selectedProject) return true;
-    return publication.project?._id === selectedProject;
+    return publication?.project?._id === selectedProject;
   });
 
   if (isLoading || projectsDataLoading) return <Loading />;
@@ -73,15 +79,10 @@ export default function Publications({ section }: { section: Section }) {
                 to={`/${publicationsSection?.reference?.slug}/${publication.slug?.current}`}
               >
                 {publication.mainImage && (
-                  <img
-                    className="rounded-2xl"
-                    src={
-                      urlFor(publication.mainImage)
-                        .format("webp")
-                        .width(800)
-                        .height(800)
-                        .url() + "&fit=max"
-                    }
+                  <Image
+                    imageData={publication.mainImage}
+                    aspectRatio="1"
+                    width={600}
                   />
                 )}
                 {publication.title?.es && (
