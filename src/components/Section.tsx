@@ -9,12 +9,7 @@ type Props = {
 
 export default function Section({ children }: Props) {
   return (
-    <motion.section
-      //      initial={{ opacity: 0 }}
-      //     animate={{ opacity: 1 }}
-      //    exit={{ opacity: 0 }}
-      className="flex w-full items-center justify-center sm:pt-8"
-    >
+    <motion.section className="flex w-full items-center justify-center sm:pt-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.75 }}
         animate={{ opacity: 1, scale: 1 }}
