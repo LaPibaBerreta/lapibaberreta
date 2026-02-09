@@ -33,6 +33,8 @@ function getNodeIcon(d: SimNode): string | null {
       return nodeStyles.board?.icon ?? null;
     case SECTION_IDS.ORACLE:
       return nodeStyles.oracle?.icon ?? null;
+    case SECTION_IDS.CONTACT:
+      return nodeStyles.contact?.icon ?? null;
   }
 
   return nodeStyles[d.nodeType]?.icon ?? nodeStyles.default?.icon ?? null;

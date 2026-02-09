@@ -47,7 +47,8 @@ export type SectionType =
   | "info"
   | "oracle"
   | "workshops"
-  | "board";
+  | "board"
+  | "contact";
 
 export type GraphNode = {
   id: string;

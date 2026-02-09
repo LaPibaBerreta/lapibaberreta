@@ -9,4 +9,5 @@ export const SECTION_IDS = {
   INFO: "3fe4a919-9ae7-4857-9f95-f69775589c1a",
   BOARD: "c9329d13-1290-49d3-a7d5-07ea1ce8f178",
   ORACLE: "a42163f4-c2ce-4e42-b23f-d677c68461db",
+  CONTACT: "a0eaa230-fbc1-40e6-8bfb-cc8b6bfac169",
 };

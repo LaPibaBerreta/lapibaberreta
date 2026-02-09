@@ -39,6 +39,7 @@ const nodeStyles: Partial<Record<NodeStyleKey, NodeStyle>> = {
   workshops: { icon: "/icons/workshops.svg", size: 1 },
   board: { icon: "/icons/board.svg", size: 1 },
   oracle: { icon: "/icons/oracle.svg", color: "#e086d3", size: 1 },
+  contact: { icon: "/icons/contact.svg", size: 1 },
 
   // active: { icon: "/icons/home.svg", color: "#fb3640", size: 26 },
   // hover: { color: "#bce784", size: 14 },
