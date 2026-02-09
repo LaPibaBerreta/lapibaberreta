@@ -1,6 +1,5 @@
 import { NavLink } from "react-router";
 import { motion } from "motion/react";
-import Loading from "../components/Loading";
 import { SECTION_IDS } from "../data/constants";
 import { useSectionSlug } from "../hooks/useSectionSlug";
 import useLanguage from "../hooks/useLanguage";
@@ -27,7 +26,7 @@ export default function NavMenuList({ data, className }: NavMenuListProps) {
   const { data: sectionSlug, isLoading: sectionSlugLoading } = useSectionSlug();
   const { language } = useLanguage();
 
-  if (sectionSlugLoading) return <Loading />;
+  if (sectionSlugLoading) return null;
 
   const publicationsSlug = sectionSlug?.find(
     (section) => section._id === SECTION_IDS.PUBLICATIONS,

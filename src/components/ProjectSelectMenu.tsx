@@ -17,7 +17,7 @@ export default function ProjectSelectMenu() {
   const { language } = useLanguage();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (projectsLoading) return <div>...</div>;
+  if (projectsLoading) return null;
   if (projectsError) return <div>{projectsError?.message}</div>;
 
   const selected = selectedProject
