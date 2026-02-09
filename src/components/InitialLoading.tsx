@@ -6,9 +6,10 @@ export default function InitialLoading() {
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="text-accent fixed z-800 flex h-screen w-full items-center justify-center bg-black font-mono text-3xl"
+      className="text-accent relative z-800 flex h-screen w-full items-center justify-center bg-black font-mono text-3xl"
     >
-      LOADING...
+      <div className="absolute h-screen w-full bg-black" />
+      <div className="bg-accent absolute h-screen w-full animate-pulse" />
     </motion.div>
   );
 }
