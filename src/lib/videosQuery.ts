@@ -1,7 +1,6 @@
 import { client } from "./sanityClient";
 import { defineQuery } from "groq";
 
-//TODO: volar lo que no se necesita
 const videosQuery = defineQuery(`*[_type == "video"] | order(date desc){
   _id,
   title,

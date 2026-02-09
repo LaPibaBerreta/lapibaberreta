@@ -9,7 +9,6 @@ export const buttonMotion = {
 export const buttonBase =
   "inline-flex items-center justify-center cursor-pointer transition-colors";
 
-// TODO: ajustar variantes
 export const buttonVariants = {
   primary: "",
   pinnedPublication: "bg-magenta font-extra",

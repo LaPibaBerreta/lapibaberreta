@@ -4,7 +4,6 @@ export default function VideoPlayer({ embedData }: { embedData: string }) {
   const { videoId, playlistId } = parseYouTubeURL(embedData);
 
   if (!videoId && !playlistId) {
-    // TODO: agregar mensaje de error
     return <div className="text-red-500">¯\_(ツ)_/¯</div>;
   }
 

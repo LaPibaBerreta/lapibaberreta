@@ -27,8 +27,6 @@ const SECTION_ID_MAP = {
   [SECTION_IDS.PUBLICATIONS]: Publications,
   [SECTION_IDS.SHOWS]: Shows,
   [SECTION_IDS.WORKSHOPS]: Workshops,
-  // TODO: terminar dearmar paginas para esta
-  // [SECTION_IDS.PROJECTS]: Projects,
 } as const;
 
 const TYPE_MAP = {
