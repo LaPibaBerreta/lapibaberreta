@@ -63,11 +63,11 @@ export default function NavMenu() {
           {secondGroup?.length && (
             <NavMenuList
               data={secondGroup}
-              className="pointer-events-auto fixed top-4 right-22 flex gap-2 p-1 uppercase lg:text-lg xl:text-xl"
+              className="pointer-events-auto fixed top-4 right-27 flex gap-2 p-1 font-mono uppercase lg:text-lg xl:text-xl"
             />
           )}
 
-          <div className="bg-secondary pointer-events-auto fixed top-4 right-4 z-100 flex gap-2 p-1 lg:text-lg xl:text-xl">
+          <div className="bg-secondary pointer-events-auto fixed top-4 right-4 z-100 flex gap-2 p-1 font-mono lg:text-lg xl:text-xl">
             <HelpButton />
             <LanguageToggle />
           </div>
@@ -87,7 +87,7 @@ export default function NavMenu() {
               className="pointer-events-auto flex h-dvh flex-col items-end justify-end gap-1 bg-violet-200/20 pr-2 pb-20 font-mono text-lg backdrop-blur-md sm:pr-4"
             />
 
-            <div className="pointer-events-auto fixed top-5 right-2 z-100 flex gap-4 text-2xl sm:right-4 sm:text-xl">
+            <div className="pointer-events-auto fixed top-5 right-2 z-100 flex gap-4 font-mono text-2xl sm:right-4 sm:text-xl">
               <HelpButton />
               <LanguageToggle />
             </div>
