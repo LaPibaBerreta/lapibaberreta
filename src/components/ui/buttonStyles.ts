@@ -11,12 +11,12 @@ export const buttonBase =
 
 export const buttonVariants = {
   primary: "",
-  pinnedPublication: "bg-magenta font-extra",
+  pinnedPublication: "bg-white/80 font-mono text-2xl",
   special: "font-secondary",
   secondary: "bg-neutral-200 text-black hover:bg-neutral-300",
   ghost: "bg-transparent hover:bg-neutral-100",
   link: "border-black rounded-2xl border px-2 whitespace-nowrap bg-black text-white",
-  linkMenu: "border-black whitespace-nowrap bg-green font-extra",
+  linkMenu: "text-white whitespace-nowrap bg-black text-xl font-mono",
 };
 
 export type ButtonVariant = keyof typeof buttonVariants;
