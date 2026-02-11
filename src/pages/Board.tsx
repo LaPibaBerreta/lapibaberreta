@@ -27,8 +27,7 @@ export default function Board() {
             ></iframe>
           </div>
         )}
-        {/* </div> */}
-        <HomeButton variantX={true} className="absolute -top-6 -right-6" />
+        <HomeButton className="absolute -top-6 -right-6 hidden sm:block" />
       </motion.div>
     </motion.section>
   );

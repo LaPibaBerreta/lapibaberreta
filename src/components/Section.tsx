@@ -20,7 +20,7 @@ export default function Section({ children }: Props) {
           {children}
         </div>
 
-        <div className="absolute right-16 bottom-2 flex h-12 items-start gap-2 sm:-top-6 sm:-right-6">
+        <div className="absolute right-16 bottom-2 hidden h-12 items-start gap-2 sm:-top-6 sm:-right-6 sm:flex">
           <BackButton />
           <HomeButton />
         </div>

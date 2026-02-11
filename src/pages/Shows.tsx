@@ -14,7 +14,7 @@ export default function Shows() {
         <div className="w-full rounded-2xl sm:w-150 xl:w-200">
           <SongkickWidget />
         </div>
-        <HomeButton variantX={true} className="absolute -top-6 -right-6" />
+        <HomeButton className="absolute -top-6 -right-6 hidden sm:block" />
       </motion.div>
     </motion.section>
   );

@@ -23,7 +23,7 @@ export default function HelpPage({ bgActive, setBgActive }: HelpPagePropsType) {
     >
       <div className="text-7xl">?????</div>
 
-      <div className="absolute right-16 bottom-2 flex h-12 items-start gap-2 sm:-top-6 sm:-right-6">
+      <div className="absolute -top-6 -right-6 hidden h-12 items-start gap-2 sm:flex">
         <HomeButton />
       </div>
 

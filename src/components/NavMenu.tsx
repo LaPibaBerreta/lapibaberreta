@@ -8,6 +8,8 @@ import { motion } from "motion/react";
 import { useLocation } from "react-router";
 import HelpButton from "./HelpButton";
 import LanguageToggle from "./LanguageToggle";
+import HomeButton from "./HomeButton";
+import BackButton from "../components/ui/BackButton";
 
 type InitialData = NonNullable<InitialDataQueryResult>;
 type Section = NonNullable<InitialData["sections"]>[number];
@@ -32,23 +34,27 @@ export default function NavMenu() {
   return (
     <nav className="pointer-events-none fixed inset-0 z-150">
       {!isDesktop && (
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-          className="pointer-events-auto fixed right-2 bottom-2 z-100 flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white sm:right-4 sm:bottom-4"
-        >
-          {!isOpen ? (
-            <Menu size={36} strokeWidth={1} />
-          ) : (
-            <X strokeWidth={1} size={42} />
-          )}
-        </motion.button>
+        <div className="pointer-events-auto fixed right-2 bottom-2 z-100 flex gap-1 sm:right-4 sm:bottom-4">
+          <BackButton className="sm:hidden" />
+          <HomeButton className="sm:hidden" />
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+            className="flex size-12 cursor-pointer items-center justify-center rounded-full bg-black text-white"
+          >
+            {!isOpen ? (
+              <Menu size={36} strokeWidth={1} />
+            ) : (
+              <X strokeWidth={1} size={42} />
+            )}
+          </motion.button>
+        </div>
       )}
 
       {isDesktop ? (
