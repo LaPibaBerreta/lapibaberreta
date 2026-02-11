@@ -66,7 +66,7 @@ export default function Publications({ section }: { section: Section }) {
   return (
     <section className="flex flex-col items-center gap-2">
       {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (
             <motion.div
