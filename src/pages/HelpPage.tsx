@@ -46,7 +46,7 @@ export default function HelpPage({ bgActive, setBgActive }: HelpPagePropsType) {
         </Button>
       </div>
 
-      <div className="mt-auto flex w-full justify-start gap-2 sm:mt-6">
+      <div className="mt-6 flex w-full justify-start gap-2">
         <div>{helpUiText[language].credits.label}</div>
         <Button variant="link" motion="pop">
           <a href="https://i10.dev" target="_blank">
