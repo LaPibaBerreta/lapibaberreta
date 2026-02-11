@@ -74,7 +74,7 @@ export default function ProjectSelectMenu() {
       </div>
 
       {projectsData && isExpanded && (
-        <div className="absolute top-12 flex min-w-70 flex-col gap-1">
+        <div className="absolute top-9 flex min-w-70 flex-col gap-1 lg:top-12">
           {projectsData.map((project) => (
             <div
               key={project._id}
