@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import type { InitialDataQueryResult } from "@/lib/types";
 import { usePublication } from "../hooks/usePublication";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
@@ -11,21 +10,13 @@ import LoadToPlayerButton from "../components/LoadToPlayerButton";
 import Button from "../components/ui/Button";
 import PublicationMainImage from "../components/PublicationMainImage";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function PublicationPage({ section }: { section: Section }) {
+export default function PublicationPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, error } = usePublication(slug!);
   const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
-
-  console.log("Location:", location);
-  console.log("Slug from useParams:", slug);
-  console.log("Section:", section);
 
   //Poeamario y poeasia se ven redundantes juntos
   const poemarioPoesia =

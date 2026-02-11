@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import type { InitialDataQueryResult } from "@/lib/types";
 import { useWorkshop } from "../hooks/useWorkshop";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
@@ -7,21 +6,13 @@ import useLanguage from "../hooks/useLanguage";
 import Button from "../components/ui/Button";
 import Image from "../components/Image";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function WorkshopPage({ section }: { section: Section }) {
+export default function WorkshopPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, error } = useWorkshop(slug!);
   const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
-
-  console.log("Location:", location);
-  console.log("Slug from useParams:", slug);
-  console.log("Section:", section);
 
   return (
     <div className="flex w-full justify-center">

@@ -1,12 +1,4 @@
-import type { InitialDataQueryResult } from "@/lib/types";
-
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function DefaultSection({ section }: { section: Section }) {
-  console.log("default", section);
-
+export default function DefaultSection() {
   return (
     <>
       <div>(～￣▽￣)～</div>

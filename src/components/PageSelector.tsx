@@ -48,19 +48,19 @@ export default function PageSelector({ section }: { section: Section }) {
   if (slug && section.reference?._id === SECTION_IDS.PUBLICATIONS) {
     return (
       <Section>
-        <PublicationPage section={section} />
+        <PublicationPage />
       </Section>
     );
   } else if (slug && section.reference?._id === SECTION_IDS.WORKSHOPS) {
     return (
       <Section>
-        <WorkshopPage section={section} />
+        <WorkshopPage />
       </Section>
     );
   } else if (slug && section.reference?._id === SECTION_IDS.VIDEOS) {
     return (
       <Section>
-        <VideoPage section={section} />
+        <VideoPage />
       </Section>
     );
   }
@@ -92,7 +92,7 @@ export default function PageSelector({ section }: { section: Section }) {
       );
     return (
       <Section>
-        <DefaultSection section={section} />
+        <DefaultSection />
       </Section>
     );
   }
@@ -107,7 +107,7 @@ export default function PageSelector({ section }: { section: Section }) {
 
   return (
     <Section>
-      <DefaultSection section={section} />
+      <DefaultSection />
     </Section>
   );
 }

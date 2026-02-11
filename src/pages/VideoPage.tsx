@@ -1,26 +1,17 @@
 import { useParams } from "react-router";
-import type { InitialDataQueryResult } from "@/lib/types";
 import { useVideo } from "../hooks/useVideo";
 import Loading from "../components/Loading";
 import { PortableText } from "@portabletext/react";
 import VideoPlayer from "../components/VideoPlayer";
 import useLanguage from "../hooks/useLanguage";
 
-type Section = NonNullable<
-  NonNullable<InitialDataQueryResult>["sections"]
->[number];
-
-export default function VideoPage({ section }: { section: Section }) {
+export default function VideoPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data: video, isLoading, error } = useVideo(slug!);
   const { language } = useLanguage();
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
-
-  console.log("Location:", location);
-  console.log("Slug from useParams:", slug);
-  console.log("Section:", section);
 
   return (
     <>
