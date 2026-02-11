@@ -39,7 +39,7 @@ export default function Workshops({ section }: { section: Section }) {
                 to={`/${workshopsSection?.reference?.slug}/${workshop.slug?.current}`}
               >
                 {workshop.image && (
-                  <Image imageData={workshop.image} width={600} />
+                  <Image imageData={workshop.image} width={800} />
                 )}
                 <h2>
                   {workshop.title?.es &&
