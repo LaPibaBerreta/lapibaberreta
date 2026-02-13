@@ -31,6 +31,16 @@ export default function Workshops({ section }: { section: Section }) {
           {section.title[language] || section.title.es}
         </SectionTitle>
       )}
+      <div className="font-extra sm:text-xl">
+        + info:{" "}
+        <a
+          href="mailto:lapibaberretalove@gmail.com"
+          target="_blank"
+          className="underline"
+        >
+          lapibaberretalove@gmail.com
+        </a>
+      </div>
       <div className="flex w-full flex-col gap-2 sm:flex-row">
         {data &&
           data.map((workshop) => (
