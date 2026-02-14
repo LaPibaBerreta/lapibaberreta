@@ -47,6 +47,10 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
   const [hoveredNode, setHoveredNode] = useState<SimNode | null>(null);
   const { isMobile, isTablet } = useIsMobile();
 
+  const isTouch = window.matchMedia(
+    "(hover: none) and (pointer: coarse)",
+  ).matches;
+
   const [size, setSize] = useState({ width: 0, height: 0 });
 
   const navigate = useNavigate();
@@ -393,6 +397,7 @@ export const Graph: React.FC<Props> = ({ nodes, links }) => {
     <div ref={containerRef} className="h-full w-full">
       <AnimatePresence mode="wait">
         {!isMobile &&
+          !isTouch &&
           hoveredNode?.imageUrl &&
           hoveredNode.x != null &&
           hoveredNode.y != null && (
