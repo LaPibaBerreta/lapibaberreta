@@ -17,18 +17,22 @@ export default function WorkshopPage() {
   return (
     <div className="flex w-full justify-center">
       <div className="flex max-w-prose flex-col">
-        <div className="mb-3 flex flex-col">
+        <div className="mb-6 flex flex-col">
           {data?.title?.es && (
-            <h1 className="text-xl">{data.title[language] || data.title.es}</h1>
+            <h1 className="font-secondary text-center text-4xl">
+              {data.title[language] || data.title.es}
+            </h1>
           )}
-          <span>{data?.date}</span>
+          {/* <span>{data?.date}</span> */}
         </div>
 
-        <div className="mb-3 flex flex-col gap-2">
+        <div className="mb-3 flex flex-col gap-6">
           {data?.image && <Image imageData={data.image} width={800} />}
 
           {data?.text?.es && (
-            <PortableText value={data.text[language] || data.text.es} />
+            <div className="flex flex-col gap-2">
+              <PortableText value={data.text[language] || data.text.es} />
+            </div>
           )}
         </div>
 

@@ -61,7 +61,7 @@ export default function Videos({ section }: { section: Section }) {
   return (
     <section className="flex flex-col items-center gap-2">
       {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
-      <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-3">
         {filteredData?.length ? (
           filteredData.map((video) =>
             video.embed ? (
@@ -69,7 +69,6 @@ export default function Videos({ section }: { section: Section }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 key={video._id}
-                className="rounded-2xl"
               >
                 <NavLink
                   to={`/${videosSection?.reference?.slug}/${video.slug?.current}`}
@@ -82,23 +81,27 @@ export default function Videos({ section }: { section: Section }) {
                       // height={450}
                     />
                   )}
-                  {video.title?.es && (
-                    <h2>{video.title[language] || video.title.es}</h2>
-                  )}
-                  <div className="flex items-baseline gap-2">
+                  <div className="mt-1 flex items-start gap-1">
                     <ProjectIndicator color={video?.project?.color || "000"} />
-
-                    {video.category?.name?.es && (
-                      <div className="text-xs">
-                        {video.category.name[language] ||
-                          video.category.name.es}
+                    <div className="leading-tight">
+                      {video.title?.es && (
+                        <h2>{video.title[language] || video.title.es}</h2>
+                      )}
+                      <div className="flex flex-wrap items-center gap-1">
+                        {video.category?.name?.es && (
+                          <div className="text-xs">
+                            {video.category.name[language] ||
+                              video.category.name.es}
+                          </div>
+                        )}
+                        {!video.detail?.es && (
+                          <div className="truncate bg-black text-xs text-white">
+                            {/* {video.detail[language] || video.detail.es} */}{" "}
+                            {/* holaaaaaaa */}
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {video.detail?.es && (
-                      <div className="bg-black text-xs text-white">
-                        {video.detail[language] || video.detail.es}
-                      </div>
-                    )}
+                    </div>
                   </div>
                 </NavLink>
               </motion.div>

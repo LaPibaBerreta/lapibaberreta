@@ -28,18 +28,22 @@ export default function InfoPage({ section }: { section: Section }) {
         )}
 
         {data?.detail?.es && (
-          <div className="">{data?.detail[language] || data?.detail.es}</div>
+          <div className="font-mono">
+            {data?.detail[language] || data?.detail.es}
+          </div>
         )}
         {data?.image && (
           <img
             src={
               urlFor(data.image).format("webp").width(800).url() + "&fit=max"
             }
-            className="rounded-2xl"
+            className="mt-4 rounded-xl"
           />
         )}
         {data?.bio?.es && (
-          <PortableText value={data.bio[language] || data.bio.es} />
+          <div className="mt-4 flex flex-col gap-2">
+            <PortableText value={data.bio[language] || data.bio.es} />
+          </div>
         )}
         {data?.pressLinks?.length && (
           <ul className="my-4 flex flex-wrap justify-center gap-2 sm:justify-start">

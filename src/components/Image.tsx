@@ -23,7 +23,7 @@ export default function Image({
       />
 
       <img
-        className="absolute inset-0 h-full w-full rounded-2xl object-cover opacity-0 transition-opacity duration-300"
+        className="absolute inset-0 h-full w-full rounded-xl object-cover opacity-0 transition-opacity duration-300"
         onLoad={(e) => {
           e.currentTarget.classList.remove("opacity-0");
           e.currentTarget.classList.add("opacity-100");

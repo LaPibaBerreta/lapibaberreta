@@ -7,6 +7,7 @@ import { urlFor } from "../lib/sanityImageUrl";
 import useLanguage from "../hooks/useLanguage";
 import TiltedCard from "../components/TiltedCard";
 import Button from "../components/ui/Button";
+import { ArrowLeft } from "lucide-react";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -47,7 +48,7 @@ export default function Oracle({ section }: { section: Section }) {
       className="mb-16 flex scroll-m-16 flex-col items-center gap-6"
     >
       {title && (
-        <h1 className="font-secondary text-6xl capitalize">
+        <h1 className="font-secondary mb-3 text-6xl capitalize">
           {title.toLowerCase()}
         </h1>
       )}
@@ -92,17 +93,18 @@ export default function Oracle({ section }: { section: Section }) {
 
           <Button
             motion="pop"
-            className="my-2 px-2 text-2xl underline"
+            className="my-2 flex items-center gap-1 px-2 text-2xl underline"
             onClick={() => {
               setCurrentCard(null);
               scrollToTop();
             }}
           >
+            <ArrowLeft size={24} />
             {language === "es" ? "Volver al Oráculo" : "Back to Oracle"}
           </Button>
         </div>
       ) : (
-        <div className="mb-16 flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-6">
           <Button
             motion="pop"
             className="bg-blue my-2 h-16 w-64 rounded-full px-3 font-mono text-2xl text-white"

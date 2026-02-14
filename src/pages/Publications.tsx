@@ -15,6 +15,7 @@ import { motion } from "motion/react";
 import ProjectIndicator from "../components/ProjectIndicator";
 import SectionTitle from "../components/SectionTitle";
 import Image from "../components/Image";
+import { Dot } from "lucide-react";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -64,9 +65,9 @@ export default function Publications({ section }: { section: Section }) {
   }
 
   return (
-    <section className="flex flex-col items-center gap-2">
+    <section className="flex flex-col items-center gap-3">
       {fullTitle && <SectionTitle>{fullTitle}</SectionTitle>}
-      <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4">
         {filteredData?.length ? (
           filteredData.map((publication) => (
             <motion.div
@@ -85,22 +86,30 @@ export default function Publications({ section }: { section: Section }) {
                     width={600}
                   />
                 )}
-                {publication.title?.es && (
-                  <h2>{publication.title[language] || publication.title.es}</h2>
-                )}
-                {/* {publication.date && <p>{publication.date}</p>} */}
-                {publication.category?.name?.es && (
-                  <div className="flex items-baseline gap-2">
-                    <ProjectIndicator
-                      color={publication?.project?.color || "000"}
-                    />
-
-                    <div className="text-xs">
-                      {publication.category.name[language] ||
-                        publication.category.name.es}
-                    </div>
+                <div className="mt-1 flex items-start gap-1">
+                  <ProjectIndicator
+                    color={publication?.project?.color || "000"}
+                  />
+                  <div>
+                    {publication.title?.es && (
+                      <h2 className="leading-tight">
+                        {publication.title[language] || publication.title.es}
+                      </h2>
+                    )}
+                    {publication.category?.name?.es && (
+                      <div className="flex text-xs">
+                        <p>
+                          {publication.category.name[language] ||
+                            publication.category.name.es}
+                        </p>
+                        {publication.date && <Dot size={16} />}
+                        {publication.date && (
+                          <p>{publication.date.slice(0, 4)}</p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </NavLink>
             </motion.div>
           ))

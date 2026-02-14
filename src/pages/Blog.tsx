@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import type { InitialDataQueryResult } from "@/lib/types";
 import useLanguage from "../hooks/useLanguage";
 import SectionTitle from "../components/SectionTitle";
+import { Badge } from "lucide-react";
 
 type Section = NonNullable<
   NonNullable<InitialDataQueryResult>["sections"]
@@ -18,24 +19,29 @@ export default function Blog({ section }: { section: Section }) {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section className="flex flex-col items-center gap-2">
+    <section className="flex flex-col items-center gap-6">
       {section?.title?.es && (
         <SectionTitle>
           {section.title[language] || section.title.es}
         </SectionTitle>
       )}
+
       {data &&
         data.map((post) => (
-          <div key={post._id} className="max-w-prose sm:my-6">
+          <div key={post._id} className="_sm:my-6 max-w-prose">
             <div className="mb-3 flex flex-col">
+              <span className="text-sm opacity-70">
+                {post?.date
+                  ? new Date(post.date).toLocaleDateString([language])
+                  : ""}
+              </span>
+
               {post.title && (
-                <h2 className="flex gap-1 text-xl font-bold">
+                <h2 className="font-extra flex gap-1 text-xl">
                   <span>»</span>
                   {post.title.es && (post.title[language] || post.title.es)}
                 </h2>
               )}
-
-              <span className="">{post.date}</span>
             </div>
 
             <PortableText
@@ -46,9 +52,12 @@ export default function Blog({ section }: { section: Section }) {
               }
               components={BlogPortableText}
             />
-            <hr className="my-8 opacity-40" />
+
+            <hr className="mt-12 mb-8 opacity-40" />
           </div>
         ))}
+
+      <Badge size={32} className="mb-8 opacity-30" />
     </section>
   );
 }

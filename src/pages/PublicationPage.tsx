@@ -9,6 +9,7 @@ import useLanguage from "../hooks/useLanguage";
 import LoadToPlayerButton from "../components/LoadToPlayerButton";
 import Button from "../components/ui/Button";
 import PublicationMainImage from "../components/PublicationMainImage";
+import { Dot } from "lucide-react";
 
 export default function PublicationPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -34,13 +35,23 @@ export default function PublicationPage() {
         {data?.embed && <LoadToPlayerButton data={data.embed} />}
       </div>
 
-      <div className="mb-2 flex gap-2">
-        <p>{data?.date}</p>
+      <div className="mb-4 flex items-center opacity-70">
+        <p>
+          {data?.date ? new Date(data.date).toLocaleDateString([language]) : ""}
+        </p>
+        {data?.date && data?.category && <Dot size={20} />}
         {data?.category?.name?.es && (
-          <p>{data.category.name[language] || data.category.name.es}</p>
+          <p className="fn">
+            {data.category.name[language] || data.category.name.es}
+          </p>
+        )}
+        {data?.category && data?.project?.title && !poemarioPoesia && (
+          <Dot size={20} />
         )}
         {data?.project?.title?.es && !poemarioPoesia && (
-          <p>{data.project.title[language] || data.project.title.es}</p>
+          <p className="font-mono">
+            {data.project.title[language] || data.project.title.es}
+          </p>
         )}
       </div>
 
@@ -62,7 +73,9 @@ export default function PublicationPage() {
           )}
 
           {data?.text?.es && (
-            <PortableText value={data.text[language] || data.text.es} />
+            <div className="flex flex-col gap-2">
+              <PortableText value={data.text[language] || data.text.es} />
+            </div>
           )}
         </div>
       </div>
@@ -96,7 +109,7 @@ export default function PublicationPage() {
         )}
 
         {data?.additionalDocument && (
-          <div className="font-secondary my-8 text-center text-6xl underline">
+          <div className="font-secondary my-8 text-center text-6xl underline decoration-wavy">
             <NavLink to={"/" + data.additionalDocument?.slug?.current}>
               {data.additionalDocument.title?.es
                 ? data.additionalDocument.title[language] ||
