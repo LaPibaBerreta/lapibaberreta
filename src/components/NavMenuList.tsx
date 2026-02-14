@@ -104,7 +104,7 @@ function renderSectionLink(
               fill={
                 location.pathname.split("/")[1] === section?.reference?.slug
                   ? "#000"
-                  : "#A18EFA"
+                  : "#caf"
               }
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -137,7 +137,7 @@ function renderSectionLink(
               fill={
                 location.pathname.split("/")[1] === section?.reference?.slug
                   ? "#000"
-                  : "#ff3300"
+                  : "#fefd01"
               }
               xmlns="http://www.w3.org/2000/svg"
             >
