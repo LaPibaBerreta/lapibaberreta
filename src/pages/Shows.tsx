@@ -9,10 +9,12 @@ export default function Shows() {
         initial={{ opacity: 0, scale: 0.75 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.75 }}
-        className="border-accent/20 pointer-events-auto relative min-h-117 rounded-2xl border bg-black shadow-md md:max-h-[80vh]"
+        className="border-accent/20 pointer-events-auto relative mx-2 min-h-117 w-full rounded-2xl border bg-black shadow-md sm:w-auto md:max-h-[80vh]"
       >
-        <div className="w-full rounded-2xl sm:w-150 xl:w-200">
-          <SongkickWidget />
+        <div className="mr-3 max-h-[80vh] overflow-y-scroll rounded-2xl">
+          <div className="w-full rounded-2xl sm:w-150 xl:w-200">
+            <SongkickWidget />
+          </div>
         </div>
         <HomeButton className="absolute -top-6 -right-6 hidden sm:block" />
       </motion.div>
